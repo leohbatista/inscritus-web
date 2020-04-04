@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "mc853-f59e9": {
+      "hosting": {
+        "inscritus-web": [
+          "mc853-f59e9"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "mc853-f59e9"
+  }
+}

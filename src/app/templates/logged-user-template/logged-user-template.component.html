@@ -1,0 +1,32 @@
+<div class="inscritus-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="inscritus-toolbar">
+    <button mat-icon-button (click)="snav.toggle()" *ngIf="isLogged"><mat-icon>menu</mat-icon></button>
+    <h1 class="inscritus-app-name">Inscritus</h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="inscritus-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav 
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches" 
+      fixedTopGap="56" 
+      class="inscritus-sidenav"
+      [opened]="isOpened && isLogged"
+    >
+      <mat-nav-list>
+        <div *ngFor="let nav of fillerNav">
+          <a mat-list-item  [routerLink]="nav.link" *ngIf="nav.linkType" class="inscritus-nav-item">
+            <mat-icon>{{nav.icon}}</mat-icon> {{nav.text}}
+          </a>
+          <a mat-list-item [href]="nav.link" *ngIf="!nav.linkType" class="inscritus-nav-item">
+            <mat-icon>{{nav.icon}}</mat-icon> {{nav.text}}
+          </a>
+        </div>
+        
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
