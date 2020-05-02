@@ -1,0 +1,53 @@
+<div class="container p-3 h-100">
+  <div class="d-flex align-items-center justify-content-center" style="min-height: 100%;">
+    <mat-card class="px-4 py-5 p-sm-5" style="max-width: 500px;">
+      <mat-card-content>
+        <h2 class="text-center mb-3" *ngIf="!isForgotPassword">Entrar</h2>
+        <h2 class="text-center mb-3" *ngIf="isForgotPassword">Esqueci minha senha</h2>
+        
+        <form [formGroup]="loginFormGroup">
+          <div class="mx-auto" style="max-width: 340px;">
+            <mat-form-field class="w-100 mb-2" color="primary">
+              <mat-label>E-mail</mat-label>
+              <input matInput name="email" formControlName="email">
+              <mat-error *ngIf="loginFormGroup.controls.email.hasError('required')">
+                E-mail obrigatório
+              </mat-error>
+              <mat-error *ngIf="loginFormGroup.controls.email.hasError('email')">
+                E-mail inválido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100" color="primary" *ngIf="!isForgotPassword">
+              <mat-label>Senha</mat-label>
+              <input matInput name="password" type="password" formControlName="password">
+              <mat-error *ngIf="loginFormGroup.controls.email.hasError('required')">
+                Senha obrigatória
+              </mat-error>
+            </mat-form-field>
+          </div>
+    
+          <div *ngIf="!isForgotPassword" class="text-right">
+            <a mat-button color="primary" (click)="forgotPassword()">Esqueci minha senha</a>
+          </div>
+          
+          <div *ngIf="!isForgotPassword" class="mt-3 text-center">
+            <button type="submit" mat-raised-button color="primary" class="d-block mx-auto" style="width: 150px;" *ngIf="!isForgotPassword" (click)="login()" [disabled]="loginFormGroup.invalid">Entrar</button>
+    
+            <div *ngIf="!isForgotPassword" class="mt-4">
+              Não tem conta? <a routerLink="/cadastro" class="link">Cadastre-se</a>
+            </div>
+          </div>
+        </form>
+        
+
+        <div *ngIf="isForgotPassword" class="mt-3 text-center">
+          <button mat-raised-button class="mx-1" style="width: 150px;" (click)="goToLogin()" type="submit">
+            <mat-icon>arrow_left</mat-icon> Voltar
+          </button>
+          <button mat-raised-button class="mx-1" color="primary" class="d-inline mx-auto mt-3" style="width: 150px;" >Enviar</button>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

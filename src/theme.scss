@@ -22,3 +22,7 @@ $inscritus-theme: mat-light-theme($inscritus-primary, $inscritus-accent, $inscri
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($inscritus-theme);
+
+$primary: mat-color($inscritus-primary);
+$accent: mat-color($inscritus-accent);
+$warn: mat-color($inscritus-warn);

@@ -1,0 +1,12 @@
+@import '../../../theme.scss';
+
+.home-disclaimer {
+  height: 100%;
+  background-color: $primary;
+  color: mat-color($mat-gray, 50);
+  
+  h1 {
+    font-size: 5em;
+    font-weight: 500;
+  }
+}

@@ -52,10 +52,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     
     A11yModule,
     BidiModule,
@@ -108,7 +112,10 @@ import { MatTreeModule } from '@angular/material/tree';
     MatTooltipModule,
     MatTreeModule,
   ],
-  exports: [
+  exports: [  
+    FormsModule,
+    ReactiveFormsModule,
+      
     A11yModule,
     BidiModule,
     ClipboardModule,
