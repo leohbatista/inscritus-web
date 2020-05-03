@@ -52,6 +52,9 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
+      <div class="d-flex align-items-center justify-content-center" style="min-height: 100%;" *ngIf="loading">
+        <mat-spinner diameter="120"></mat-spinner>
+      </div>
       <ng-content></ng-content>
     </mat-sidenav-content>
   </mat-sidenav-container>

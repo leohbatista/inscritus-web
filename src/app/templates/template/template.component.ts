@@ -23,7 +23,7 @@ interface NavItem {
   templateUrl: './template.component.html',
   styleUrls: ['./template.component.scss']
 })
-export class LoggedUserTemplateComponent implements OnInit, OnDestroy {
+export class PageTemplateComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
 
   fillerNav: NavItem[] = [
@@ -45,6 +45,7 @@ export class LoggedUserTemplateComponent implements OnInit, OnDestroy {
   userSubscription: Subscription;
   isLogged = true;
   isOpened = false;
+  loading = true;
 
   @ViewChild('snav', { static: false }) snavRef: MatSidenav;
 
@@ -62,8 +63,8 @@ export class LoggedUserTemplateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userSubscription = this.authService.user.subscribe(user => {
-      console.log(user);
+    this.userSubscription = this.authService.user.subscribe(user => {      
+      this.user = user;
       
       if(user) {
         this.isLogged = true;
@@ -71,7 +72,7 @@ export class LoggedUserTemplateComponent implements OnInit, OnDestroy {
         this.isLogged = false;
         this.snavRef.close();
       }
-      this.user = user;
+      this.authService.redirectUser(this.router.url).then(() => this.loading = false);
     });
   }
   

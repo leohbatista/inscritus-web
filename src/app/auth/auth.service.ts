@@ -3,9 +3,10 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from "@angular/fire/firestore";
 import { User } from '../models/User';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { firestore } from 'firebase';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class AuthService {
   constructor(
     public angularFireAuth: AngularFireAuth,
     public angularFirestore: AngularFirestore,
+    private router: Router,
   ) {
     this.configObservables();
   }
@@ -50,11 +52,15 @@ export class AuthService {
         
         userRef.set(user).then(() => {
           console.log('User successfully created');
-
-          this.sendVerificationEmail(auth);
-
-          this.user = userRef.valueChanges() as Observable<User>;
-          resolve();
+          this.angularFireAuth.signInWithEmailAndPassword(userData.email, password).then(credential => {
+            this.sendVerificationEmail(auth);
+            this.user = userRef.valueChanges() as Observable<User>;
+            resolve();
+          }).catch(err => {
+            console.error("Error login in the user", err);
+            
+          });
+          
         }).catch(err => {
           console.log('Error creating user');
           reject(err);
@@ -91,12 +97,15 @@ export class AuthService {
 
   private updateUserWithAuth({ user }) {        
     const data: User = {
-      email: user.email ? user.email.trim().toLowerCase() : '',
       emailVerified: user.emailVerified,
       lastUpdate: firestore.Timestamp.now(),
       uid: user.uid,
     };
     
+    if(user.email) {
+      data.email = user.email.trim().toLowerCase();
+    }
+
     const userRef: AngularFirestoreDocument<User> = this.angularFirestore.doc(`users/${user.uid}`);
 
     return userRef.set(data, { merge: true }).then(() => {
@@ -107,7 +116,59 @@ export class AuthService {
   }
 
   sendVerificationEmail(auth: firebase.auth.UserCredential): void {
-    auth.user.sendEmailVerification({ url: `${environment.baseURL}/agents/profile` });
+    auth.user.sendEmailVerification({ url: `${environment.baseURL}/atividades` });
+  }
+
+  redirectUser(currentPath: string, redirectToPathLogged = '/atividades', redirectToPathUnlogged = '/login') {
+    console.log(currentPath, redirectToPathLogged, redirectToPathUnlogged);
+    
+    return new Promise(resolve => {
+      this.user.pipe(take(1)).subscribe(user => {
+        if(user !== null && user.uid) {
+          switch (currentPath) {
+            case '/':
+            case '/cadastro':
+            case '/entrar':
+              this.router.navigate([redirectToPathLogged]);
+              break;
+            default:
+              break;
+          }
+        } else {
+          switch (currentPath) {
+            case '/':
+            case '/cadastro':
+            case '/entrar':
+            case '/verificar':
+              break;
+            default:
+              this.router.navigate([redirectToPathUnlogged]);
+              break;
+          }
+        }
+        resolve();
+      });
+    });
+  }
+
+  confirmEmail(code: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.angularFireAuth.applyActionCode(code).then(async () => {
+        const currentUser = await this.angularFireAuth.currentUser;
+        this.updateUserWithAuth({
+          user: currentUser
+        });
+        resolve();
+      }).catch(err => reject(err));
+    });
+  }
+
+  resendVerificationEmail() {
+    return new Promise((resolve, reject) => {
+      this.angularFireAuth.currentUser.then(user => {
+        user.sendEmailVerification().then(() => resolve()).catch(err => reject(err));
+      }).catch(err => reject(err));
+    });
   }
 }
 

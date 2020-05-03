@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   isForgotPassword = false;
 
   constructor(
-    private authSevice: AuthService,
+    private authService: AuthService,
     private router: Router
   ) { }
 
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.authSevice.login(this.loginFormGroup.controls['email'].value.trim().toLowerCase(), this.loginFormGroup.controls['password'].value).then(() => {
+    this.authService.login(this.loginFormGroup.controls['email'].value.trim().toLowerCase(), this.loginFormGroup.controls['password'].value).then(() => {
       this.router.navigate(['/minha-conta']);
     }).catch(err => {
       console.error(err);

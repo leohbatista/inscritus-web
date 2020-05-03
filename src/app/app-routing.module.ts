@@ -7,6 +7,7 @@ import { ActivitiesComponent } from './containers/activities/activities.componen
 import { SignupComponent } from './containers/signup/signup.component';
 import { LoginComponent } from './containers/login/login.component';
 import { ScheduleComponent } from './containers/schedule/schedule.component';
+import { VerifyEmailComponent } from './containers/verify-email/verify-email.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,10 +16,9 @@ const routes: Routes = [
   { path: 'atividades', component: ActivitiesComponent },
   { path: 'cronograma', component: ScheduleComponent },
   { path: 'minha-conta', component: ProfileComponent },
-  { path: 'cronograma', component: ScheduleComponent },
-  { path: 'minha-conta', component: ProfileComponent },
   { path: 'termos', component: HomeComponent },
   { path: 'privacidade', component: HomeComponent },
+  { path: 'verificar', component: VerifyEmailComponent },
   { path: '**', redirectTo: '' },
 ];
 

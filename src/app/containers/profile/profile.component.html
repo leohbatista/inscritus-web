@@ -1,1 +1,21 @@
-<p>profile works!</p>
+<div class="container p-3 h-100">
+  <div class="d-flex justify-content-center" style="min-height: 100%;">
+    <mat-card class="px-4 py-5" style="width: 100%;" *ngIf="user && !user.emailVerified">
+      <mat-card-header class="mb-3">
+        <mat-card-title>Confirme seu e-mail</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <button mat-raised-button color="primary" class="d-block mx-auto mt-3" (click)="resendConfirmation()">Reenviar e-mail de confirmação</button>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="px-4 py-5" style="width: 100%;" *ngIf="user && user.emailVerified">
+      <mat-card-header class="mb-3">
+        <mat-card-title>Minha Conta</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Dados do usuário
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
