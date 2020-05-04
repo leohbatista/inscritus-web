@@ -25,14 +25,14 @@ h1.inscritus-app-name {
      causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
   min-width: 250px;
   padding: 0 1.2em;
-  background-color: mat-color($mat-gray, 200);;
+  background-color: mat-color($mat-gray, 50);;
 }
 
 .inscritus-sidenav-container {
   /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
      causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
   flex: 1;
-  background-color: mat-color($mat-gray, 100); 
+  background-color: mat-color($mat-gray, 200); 
 }
 
 .inscritus-is-mobile .inscritus-sidenav-container {
