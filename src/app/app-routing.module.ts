@@ -19,6 +19,14 @@ const routes: Routes = [
   { path: 'termos', component: HomeComponent },
   { path: 'privacidade', component: HomeComponent },
   { path: 'verificar', component: VerifyEmailComponent },
+  { path: 'admin', children: [
+      { path: '', pathMatch: 'full', component: HomeComponent },
+      { path: 'usuarios', component: HomeComponent },
+      { path: 'atividades', component: HomeComponent },
+      { path: 'feedbacks', component: HomeComponent },
+      { path: '**', redirectTo: '' },
+    ]
+  },
   { path: '**', redirectTo: '' },
 ];
 

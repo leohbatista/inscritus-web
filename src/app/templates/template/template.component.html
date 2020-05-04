@@ -11,11 +11,18 @@
       </button>
       <mat-menu #userMenu="matMenu">
         
-        <div class="p-3">
-          <span class="d-block" *ngIf="isLogged && user">
-            {{ user.name }}
-          </span>
-          <span class="d-block" *ngIf="isLogged && user">{{ user.email }}</span>
+        <div class="d-flex p-3">
+          <div class="d-flex align-items-center">
+            <mat-icon>person</mat-icon>
+          </div>
+          <div class="pl-2">
+            <span class="d-block" *ngIf="isLogged && user">
+              <strong>{{ user.name }}</strong>
+            </span>
+            <span class="d-block email-span" *ngIf="isLogged && user">
+              {{ user.email }}
+            </span>
+          </div>
         </div>
         <mat-divider></mat-divider>
         <button mat-menu-item routerLink="/minha-conta">
@@ -39,14 +46,32 @@
       [opened]="isOpened && isLogged"
     >
       <mat-nav-list>
-        <div *ngFor="let nav of fillerNav">
-          <a mat-list-item  [routerLink]="nav.link" *ngIf="nav.linkType" class="inscritus-nav-item">
-            <mat-icon>{{nav.icon}}</mat-icon> {{nav.text}}
-          </a>
-          <a mat-list-item [href]="nav.link" *ngIf="!nav.linkType" class="inscritus-nav-item">
-            <mat-icon>{{nav.icon}}</mat-icon> {{nav.text}}
-          </a>
+        <div *ngIf="isAdmin">
+          <span class="menu-title">Área de Admin</span>
+
+          <div *ngFor="let nav of fillerNavAdmin">
+            <a mat-list-item  [routerLink]="nav.link" *ngIf="nav.linkType" class="inscritus-nav-item">
+              <mat-icon>{{nav.icon}}</mat-icon> {{nav.text}}
+            </a>
+            <a mat-list-item [href]="nav.link" *ngIf="!nav.linkType" class="inscritus-nav-item">
+              <mat-icon>{{nav.icon}}</mat-icon> {{nav.text}}
+            </a>
+          </div>
+  
+          <mat-divider class="my-2" ></mat-divider>
         </div>
+        <div>
+          <span class="menu-title" *ngIf="isAdmin">Área do Participante</span>
+          
+          <div *ngFor="let nav of fillerNav">
+            <a mat-list-item  [routerLink]="nav.link" *ngIf="nav.linkType" class="inscritus-nav-item">
+              <mat-icon>{{nav.icon}}</mat-icon> {{nav.text}}
+            </a>
+            <a mat-list-item [href]="nav.link" *ngIf="!nav.linkType" class="inscritus-nav-item">
+              <mat-icon>{{nav.icon}}</mat-icon> {{nav.text}}
+            </a>
+          </div>
+        </div>        
         
       </mat-nav-list>
     </mat-sidenav>

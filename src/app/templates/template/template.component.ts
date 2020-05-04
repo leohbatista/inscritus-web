@@ -41,9 +41,31 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
     }
   ];
 
+  fillerNavAdmin: NavItem[] = [
+    {
+      text: 'Usuários',
+      link: '/admin/usuarios',
+      linkType: LinkType.route,
+      icon: 'people',
+    },
+    {
+      text: 'Atividades',
+      link: '/admin/atividades',
+      linkType: LinkType.route,
+      icon: 'web',
+    },
+    {
+      text: 'Feedbacks',
+      link: '/admin/feedbacks',
+      linkType: LinkType.route,
+      icon: 'feedback',
+    },
+  ];
+
   user: User;
   userSubscription: Subscription;
   isLogged = true;
+  isAdmin = false;
   isOpened = false;
   loading = true;
 
@@ -68,8 +90,10 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
       
       if(user) {
         this.isLogged = true;
+        this.isAdmin = user.isAdmin;
       } else {
         this.isLogged = false;
+        this.isAdmin = false;
         this.snavRef.close();
       }
       this.authService.redirectUser(this.router.url).then(() => this.loading = false);

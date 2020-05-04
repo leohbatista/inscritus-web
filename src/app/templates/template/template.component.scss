@@ -54,3 +54,15 @@ h1.inscritus-app-name {
   border-color: mat-color($mat-gray, 50) !important;
   padding: 0 1.5em;
 }
+
+.email-span {
+  font-size: 0.8em;
+  color: mat-color($mat-gray, 800);
+}
+
+.menu-title {
+  color: $primary;
+  font-size: 0.8em;
+  font-weight: bold;
+  margin-left: 1em;
+}
