@@ -59,6 +59,9 @@
               <mat-error *ngIf="createUserFormGroup.controls.confirmCtrl.hasError('maxlength')">
                 Senha deve ter no máximo 128 caracteres
               </mat-error>
+              <mat-error *ngIf="createUserFormGroup.controls['confirmCtrl'].hasError('mismatch')">
+                Confirmação de senha não confere.
+              </mat-error>
             </mat-form-field>
             <mat-checkbox formControlName="termsCtrl" color="primary" class="d-flex my-3" required>
               <span style="white-space: pre-wrap;">Eu li e aceito <span *ngIf="termsOfService.link">os <a [href]="termsOfService.type === 'EXTERNAL' ? termsOfService.link : undefined" [routerLink]="[termsOfService.type === 'ROUTE' ? termsOfService.link : undefined]" target="_blank">Termos de Serviço</a></span><span *ngIf="termsOfService.link && privacyPolicy.link"> e </span><span *ngIf="privacyPolicy.link">a <a [href]="privacyPolicy.type === 'EXTERNAL' ? privacyPolicy.link : undefined" [routerLink]="[privacyPolicy.type === 'ROUTE' ? privacyPolicy.link : undefined]" target="_blank">Política de Privacidade</a></span></span>

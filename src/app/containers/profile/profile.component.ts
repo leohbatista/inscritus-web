@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/User';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from 'src/app/components/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +17,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -32,10 +35,26 @@ export class ProfileComponent implements OnInit, OnDestroy {
   resendConfirmation() {
     this.authService.resendVerificationEmail().then(() => {
       console.log('Enviado');
-      // TODO: dialog
+
+      this.dialog.open(AlertDialogComponent, {
+        maxWidth: '600px',
+        data: {
+          alertTitle: 'Confirmação enviada',
+          alertDescription: 'Um e-mail de confirmação foi enviado. Verifique sua caixa de entrada',
+          isOnlyConfirm: true
+        }
+      })
     }).catch(err => {
-      console.error('Error resendinf e-mail verification', err);
-      // TODO: dialog
+      console.error('Error resending e-mail verification', err);
+      
+      this.dialog.open(AlertDialogComponent, {
+        maxWidth: '600px',
+        data: {
+          alertTitle: 'Erro',
+          alertDescription: 'Ocorreu um erro ao enviar ao e-mail de confirmação. Tente novamente.',
+          isOnlyConfirm: true
+        }
+      })
     });
   }
 

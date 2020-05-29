@@ -1,0 +1,27 @@
+<h4 mat-dialog-title>{{alertTitle}}</h4>
+<div mat-dialog-content>
+  <div [innerHtml]="alertDescription"></div>
+  <mat-form-field *ngIf="hasTextDescription" style="width: 100%">
+    <textarea matInput placeholder="{{dataTextDescription.placeholder}}" [(ngModel)]="dataTextDescription.dataTextCtrl"
+      required name="description" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="5"></textarea>
+    <mat-error *ngIf="!dataTextDescription.dataTextCtrl.trim()">
+      {{dataTextDescription.errorMessage}}
+    </mat-error>
+  </mat-form-field>
+  <div *ngIf="hasSelectList">
+    <mat-form-field style="width: 100%">
+      <mat-select placeholder="{{dataSelectList.placeholder}}" [(ngModel)]="optionSelected" name="faseOportunidade" required>
+        <mat-option *ngFor="let optionSelected of dataSelectList.dataList" [value]="optionSelected">
+          {{optionSelected.value}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="!optionSelected">
+        {{dataSelectList.errorMessage}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions style="padding-top: 20px;" class="d-flex justify-content-end">
+  <button class="mat-raised-button mat-warning" tabindex="-1" (click)="onCancel()" *ngIf="!isOnlyConfirm">Cancelar</button>&nbsp;
+  <button class="mat-raised-button mat-accent" tabindex="2" (click)="onOK()">OK</button>
+</div>

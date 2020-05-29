@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from 'src/app/components/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -35,10 +38,21 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.authService.login(this.loginFormGroup.controls['email'].value.trim().toLowerCase(), this.loginFormGroup.controls['password'].value).then(() => {
+    this.authService.login(
+      this.loginFormGroup.controls['email'].value.trim().toLowerCase(),
+      this.loginFormGroup.controls['password'].value
+    ).then(() => {
       this.router.navigate(['/minha-conta']);
     }).catch(err => {
       console.error(err);
+        this.dialog.open(AlertDialogComponent, {
+          maxWidth: '600px',
+          data: {
+            alertTitle: 'Erro',
+            alertDescription: 'Ocorreu um erro ao realizar login. Tente novamente mais tarde.',
+            isOnlyConfirm: true
+          }
+        })
     });
   }
 

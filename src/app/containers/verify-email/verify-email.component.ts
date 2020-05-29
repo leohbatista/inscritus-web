@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from 'src/app/components/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-verify-email',
@@ -13,6 +15,7 @@ export class VerifyEmailComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -27,10 +30,20 @@ export class VerifyEmailComponent implements OnInit {
       this.authService.confirmEmail(code).then(() => {
         this.router.navigate([continueUrl]);
       }).catch(err => {
-        console.error("Error confirming  e-mail", err);
+        console.error("Error confirming e-mail", err);
         
-        // TODO: implement dialog
-        this.router.navigate(['/']);
+        const dialogSubscription = this.dialog.open(AlertDialogComponent, {
+          maxWidth: '600px',
+          data: {
+            alertTitle: 'Erro',
+            alertDescription: 'Ocorreu um erro ao confirmar seu e-mail. Tente novamente mais tarde.',
+            isOnlyConfirm: true
+          }
+        }).afterClosed().subscribe(() => {
+          if(dialogSubscription) { dialogSubscription.unsubscribe() };
+          this.router.navigate(['/']);
+        })
+
 
       });
     } else {
