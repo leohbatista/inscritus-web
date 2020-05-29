@@ -1,21 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+
+import { environment } from 'src/environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImportsModule } from './common/imports.module';
-import { HomeComponent } from './containers/home/home.component';
+
+import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
+
 import { PageTemplateComponent } from './templates/template/template.component';
+
+import { HomeComponent } from './containers/home/home.component';
 import { ActivitiesComponent } from './containers/activities/activities.component';
 import { ProfileComponent } from './containers/profile/profile.component';
 import { LoginComponent } from './containers/login/login.component';
 import { SignupComponent } from './containers/signup/signup.component';
 import { ScheduleComponent } from './containers/schedule/schedule.component';
-import { AngularFireModule } from '@angular/fire';
-import { environment } from 'src/environments/environment';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { VerifyEmailComponent } from './containers/verify-email/verify-email.component';
+import { AuthGuardService } from './auth/auth.guard';
+import { AdminGuardService } from './auth/admin.guard';
 
 @NgModule({
   declarations: [
@@ -27,7 +35,8 @@ import { VerifyEmailComponent } from './containers/verify-email/verify-email.com
     LoginComponent,
     SignupComponent,
     ScheduleComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    AlertDialogComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -37,7 +46,7 @@ import { VerifyEmailComponent } from './containers/verify-email/verify-email.com
     BrowserAnimationsModule,
     ImportsModule,
   ],
-  providers: [],
+  providers: [AuthGuardService, AdminGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

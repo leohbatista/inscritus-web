@@ -53,6 +53,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgBrazil } from 'ng-brazil'
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [],
@@ -60,6 +62,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+
+    TextMaskModule,
+    NgBrazil,
     
     A11yModule,
     BidiModule,
@@ -115,7 +120,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   exports: [  
     FormsModule,
     ReactiveFormsModule,
-      
+    
+    TextMaskModule,
+    NgBrazil,
+
     A11yModule,
     BidiModule,
     ClipboardModule,
