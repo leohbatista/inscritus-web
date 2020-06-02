@@ -1,5 +1,5 @@
 <div class="inscritus-container" [class.example-is-mobile]="mobileQuery.matches">
-  <mat-toolbar color="primary" class="inscritus-toolbar">
+  <mat-toolbar color="primary" class="inscritus-toolbar" style="min-width: 320px;">
     <button mat-icon-button (click)="snav.toggle()" *ngIf="isLogged"><mat-icon>menu</mat-icon></button>
     <h1 class="inscritus-app-name ml-3" routerLink="/">Inscritus</h1>
     
@@ -37,11 +37,11 @@
     
   </mat-toolbar>
 
-  <mat-sidenav-container class="inscritus-sidenav-container" > <!-- [style.marginTop.px]="mobileQuery.matches ? 56 : 0" -->
+  <mat-sidenav-container class="inscritus-sidenav-container" style="min-width: 320px;">
     <mat-sidenav #snav 
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches" 
-      fixedTopGap="56" 
+      [fixedTopGap]="mobileQuery.matches ? 56 : 64"  
       class="inscritus-sidenav"
       [opened]="isOpened && isLogged"
     >
