@@ -4,4 +4,62 @@
   </div>
 </div>
 
-<div class="container-fluid py-3 px-4" *ngIf="!isLoading">
+<div class="container py-3 px-4" *ngIf="!isLoading">
+  <mat-card>
+    <div class="d-flex align-items-center">
+      <a mat-flat-icon routerLink="/admin/usuarios" class="pt-1 mr-3">
+        <mat-icon>chevron_left</mat-icon>
+      </a>
+      <mat-card-title class='m-0' style="flex: 1;">
+        Dados do usuário:
+      </mat-card-title>
+      <div>
+        <a mat-flat-button [routerLink]="'/admin/usuarios/' + user.uid + '/editar'" class="mx-1" color="primary">
+          <mat-icon>edit</mat-icon> Editar usuário
+        </a>
+      </div>
+    </div>
+
+    <hr class="my-3"/>
+
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <p>
+          <strong>Nome: </strong>{{ user.name }}
+        </p>
+        <p>
+          <strong>E-mail: </strong>{{ user.email }}
+        </p>
+        <p>
+          <strong>Telefone: </strong>{{ user.phone }}
+        </p>
+        <p>
+          <strong>CPF: </strong>{{ user.cpf }}
+        </p>        
+      </div>
+
+      <div class="col-12 col-md-6">
+        <p>
+          <strong>Criado em: </strong>{{ user.createdAt?.toDate()?.toLocaleString() }}
+        </p>
+        <p>
+          <strong>Tipo: </strong>
+          <mat-chip-list aria-label="User type label">
+            <mat-chip class="my-2" color="accent" *ngIf="user.isAdmin" selected>Admin</mat-chip>
+            <mat-chip class="my-2" *ngIf="!user.isAdmin">Participante</mat-chip>
+          </mat-chip-list>
+        </p>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="mt-3">
+    <div class="d-flex align-items-center">
+      <mat-card-title class='m-0' style="flex: 1;">
+        Atividades relacionadas:
+      </mat-card-title>
+    </div>
+
+    <hr class="my-3"/>
+  </mat-card>
+</div>

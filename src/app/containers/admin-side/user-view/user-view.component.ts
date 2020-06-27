@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AdminUsersService } from 'src/app/services/admin-users.service';
+import { User } from 'src/app/models/User';
 
 @Component({
   selector: 'app-user-view',
@@ -7,9 +11,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserViewComponent implements OnInit {
 
-  constructor() { }
+  userSubscription: Subscription;
+  user: User;
+
+  isLoading = true;
+
+  constructor(
+    private route: ActivatedRoute,
+    private admin: AdminUsersService,
+  ) { }
 
   ngOnInit(): void {
+    const uid = this.route.snapshot.paramMap.get('uid');
+
+    this.userSubscription = this.admin.getUserByUID(uid).subscribe(user => {
+      this.user = user;
+      this.isLoading = false;
+    });
   }
 
 }

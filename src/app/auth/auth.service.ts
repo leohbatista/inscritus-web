@@ -87,6 +87,7 @@ export class AuthService {
         this.updateUserWithAuth(auth);
         resolve();
       }).catch(err => {
+        if(err.code === 'auth')
         console.error('Error on login');
         
         this.user = of(null as User);
