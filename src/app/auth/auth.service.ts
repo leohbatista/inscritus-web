@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   user: Observable<User>;
+  idTokenUser: Observable<string>;
+  userSessionToken: string = '';
 
   constructor(
     public angularFireAuth: AngularFireAuth,
@@ -24,6 +26,8 @@ export class AuthService {
   }
 
   configObservables() {
+    this.idTokenUser = this.angularFireAuth.idToken;
+
     this.user = this.angularFireAuth.authState.pipe(
       switchMap(user => {
         if(user){
@@ -67,6 +71,14 @@ export class AuthService {
         })
       })
     });
+  }
+
+  getHeaders() {
+    return {
+      'Authorization': 'Bearer ' + this.userSessionToken,
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    }
   }
 
   logout() {
