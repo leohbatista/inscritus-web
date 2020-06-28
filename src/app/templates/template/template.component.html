@@ -1,7 +1,7 @@
 <div class="inscritus-container" [class.example-is-mobile]="mobileQuery.matches">
   <mat-toolbar color="primary" class="inscritus-toolbar" style="min-width: 320px;">
-    <button mat-icon-button (click)="snav.toggle()" *ngIf="isLogged"><mat-icon>menu</mat-icon></button>
-    <h1 class="inscritus-app-name ml-3" routerLink="/">Inscritus</h1>
+    <button mat-icon-button (click)="snav.toggle()" *ngIf="isLogged && isActive"><mat-icon>menu</mat-icon></button>
+    <h1 class="inscritus-app-name ml-3" [routerLink]="isLogged ? '/atividades' : '/'">Inscritus</h1>
     
     <div style="flex: 1 1 auto;"></div>
     <div>
@@ -43,7 +43,7 @@
       [fixedInViewport]="mobileQuery.matches" 
       [fixedTopGap]="mobileQuery.matches ? 56 : 64"  
       class="inscritus-sidenav"
-      [opened]="isOpened && isLogged"
+      [opened]="isOpened && isLogged && isActive"
     >
       <mat-nav-list>
         <div *ngIf="isAdmin">

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from "@angular/fire/firestore";
-import { User } from '../models/User';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { firestore } from 'firebase';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { User } from 'functions/src/users/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +50,7 @@ export class AuthService {
           emailVerified: auth.user.emailVerified,
           createdAt: firestore.Timestamp.now(),
           lastUpdate: firestore.Timestamp.now(),
+          isActive: true,
         }
 
         const userRef = this.angularFirestore.collection<User>('users').doc(auth.user.uid);
@@ -138,14 +139,18 @@ export class AuthService {
     return new Promise(resolve => {
       this.user.pipe(take(1)).subscribe(user => {
         if(user !== null && user.uid) {
-          switch (currentPath) {
-            case '/':
-            case '/cadastro':
-            case '/entrar':
-              this.router.navigate([redirectToPathLogged]);
-              break;
-            default:
-              break;
+          if(user.isActive) {
+            switch (currentPath) {
+              case '/':
+              case '/cadastro':
+              case '/entrar':
+                this.router.navigate([redirectToPathLogged]);
+                break;
+              default:                
+                break;
+            }
+          } else {
+            this.router.navigate(['/minha-conta']);
           }
         } else {
           switch (currentPath) {

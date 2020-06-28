@@ -1,20 +1,131 @@
 <div class="container p-3 h-100">
-  <div class="d-flex justify-content-center" style="min-height: 100%;">
-    <mat-card class="px-4 py-5" style="width: 100%;" *ngIf="user && !user.emailVerified">
+  <div class="d-flex justify-content-center">
+    <mat-card class="p-4" style="width: 100%;" *ngIf="user && !user.emailVerified">
       <mat-card-header class="mb-3">
         <mat-card-title>Confirme seu e-mail</mat-card-title>
       </mat-card-header>
+
+      <mat-card-header class="mb-3 d-flex align-items-center">
+        <mat-card-title class="m-0 d-flex align-items-center">
+          Confirme seu e-mail
+        </mat-card-title>
+      </mat-card-header>
+
+      <hr class="my-3"/>
+
       <mat-card-content>
         <button mat-raised-button color="primary" class="d-block mx-auto mt-3" (click)="resendConfirmation()">Reenviar e-mail de confirmação</button>
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="px-4 py-5" style="width: 100%;" *ngIf="user && user.emailVerified">
-      <mat-card-header class="mb-3">
-        <mat-card-title>Minha Conta</mat-card-title>
+    <mat-card class="p-4" style="width: 100%;" *ngIf="user && user.emailVerified && !user.isActive">
+      <mat-card-header class="mb-3 d-flex align-items-center">
+        <mat-card-title class="m-0 d-flex align-items-center">
+          Conta Bloqueada
+        </mat-card-title>
       </mat-card-header>
+
+      <hr class="my-3"/>
+
       <mat-card-content>
-        Dados do usuário
+        Sua conta está bloqueada. Entre em contato com a equipe responsável para regularizar sua situação.
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="p-4" style="width: 100%;" *ngIf="user && user.emailVerified && user.isActive">
+      <mat-card-header class="mb-3 d-flex align-items-center">
+        <mat-card-title class="m-0 d-flex align-items-center">
+          <a mat-flat-icon routerLink="/atividades" class="mr-3">
+            <mat-icon>chevron_left</mat-icon>
+          </a>
+          Minha Conta
+        </mat-card-title>
+        <mat-chip-list style="flex: 1;">
+          <mat-chip class="ml-auto" color="accent" *ngIf="user.isAdmin" selected>Admin</mat-chip>
+          <mat-chip class="ml-auto" *ngIf="!user.isAdmin">Participante</mat-chip>
+        </mat-chip-list>
+      </mat-card-header>
+
+      <hr class="my-3"/>
+
+      <mat-card-content>
+        <form [formGroup]="editUserFormGroup">
+          <div class="mx-auto" style="max-width: 340px;">
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>Nome</mat-label>
+              <input matInput formControlName="nameCtrl" required>
+              <mat-error *ngIf="editUserFormGroup.controls.nameCtrl.hasError('required')">
+                Nome obrigatório
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>E-mail</mat-label>
+              <input matInput formControlName="emailCtrl" required>
+              <mat-error *ngIf="editUserFormGroup.controls.emailCtrl.hasError('required')">
+                Email obrigatório
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>Telefone</mat-label>
+              <input matInput formControlName="phoneCtrl" required>
+              <mat-error *ngIf="editUserFormGroup.controls.phoneCtrl.hasError('required')">
+                Telefone obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>CPF</mat-label>
+              <input matInput formControlName="cpfCtrl" [textMask]="{mask: MASKS.cpf.textMask}" required>
+              <mat-error *ngIf="editUserFormGroup.controls.cpfCtrl.hasError('required')">
+                CPF obrigatório
+              </mat-error>
+              <mat-error *ngIf="editUserFormGroup.controls.cpfCtrl.errors?.cpf">
+                CPF inválido.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>Senha</mat-label>
+              <input matInput type="password" formControlName="passwordCtrl" required>
+              <mat-error *ngIf="editUserFormGroup.controls.passwordCtrl.hasError('required')">
+                Senha obrigatória
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>Nova Senha</mat-label>
+              <input matInput type="password" formControlName="newPasswordCtrl" required>
+              <mat-error *ngIf="editUserFormGroup.controls.newPasswordCtrl.hasError('required')">
+                Nova Senha obrigatória
+              </mat-error>
+              <mat-error *ngIf="editUserFormGroup.controls.newPasswordCtrl.hasError('minlength')">
+                Nova Senha deve ter no mínimo 6 caracteres
+              </mat-error>
+              <mat-error *ngIf="editUserFormGroup.controls.newPasswordCtrl.hasError('maxlength')">
+                Nova Senha deve ter no máximo 128 caracteres
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>Confirmação de Senha</mat-label>
+              <input matInput type="password" formControlName="confirmCtrl" required>
+              <mat-error *ngIf="editUserFormGroup.controls.confirmCtrl.hasError('required')">
+                Confirmação de senha obrigatória
+              </mat-error>
+              <mat-error *ngIf="editUserFormGroup.controls.confirmCtrl.hasError('minlength')">
+                Confirmação de senha deve ter no mínimo 6 caracteres
+              </mat-error>
+              <mat-error *ngIf="editUserFormGroup.controls.confirmCtrl.hasError('maxlength')">
+                Senha deve ter no máximo 128 caracteres
+              </mat-error>
+              <mat-error *ngIf="editUserFormGroup.controls['confirmCtrl'].hasError('mismatch')">
+                Confirmação de senha não confere.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <button mat-raised-button color="primary" class="d-block mx-auto mt-3" style="width: 150px;" [disabled]="!editUserFormGroup.valid" (click)="editUser()">Salvar</button>
+        </form>
       </mat-card-content>
     </mat-card>
   </div>

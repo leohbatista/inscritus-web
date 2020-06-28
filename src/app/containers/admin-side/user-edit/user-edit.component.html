@@ -1,1 +1,94 @@
-<p>user-edit works!</p>
+<div class="container-fluid py-3 px-4 h-100" *ngIf="isLoading">
+  <div class="d-flex align-items-center justify-content-center">
+    <mat-spinner diameter="80"></mat-spinner>
+  </div>
+</div>
+
+
+<div class="container p-3 h-100" *ngIf="!isLoading">
+  <div class="d-flex justify-content-center">
+    <mat-card class="p-4" style="width: 100%;" *ngIf="user && user.emailVerified">
+      <mat-card-header class="mb-3 d-flex align-items-center">
+        <mat-card-title class="m-0 d-flex align-items-center">
+          <a mat-flat-icon [routerLink]="'/admin/usuarios/' + uid" class="mr-3">
+            <mat-icon>chevron_left</mat-icon>
+          </a>
+          Editar Usuário
+        </mat-card-title>
+        <mat-chip-list style="flex: 1;">
+          <mat-chip class="ml-auto" color="accent" *ngIf="user.isAdmin" selected>Admin</mat-chip>
+          <mat-chip class="ml-auto" *ngIf="!user.isAdmin">Participante</mat-chip>
+        </mat-chip-list>
+      </mat-card-header>
+      
+      <hr class="my-3"/>
+
+      <mat-card-content *ngIf="!user">
+        Usuário não encontrado
+      </mat-card-content>
+
+      <mat-card-content *ngIf="user">
+        <form [formGroup]="editUserFormGroup">
+          <div class="mx-auto" style="max-width: 340px;">
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>Nome</mat-label>
+              <input matInput formControlName="nameCtrl" required>
+              <mat-error *ngIf="editUserFormGroup.controls.nameCtrl.hasError('required')">
+                Nome obrigatório
+              </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>E-mail</mat-label>
+              <input matInput formControlName="emailCtrl" required>
+              <mat-error *ngIf="editUserFormGroup.controls.emailCtrl.hasError('required')">
+                Email obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-checkbox formControlName="verifiedCtrl" color="primary" class="d-flex mt-2">
+              <span style="white-space: pre-wrap;">E-mail confirmado</span>
+            </mat-checkbox>
+
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>Telefone</mat-label>
+              <input matInput formControlName="phoneCtrl" [textMask]="{mask: formatPhone, guide: false}" required>
+              <mat-error *ngIf="editUserFormGroup.controls.phoneCtrl.hasError('required')">
+                Telefone obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>CPF</mat-label>
+              <input matInput formControlName="cpfCtrl" [textMask]="{mask: MASKS.cpf.textMask}" required>
+              <mat-error *ngIf="editUserFormGroup.controls.cpfCtrl.hasError('required')">
+                CPF obrigatório
+              </mat-error>
+              <mat-error *ngIf="editUserFormGroup.controls.cpfCtrl.errors?.cpf">
+                CPF inválido.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-100 mt-2" color="primary">
+              <mat-label>Tipo</mat-label>
+              <mat-select formControlName="typeCtrl" name="userType" required>
+                <mat-option *ngFor="let type of userTypes" [value]="type.name">
+                  {{ type.label }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="editUserFormGroup.controls.typeCtrl.hasError('required')">
+                Tipo obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-checkbox formControlName="activeCtrl" color="primary" class="d-flex mt-2">
+              <span style="white-space: pre-wrap;">Usuário ativo</span>
+            </mat-checkbox>
+          </div>
+          
+          <button mat-raised-button color="primary" class="d-block mx-auto mt-3" style="width: 150px;" [disabled]="!editUserFormGroup.valid" (click)="editUser()">Salvar</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

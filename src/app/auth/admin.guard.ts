@@ -18,6 +18,8 @@ export class AdminGuardService implements CanActivate {
       tap(user => {
         if(!user) {
           this.router.navigate(['/']);
+        } else if(!user.isActive) {
+          this.router.navigate(['/minha-conta']);
         }
       }),
       map(user => !!user?.isAdmin)

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AdminUsersService } from 'src/app/services/admin-users.service';
-import { User } from 'src/app/models/User';
+import { User } from 'functions/src/users/user.model';
 
 @Component({
   selector: 'app-user-view',

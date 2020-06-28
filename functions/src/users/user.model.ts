@@ -6,6 +6,7 @@ export interface User {
   email?: string;
   phone?: string;
   uid?: string;
+  isActive?: boolean;
   isAdmin?: boolean;
   emailVerified?: boolean;
   createdAt?: firestore.Timestamp;

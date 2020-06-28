@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from 'src/app/auth/auth.service';
-import { User } from 'src/app/models/User';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
+import { User } from 'functions/src/users/user.model';
 
 enum LinkType {
   'external',
@@ -67,6 +67,7 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
   isLogged = true;
   isAdmin = false;
   isOpened = false;
+  isActive = true;
   loading = true;
 
   @ViewChild('snav', { static: false }) snavRef: MatSidenav;
@@ -91,9 +92,15 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
       if(user) {
         this.isLogged = true;
         this.isAdmin = user.isAdmin;
+        this.isActive = user.isActive;
+        
+        if(!this.isActive) {
+          this.snavRef.close();
+        }        
       } else {
         this.isLogged = false;
         this.isAdmin = false;
+        this.isActive = false;
         this.snavRef.close();
       }
       this.authService.redirectUser(this.router.url).then(() => this.loading = false);

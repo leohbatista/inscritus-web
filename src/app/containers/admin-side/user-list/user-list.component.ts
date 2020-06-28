@@ -42,7 +42,7 @@ export class UserListComponent implements OnInit {
     },
   ]
 
-  displayedColumns: string[] = ['name', 'email', 'cpf', 'type', 'actions'];
+  displayedColumns: string[] = ['name', 'email', 'cpf', 'status', 'type', 'actions'];
   usersDataSource: MatTableDataSource<User>;
 
   // Filter
@@ -66,7 +66,7 @@ export class UserListComponent implements OnInit {
   isLoading = true;
 
   constructor(
-    private adminUser: AdminUsersService,
+    private adminUsersService: AdminUsersService,
   ) { }
 
   ngOnInit(): void {
@@ -76,7 +76,7 @@ export class UserListComponent implements OnInit {
   applyFilter(): void {
     this.isLoading = true;
 
-    this.adminUser.searchUsers({
+    this.adminUsersService.searchUsers({
       filterField: this.selectedFilter.name,
       filterValue: this.filterValue,
       orderField: this.sortField,
