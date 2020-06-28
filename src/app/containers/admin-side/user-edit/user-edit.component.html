@@ -7,7 +7,7 @@
 
 <div class="container p-3 h-100" *ngIf="!isLoading">
   <div class="d-flex justify-content-center">
-    <mat-card class="p-4" style="width: 100%;" *ngIf="user && user.emailVerified">
+    <mat-card class="p-4" style="width: 100%;">
       <mat-card-header class="mb-3 d-flex align-items-center">
         <mat-card-title class="m-0 d-flex align-items-center">
           <a mat-flat-icon [routerLink]="'/admin/usuarios/' + uid" class="mr-3">

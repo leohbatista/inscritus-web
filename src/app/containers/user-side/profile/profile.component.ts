@@ -7,6 +7,7 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 import { Router } from '@angular/router';
 import { NgBrazilValidators, MASKS } from 'ng-brazil';
 import { User } from 'functions/src/users/user.model';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-profile',
@@ -21,17 +22,26 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   editUserFormGroup: FormGroup;
 
+  isLoading = true;
+  isProcessing = false;
+
   constructor(
     private authService: AuthService,
     private dialog: MatDialog,
     private router: Router,
     private formBuilder: FormBuilder,
+    private angularFireAuth: AngularFireAuth,
   ) { }
 
   ngOnInit(): void {
     const passwordMatchValidator = (formGroup: FormGroup): void => {
-      const error = formGroup.get('passwordCtrl').value === formGroup.get('confirmCtrl').value ? null : { 'mismatch': true };
+      const error = formGroup.get('newPasswordCtrl').value === formGroup.get('confirmCtrl').value ? null : { 'mismatch': true };
       formGroup.get('confirmCtrl').setErrors(error);
+    } 
+
+    const newPasswordLengthValidator = (formGroup: FormGroup): void => {
+      const error = formGroup.get('newPasswordCtrl').value !== '' && formGroup.get('newPasswordCtrl').value.length < 6 ? { 'minlength': true } : null;
+      formGroup.get('newPasswordCtrl').setErrors(error);
     } 
 
     this.editUserFormGroup = this.formBuilder.group({
@@ -40,13 +50,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
       phoneCtrl: new FormControl('', [Validators.required]),
       cpfCtrl: new FormControl('', [Validators.required, NgBrazilValidators.cpf]),
       passwordCtrl: new FormControl('', [Validators.required]),
-      newPasswordCtrl: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(128)]),
-      confirmCtrl: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(128)]),
-    }, { validator: passwordMatchValidator });
+      newPasswordCtrl: new FormControl('', []),
+      confirmCtrl: new FormControl('', []),
+    }, { validators: [passwordMatchValidator, newPasswordLengthValidator] });
 
     this.userSubscription = this.authService.user.subscribe(user => {      
       this.user = user;
       this.fillUserData();
+      this.isLoading = false;
     })
     
   }
@@ -83,27 +94,185 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  editUser(): void {
-    if(this.editUserFormGroup.valid) {
-      this.authService.createUser({
-        name: (this.editUserFormGroup.get('nameCtrl').value as string).trim().toUpperCase(),
-        email: (this.editUserFormGroup.get('emailCtrl').value as string).trim().toLowerCase(),
-        phone: (this.editUserFormGroup.get('phoneCtrl').value as string).trim(),
-        cpf: (this.editUserFormGroup.get('cpfCtrl').value as string).trim(),
-      }, this.editUserFormGroup.get('passwordCtrl').value).then(res => {
-        this.router.navigate(['/minha-conta']);
+  async editUser(): Promise<void> {
+    this.isProcessing = true;
+
+    if(this.editUserFormGroup.valid) {  
+      this.angularFireAuth.signInWithEmailAndPassword(
+        this.editUserFormGroup.get('emailCtrl').value,
+        this.editUserFormGroup.get('passwordCtrl').value
+      ).then(() => {
+        console.log('Signed in');
+        
+        const changedPassword = this.editUserFormGroup.get('newPasswordCtrl').value && this.editUserFormGroup.get('confirmCtrl').value;
+        
+        if(this.hasChangedFieldValues() && changedPassword) {
+          console.log('Changed data and password');
+          
+          this.saveData().then(() => {
+            console.log('Data successfully saved');
+
+            this.savePassword().then(() => {
+              console.log('Password successfully changed');
+
+              this.resetFields();
+
+              this.dialog.open(AlertDialogComponent, {
+                maxWidth: '600px',
+                data: {
+                  alertTitle: 'Dados alterados',
+                  alertDescription: 'Seus dados e nova senha foram alterados com sucesso.',
+                  isOnlyConfirm: true
+                }
+              });
+
+              this.isProcessing = false;
+            }).catch(err => {
+              console.error('Error changing password.', err);
+
+              this.resetFields();
+
+              this.dialog.open(AlertDialogComponent, {
+                maxWidth: '600px',
+                data: {
+                  alertTitle: 'Erro ao alterar senha',
+                  alertDescription: 'Seus novos dados foram salvos, mas ocorreu um erro ao alterar a senha. Tente alterá-la novamente mais tarde.',
+                  isOnlyConfirm: true
+                }
+              });
+
+              this.isProcessing = false;
+            });
+
+          }).catch(err => {
+            console.error('Error changing data', err);
+
+            this.resetFields();
+
+            this.dialog.open(AlertDialogComponent, {
+              maxWidth: '600px',
+              data: {
+                alertTitle: 'Erro ao salvar dados',
+                alertDescription: 'Ocorreu um erro ao salvar seus dados. Tente novamente mais tarde.',
+                isOnlyConfirm: true
+              }
+            });
+
+            this.isProcessing = false;
+          });
+        } else if(this.hasChangedFieldValues()) {
+          console.log('Changed only data');
+
+          this.saveData().then(() => {
+            console.log('Data successfully saved');
+
+            this.resetFields();
+
+            this.dialog.open(AlertDialogComponent, {
+              maxWidth: '600px',
+              data: {
+                alertTitle: 'Dados alterados',
+                alertDescription: 'Seus dados foram alterados com sucesso.',
+                isOnlyConfirm: true
+              }
+            });
+
+            this.isProcessing = false;
+          }).catch(err => {
+            console.error('Error changing data', err);
+
+            this.resetFields();
+
+            this.dialog.open(AlertDialogComponent, {
+              maxWidth: '600px',
+              data: {
+                alertTitle: 'Erro ao salvar dados',
+                alertDescription: 'Ocorreu um erro ao salvar seus dados. Tente novamente mais tarde.',
+                isOnlyConfirm: true
+              }
+            });
+
+            this.isProcessing = false;
+          });
+
+        } else if(changedPassword) {
+          console.log('Changed only password');
+          
+          this.savePassword().then(() => {
+            console.log('Password successfully changed');
+
+            this.resetFields();
+
+            this.dialog.open(AlertDialogComponent, {
+              maxWidth: '600px',
+              data: {
+                alertTitle: 'Senha alterada com sucesso',
+                alertDescription: 'Sua nova senha foi alterada com sucesso.',
+                isOnlyConfirm: true
+              }
+            });
+
+            this.isProcessing = false;
+          }).catch(err => {
+            console.error('Error changing password.', err);
+
+            this.resetFields();
+
+            this.dialog.open(AlertDialogComponent, {
+              maxWidth: '600px',
+              data: {
+                alertTitle: 'Erro ao alterar senha',
+                alertDescription: 'Ocorreu um erro ao alterar a senha. Tente alterá-la novamente mais tarde.',
+                isOnlyConfirm: true
+              }
+            });
+
+            this.isProcessing = false;
+          });
+        }
       }).catch(err => {
-        console.error(err);
-        this.dialog.open(AlertDialogComponent, {
-          maxWidth: '600px',
-          data: {
-            alertTitle: 'Erro',
-            alertDescription: 'Ocorreu um erro ao criar seu usuário. Tente novamente mais tarde.',
-            isOnlyConfirm: true
-          }
-        })
+        console.error('Erro ao reautenticar.', err);
+
+        this.resetFields();
+
+        if(err.code = 'auth/wrong-password') {
+          this.dialog.open(AlertDialogComponent, {
+            maxWidth: '600px',
+            data: {
+              alertTitle: 'Senha incorreta',
+              alertDescription: 'A senha atual informada é incorreta. Verifique e tente novamente.',
+              isOnlyConfirm: true
+            }
+          });
+        } else {
+          this.dialog.open(AlertDialogComponent, {
+            maxWidth: '600px',
+            data: {
+              alertTitle: 'Erro ao autenticar',
+              alertDescription: 'Ocorreu um erro ao autenticar. Tente novamente mais tarde.',
+              isOnlyConfirm: true
+            }
+          });
+        }
+
+        this.isProcessing = false;
       });
+      
     }
+  }
+
+  resetFields(): void {
+    this.editUserFormGroup.get('passwordCtrl').reset();
+    this.editUserFormGroup.get('passwordCtrl').setErrors(null);
+    this.editUserFormGroup.get('passwordCtrl').markAsUntouched();
+    
+    this.editUserFormGroup.get('newPasswordCtrl').setValue('');
+    this.editUserFormGroup.get('newPasswordCtrl').setErrors(null);
+    this.editUserFormGroup.get('newPasswordCtrl').markAsUntouched();
+
+    this.editUserFormGroup.get('confirmCtrl').setValue('');
+    this.editUserFormGroup.get('confirmCtrl').setErrors(null);
+    this.editUserFormGroup.get('confirmCtrl').markAsUntouched();
   }
   
   fillUserData(): void {
@@ -116,4 +285,41 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.editUserFormGroup.get('confirmCtrl').setValue('');
   }
 
+  hasChangedFieldValues(): boolean {
+    if(
+      this.user.name !== this.editUserFormGroup.get('nameCtrl').value.trim().toUpperCase() ||
+      this.user.phone !== this.editUserFormGroup.get('phoneCtrl').value ||
+      this.user.cpf !== this.editUserFormGroup.get('cpfCtrl').value
+    ) { return true };
+    return false;
+  }
+
+  shouldButtonDisable(): boolean {
+    const changedPassword = this.editUserFormGroup.get('newPasswordCtrl').value && this.editUserFormGroup.get('confirmCtrl').value;    
+    return !((this.hasChangedFieldValues() || changedPassword) && this.editUserFormGroup.get('passwordCtrl').value);
+  }
+
+  saveData(): Promise<void> {    
+    return new Promise((resolve, reject) => {
+      this.authService.editUser({
+        uid: this.user.uid, 
+        name: this.editUserFormGroup.get('nameCtrl').value.trim().toUpperCase(),
+        phone: this.editUserFormGroup.get('phoneCtrl').value,
+        cpf: this.editUserFormGroup.get('cpfCtrl').value || ''
+      }).then(res => resolve(res)).catch(err => {
+        reject(err)
+      });
+    });
+  }
+
+  savePassword(): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await this.angularFireAuth.currentUser;
+        user.updatePassword(this.editUserFormGroup.get('newPasswordCtrl').value).then((res) => resolve(res)).catch(err => reject(err));
+      } catch(err) {
+        reject(err);
+      }
+    });
+  }
 }

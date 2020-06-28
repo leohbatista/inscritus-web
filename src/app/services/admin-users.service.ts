@@ -20,22 +20,21 @@ export class AdminUsersService {
 
 
   editUser(userData: User): Promise<void> {
-    return new Promise((resolve, reject) => {
-        
-        let user = {
-          ...userData,
-          lastUpdate: firestore.Timestamp.now(),
-        }
+    return new Promise((resolve, reject) => { 
+      let user = {
+        ...userData,
+        lastUpdate: firestore.Timestamp.now(),
+      }
 
-        const userRef = this.angularFirestore.collection<User>('users').doc(user.uid);
-        
-        userRef.set(user, { merge: true }).then(() => {
-          resolve()
-        }).catch(err => {
-          console.log('Error saving user');
-          reject(err);
-        })
+      const userRef = this.angularFirestore.collection<User>('users').doc(user.uid);
+      
+      userRef.set(user, { merge: true }).then(() => {
+        resolve()
+      }).catch(err => {
+        console.log('Error saving user');
+        reject(err);
       })
+    })
   }
 
   getUserByUID(uid: string): Observable<User> {

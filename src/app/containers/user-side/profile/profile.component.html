@@ -1,10 +1,6 @@
 <div class="container p-3 h-100">
   <div class="d-flex justify-content-center">
     <mat-card class="p-4" style="width: 100%;" *ngIf="user && !user.emailVerified">
-      <mat-card-header class="mb-3">
-        <mat-card-title>Confirme seu e-mail</mat-card-title>
-      </mat-card-header>
-
       <mat-card-header class="mb-3 d-flex align-items-center">
         <mat-card-title class="m-0 d-flex align-items-center">
           Confirme seu e-mail
@@ -48,7 +44,13 @@
 
       <hr class="my-3"/>
 
-      <mat-card-content>
+      <mat-card-content *ngIf="isLoading">
+        <section class="my-6 text-center">
+          <mat-spinner [diameter]="60" color="accent" class='d-inline-block mx-3'></mat-spinner>
+        </section>      
+      </mat-card-content>
+
+      <mat-card-content *ngIf="!isLoading">
         <form [formGroup]="editUserFormGroup">
           <div class="mx-auto" style="max-width: 340px;">
             <mat-form-field class="w-100 mt-2" color="primary">
@@ -92,6 +94,10 @@
               </mat-error>
             </mat-form-field>
 
+            <p class="mt-4">
+              <strong>Atenção:</strong> Preencha os campos abaixo somente se desejar alterar sua senha.
+            </p>
+
             <mat-form-field class="w-100 mt-2" color="primary">
               <mat-label>Nova Senha</mat-label>
               <input matInput type="password" formControlName="newPasswordCtrl" required>
@@ -124,7 +130,14 @@
             </mat-form-field>
           </div>
 
-          <button mat-raised-button color="primary" class="d-block mx-auto mt-3" style="width: 150px;" [disabled]="!editUserFormGroup.valid" (click)="editUser()">Salvar</button>
+          <button mat-raised-button 
+            color="primary" class="d-block mx-auto mt-3" style="width: 150px;" *ngIf="!isProcessing"
+            [disabled]="editUserFormGroup.invalid  || shouldButtonDisable()" (click)="editUser()"
+          >
+            Salvar
+          </button>
+          <mat-spinner [diameter]="40" color="accent" *ngIf="isProcessing" class="mx-auto"></mat-spinner>
+
         </form>
       </mat-card-content>
     </mat-card>
