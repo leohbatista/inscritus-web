@@ -1,0 +1,90 @@
+<div class="container py-3 px-4 h-100">
+  <div class="d-flex align-items-center">
+    <h1 class="m-2" style="flex: 1">Avisos</h1>
+    <button mat-raised-button color="primary" (click)="isCreateMode = true" *ngIf="user?.isAdmin">
+      <mat-icon>post_add</mat-icon> Novo Aviso
+    </button>
+  </div>
+
+  <mat-divider class="my-2 mb-3"></mat-divider>
+
+  <div class="text-center" *ngIf="isLoading">
+    <mat-spinner diameter="80" class="mx-auto"></mat-spinner>
+  </div>
+
+  <div *ngIf="isCreateMode">
+    <mat-card class="p-3 mx-2 my-4">
+      <h3 style="font-weight: 500;">Novo Aviso</h3>
+
+      <mat-form-field class="w-100">
+        <input matInput placeholder="Título" [(ngModel)]="newPost.title"/>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <textarea matInput placeholder="Mensagem" mat-autosize matAutosizeMinRows="3" [(ngModel)]="newPost.message" required></textarea>
+      </mat-form-field>
+
+      <div class="text-right">
+        <button mat-raised-button type="button" (click)="cancelPost()" class="mx-2">
+          <mat-icon>clear</mat-icon> Cancelar
+        </button>
+        <button mat-raised-button color="accent" type="button" [disabled]="!newPost.message" (click)="publishPost()" class="mx-2">
+          Publicar <mat-icon class="ml-2">send</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+
+  </div>
+
+  <div *ngIf="!isLoading">
+    <p class="p-4 m-3 text-center" *ngIf="this.posts?.length === 0">
+      Ainda não há nenhum aviso.
+    </p>
+
+    <mat-card *ngFor="let post of posts; let i = index" class="p-3 m-2">
+      <div class="d-flex align-items-center">
+        <mat-card-title style="flex: 1;">
+          {{ post.title }}
+        </mat-card-title>
+
+        <div *ngIf="user?.isAdmin">
+          <button mat-button class="action-button"  matTooltip="Editar aviso" (click)="editMode[i].enabled = true">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-button class="action-button" matTooltip="Excluir aviso" (click)="deletePost(post.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+
+
+      <div *ngIf="!editMode[i]?.enabled" style="white-space: pre-line">
+        {{ post.message }}
+      </div>
+
+      <div *ngIf="editMode[i]?.enabled">
+        <mat-form-field class="w-100">
+          <input matInput placeholder="Título" [(ngModel)]="editMode[i].data.title"/>
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+          <textarea matInput placeholder="Mensagem" mat-autosize matAutosizeMinRows="3" [(ngModel)]="editMode[i].data.message" required></textarea>
+        </mat-form-field>
+
+        <div class="text-right">
+          <button mat-raised-button type="button" (click)="cancelEditPost(i)" class="mx-2">
+            <mat-icon>clear</mat-icon> Cancelar
+          </button>
+          <button mat-raised-button color="accent" type="button" [disabled]="!editMode[i].data.message" (click)="savePost(post.id, i)" class="mx-2">
+            <mat-icon>save</mat-icon> Salvar
+          </button>
+        </div>
+      </div>
+
+      <mat-card-footer class="text-right p-3">
+        <span class="date-label">Última Atualização: {{ post.lastUpdate?.toDate().toLocaleString() }}</span>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+
+</div>

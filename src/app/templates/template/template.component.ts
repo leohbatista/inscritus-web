@@ -28,6 +28,12 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
 
   fillerNav: NavItem[] = [
     {
+      text: 'Mural de Avisos',
+      link: '/avisos',
+      linkType: LinkType.route,
+      icon: 'dynamic_feed',
+    },
+    {
       text: 'Minhas Atividades',
       link: '/atividades',
       linkType: LinkType.route,
@@ -55,10 +61,22 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
       icon: 'web',
     },
     {
+      text: 'Palestrantes',
+      link: '/admin/palestrantes',
+      linkType: LinkType.route,
+      icon: 'record_voice_over',
+    },
+    {
       text: 'Feedbacks',
       link: '/admin/feedbacks',
       linkType: LinkType.route,
       icon: 'feedback',
+    },
+    {
+      text: 'Cadastros Auxiliares',
+      link: '/admin/cadastros-auxiliares',
+      linkType: LinkType.route,
+      icon: 'list_alt',
     },
   ];
 
@@ -86,17 +104,17 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userSubscription = this.authService.user.subscribe(user => {      
+    this.userSubscription = this.authService.user.subscribe(user => {
       this.user = user;
-      
+
       if(user) {
         this.isLogged = true;
         this.isAdmin = user.isAdmin;
         this.isActive = user.isActive;
-        
+
         if(!this.isActive) {
           this.snavRef.close();
-        }        
+        }
       } else {
         this.isLogged = false;
         this.isAdmin = false;
@@ -106,10 +124,10 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
       this.authService.redirectUser(this.router.url).then(() => this.loading = false);
     });
   }
-  
+
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
-    
+
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }
@@ -120,7 +138,7 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
       this.router.navigate(['/']);
     }).catch(err => {
       console.error('Error logging out', err);
-      
+
     });
   }
 }

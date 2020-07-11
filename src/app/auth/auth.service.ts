@@ -43,7 +43,7 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       this.angularFireAuth.createUserWithEmailAndPassword(userData.email, password).then(auth => {
         console.log(auth, userData);
-        
+
         let user = {
           ...userData,
           uid: auth.user.uid,
@@ -54,7 +54,7 @@ export class AuthService {
         }
 
         const userRef = this.angularFirestore.collection<User>('users').doc(auth.user.uid);
-        
+
         userRef.set(user).then(() => {
           console.log('User successfully created');
           this.angularFireAuth.signInWithEmailAndPassword(userData.email, password).then(credential => {
@@ -63,9 +63,9 @@ export class AuthService {
             resolve();
           }).catch(err => {
             console.error("Error login in the user", err);
-            
+
           });
-          
+
         }).catch(err => {
           console.log('Error creating user');
           reject(err);
@@ -102,20 +102,20 @@ export class AuthService {
       }).catch(err => {
         if(err.code === 'auth')
         console.error('Error on login');
-        
+
         this.user = of(null as User);
-        reject(err);        
+        reject(err);
       });
-    }) 
+    })
   }
 
-  private updateUserWithAuth({ user }) {        
+  private updateUserWithAuth({ user }) {
     const data: User = {
       emailVerified: user.emailVerified,
       lastUpdate: firestore.Timestamp.now(),
       uid: user.uid,
     };
-    
+
     if(user.email) {
       data.email = user.email.trim().toLowerCase();
     }
@@ -126,16 +126,16 @@ export class AuthService {
       console.log('Updated User');
     }).catch(e => {
       console.error('Error updating user', e);
-    });    
+    });
   }
 
   sendVerificationEmail(auth: firebase.auth.UserCredential): void {
     auth.user.sendEmailVerification({ url: `${environment.baseURL}/atividades` });
   }
 
-  redirectUser(currentPath: string, redirectToPathLogged = '/atividades', redirectToPathUnlogged = '/login') {
+  redirectUser(currentPath: string, redirectToPathLogged = '/avisos', redirectToPathUnlogged = '/login') {
     console.log(currentPath, redirectToPathLogged, redirectToPathUnlogged);
-    
+
     return new Promise(resolve => {
       this.user.pipe(take(1)).subscribe(user => {
         if(user !== null && user.uid) {
@@ -146,7 +146,7 @@ export class AuthService {
               case '/entrar':
                 this.router.navigate([redirectToPathLogged]);
                 break;
-              default:                
+              default:
                 break;
             }
           } else {
@@ -190,14 +190,14 @@ export class AuthService {
   }
 
   editUser(userData: User): Promise<void> {
-    return new Promise((resolve, reject) => { 
+    return new Promise((resolve, reject) => {
       let user = {
         ...userData,
         lastUpdate: firestore.Timestamp.now(),
       }
 
       const userRef = this.angularFirestore.collection<User>('users').doc(user.uid);
-      
+
       userRef.set(user, { merge: true }).then(() => {
         resolve();
       }).catch(err => {
