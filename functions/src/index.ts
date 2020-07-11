@@ -5,7 +5,7 @@ import cors from 'cors';
 
 import * as users from './users/users.api';
 
-var serviceAccount = require("/home/leonardo/projects/inscritus-web/functions/mc853-f59e9-firebase-adminsdk-i7n3j-4b7bbd73e7.json");
+const serviceAccount = require("../mc853-f59e9-firebase-adminsdk-i7n3j-4b7bbd73e7.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

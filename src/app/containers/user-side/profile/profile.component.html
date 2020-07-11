@@ -31,7 +31,7 @@
     <mat-card class="p-4" style="width: 100%;" *ngIf="user && user.emailVerified && user.isActive">
       <mat-card-header class="mb-3 d-flex align-items-center">
         <mat-card-title class="m-0 d-flex align-items-center">
-          <a mat-flat-icon routerLink="/atividades" class="mr-3">
+          <a mat-flat-icon routerLink="/avisos" class="mr-3">
             <mat-icon>chevron_left</mat-icon>
           </a>
           Minha Conta
@@ -47,7 +47,7 @@
       <mat-card-content *ngIf="isLoading">
         <section class="my-6 text-center">
           <mat-spinner [diameter]="60" color="accent" class='d-inline-block mx-3'></mat-spinner>
-        </section>      
+        </section>
       </mat-card-content>
 
       <mat-card-content *ngIf="!isLoading">
@@ -130,7 +130,7 @@
             </mat-form-field>
           </div>
 
-          <button mat-raised-button 
+          <button mat-raised-button
             color="primary" class="d-block mx-auto mt-3" style="width: 150px;" *ngIf="!isProcessing"
             [disabled]="editUserFormGroup.invalid  || shouldButtonDisable()" (click)="editUser()"
           >

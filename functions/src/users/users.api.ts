@@ -10,8 +10,8 @@ functions.use(cors({ origin: true }));
 
 functions.get('/search', (req, res) => {
   console.log('Users API - Search Users');
-  
-  const { 
+
+  const {
     filterField,
     filterValue,
     orderField,
@@ -20,7 +20,7 @@ functions.get('/search', (req, res) => {
     pageSize
   } = req.query;
 
-  if(!orderField || !orderDirection || !page || !pageSize || 
+  if(!orderField || !orderDirection || !page || !pageSize ||
     isNaN(parseInt(`${page}`)) || isNaN(parseInt(`${pageSize}`))
   ) {
     res.status(400).send({ message: 'Missing or incorrect params'});
