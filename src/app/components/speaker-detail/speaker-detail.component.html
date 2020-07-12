@@ -1,0 +1,65 @@
+<div mat-dialog-title class="d-flex align-itmes-center mb-2">
+
+  <div style="flex: 1;">
+    <h2 class="mb-1">{{speaker.name}}</h2>
+    <h4 class="m-0">{{ speaker.shortBio }}</h4>
+  </div>
+
+  <button mat-icon-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-divider class="mt-0 mb-3"></mat-divider>
+
+<div mat-dialog-content style="overflow: visible;">
+  <div class="d-flex flex-column flex-md-row">
+    <div class="d-flex justify-content-center" *ngIf="speaker.imageUrl">
+      <img [src]="speaker.imageUrl" class="speaker-badge" [alt]="speaker.name"/>
+    </div>
+
+    <div class="p-3">
+      <div style="white-space: pre-line">{{ speaker.bio }}</div>
+
+      <div class="row m-3">
+        <div class="col-12 col-lg-6 d-flex align-items-center p-1" *ngIf="speaker.social.email">
+          <fa-icon [icon]="faEnvelope" class="social-icon"></fa-icon>
+          <span class="pl-3 social-label" style="flex: 1">
+            {{speaker.social.email}}
+          </span>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center p-1" *ngIf="speaker.social.facebook">
+          <fa-icon [icon]="faFacebookSquare" class="social-icon"></fa-icon>
+          <a class="pl-3 social-label" style="flex: 1" [href]="speaker.social.facebook" target="_blank">
+            Facebook
+          </a>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center p-1" *ngIf="speaker.social.twitter">
+          <fa-icon [icon]="faTwitter" class="social-icon"></fa-icon>
+          <a class="pl-3 social-label" style="flex: 1" [href]="speaker.social.twitter" target="_blank">
+            Twitter
+          </a>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center p-1" *ngIf="speaker.social.linkedIn">
+          <fa-icon [icon]="faLinkedin" class="social-icon"></fa-icon>
+          <a class="pl-3 social-label" style="flex: 1" [href]="speaker.social.linkedIn" target="_blank">
+            LinkedIn
+          </a>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center p-1" *ngIf="speaker.social.instagram">
+          <fa-icon [icon]="faInstagram" class="social-icon"></fa-icon>
+          <a class="pl-3 social-label" style="flex: 1" [href]="speaker.social.instagram" target="_blank">
+            Instagram
+          </a>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center p-1" *ngIf="speaker.social.github">
+          <fa-icon [icon]="faGithub" class="social-icon"></fa-icon>
+          <a class="pl-3 social-label" style="flex: 1" [href]="speaker.social.github" target="_blank">
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -19,6 +19,7 @@ import { FeedComponent } from './containers/feed/feed.component';
 import { ProfileComponent } from './containers/user-side/profile/profile.component';
 import { ScheduleComponent } from './containers/user-side/schedule/schedule.component';
 import { VerifyEmailComponent } from './containers/verify-email/verify-email.component';
+import { SpeakersComponent } from './containers/speakers/speakers.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'avisos', component: FeedComponent, canActivate: [AuthGuardService] },
   { path: 'atividades', component: ActivitiesComponent, canActivate: [AuthGuardService] },
   { path: 'cronograma', component: ScheduleComponent, canActivate: [AuthGuardService] },
+  { path: 'palestrantes', component: SpeakersComponent, canActivate: [AuthGuardService] },
   { path: 'minha-conta', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'admin', children: [
     { path: '', pathMatch: 'full', component: HomeComponent, canActivate: [AdminGuardService] },
@@ -38,10 +40,6 @@ const routes: Routes = [
     { path: 'atividades/criar', component: ActivityCreateComponent, canActivate: [AdminGuardService] },
     { path: 'atividades/:aid', component: ActivityViewComponent, canActivate: [AdminGuardService] },
     { path: 'atividades/:aid/editar', component: ActivityEditComponent, canActivate: [AdminGuardService] },
-    { path: 'palestrantes', component: ActivityListComponent, canActivate: [AdminGuardService] },
-    { path: 'palestrantes/criar', component: ActivityCreateComponent, canActivate: [AdminGuardService] },
-    { path: 'palestrantes/:pid', component: ActivityViewComponent, canActivate: [AdminGuardService] },
-    { path: 'palestrantes/:pid/editar', component: ActivityEditComponent, canActivate: [AdminGuardService] },
     { path: 'feedbacks', component: HomeComponent, canActivate: [AdminGuardService] },
     { path: 'cadastros-auxiliares', component: HomeComponent, canActivate: [AdminGuardService] },
     { path: '**', redirectTo: '' },

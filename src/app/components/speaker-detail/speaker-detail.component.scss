@@ -1,0 +1,22 @@
+@import "../../../variables";
+
+.social-icon {
+  color: #444;
+}
+
+.social-label {
+  color: #444;
+}
+
+.speaker-badge {
+  width: 250px;
+  height: 250px;
+  border-radius: 0.5em;
+}
+
+@media screen and (max-width: map-get($grid-breakpoints, sm)) {
+  .speaker-badge {
+    width: 200px;
+    height: 200px;
+  }
+}

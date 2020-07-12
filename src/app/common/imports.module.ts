@@ -53,11 +53,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { NgBrazil } from 'ng-brazil'
 import { TextMaskModule } from 'angular2-text-mask';
+import { FileSizePipe } from './file-size.pipe';
+import { DropZoneDirective } from './drop-zone.directive';
 
 @NgModule({
-  declarations: [],
+  declarations: [FileSizePipe, DropZoneDirective],
   imports: [
     CommonModule,
     FormsModule,
@@ -65,7 +68,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 
     TextMaskModule,
     NgBrazil,
-    
+
     A11yModule,
     BidiModule,
     ClipboardModule,
@@ -117,10 +120,13 @@ import { TextMaskModule } from 'angular2-text-mask';
     MatTooltipModule,
     MatTreeModule,
   ],
-  exports: [  
+  exports: [
     FormsModule,
     ReactiveFormsModule,
-    
+
+    FileSizePipe,
+    DropZoneDirective,
+
     TextMaskModule,
     NgBrazil,
 

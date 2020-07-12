@@ -5,6 +5,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,10 +18,6 @@ import { ActivityCreateComponent } from './containers/admin-side/activity-create
 import { ActivityEditComponent } from './containers/admin-side/activity-edit/activity-edit.component';
 import { ActivityListComponent } from './containers/admin-side/activity-list/activity-list.component';
 import { ActivityViewComponent } from './containers/admin-side/activity-view/activity-view.component';
-import { SpeakerCreateComponent } from './containers/admin-side/speaker-create/speaker-create.component';
-import { SpeakerEditComponent } from './containers/admin-side/speaker-edit/speaker-edit.component';
-import { SpeakerListComponent } from './containers/admin-side/speaker-list/speaker-list.component';
-import { SpeakerViewComponent } from './containers/admin-side/speaker-view/speaker-view.component';
 import { UserCreateComponent } from './containers/admin-side/user-create/user-create.component';
 import { UserEditComponent } from './containers/admin-side/user-edit/user-edit.component';
 import { UserListComponent } from './containers/admin-side/user-list/user-list.component';
@@ -33,6 +31,9 @@ import { ProfileComponent } from './containers/user-side/profile/profile.compone
 import { ScheduleComponent } from './containers/user-side/schedule/schedule.component';
 import { VerifyEmailComponent } from './containers/verify-email/verify-email.component';
 import { PageTemplateComponent } from './templates/template/template.component';
+import { SpeakersComponent } from './containers/speakers/speakers.component';
+import { SpeakerDetailComponent } from './components/speaker-detail/speaker-detail.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -54,11 +55,10 @@ import { PageTemplateComponent } from './templates/template/template.component';
     ActivityCreateComponent,
     ActivityViewComponent,
     ActivityEditComponent,
-    SpeakerListComponent,
-    SpeakerCreateComponent,
-    SpeakerEditComponent,
-    SpeakerViewComponent,
     FeedComponent,
+    SpeakersComponent,
+    SpeakerDetailComponent,
+    FileUploadComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -68,6 +68,7 @@ import { PageTemplateComponent } from './templates/template/template.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     ImportsModule,
+    FontAwesomeModule,
   ],
   providers: [AuthGuardService, AdminGuardService],
   bootstrap: [AppComponent]

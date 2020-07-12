@@ -1,0 +1,41 @@
+<div class="appDropZone" appDropZone (hovered)="toggleHover($event)" (dropped)="startUpload($event)" [class.hovering]="isHovering" [class.compact]="compact !== undefined && compact !== false && compact !== null">
+  <h3>Arrastar e soltar</h3>
+  <p>Arraste seu arquivo aqui</p>
+  <div class="file">
+    <label class="file-label">
+      <input class="file-input" type="file" (change)="startUpload($event.target.files)" style="display: none;">
+      <span class="file-cta">
+        <span class="file-icon">
+          <i class="fa fa-upload"></i>
+        </span>
+        <span class="file-label" style="cursor: pointer;">
+          ou clique aqui...
+        </span>
+      </span>
+    </label>
+  </div>
+</div>
+
+<div class="mx-auto text-center">
+  <div>
+    <div *ngIf="percentage | async as pct" class="mx-auto text-center">
+      <progress class="progress is-info" [value]="pct" max="100" style="width: 100%"></progress>
+      {{ pct | number }}%
+    </div>
+  </div>
+</div>
+<div *ngIf="(snapshot | async) as snap" class="mx-auto text-center">
+  <div class="mx-auto text-center">
+    {{ snap.bytesTransferred | fileSize }} de {{ snap.totalBytes | fileSize }}
+  </div>
+  <br>
+</div>
+<div *ngIf="downloadURL | async as url" class="d-flex align-items-center justify-content-center my-2">
+  <h4 class="my-0 mr-3">Documento carregado!</h4>
+  <div>
+    <a mat-button color="primary" [href]="url" target="_blank" rel="noopener">
+      <mat-icon class="mr-2">get_app</mat-icon> Baixar Arquivo
+    </a>
+    <input type="hidden" id="urlDocumentCtrl" #urlDocumentCtrl [value]="url">
+  </div>
+</div>

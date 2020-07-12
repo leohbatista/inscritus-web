@@ -1,0 +1,201 @@
+<div class="container py-3 px-4 h-100">
+  <div class="d-flex align-items-center">
+    <h1 class="m-2" style="flex: 1">Palestrantes</h1>
+    <button mat-raised-button color="primary" (click)="isCreateMode = true" *ngIf="user?.isAdmin">
+      <mat-icon>person_add</mat-icon> Novo palestrante
+    </button>
+  </div>
+
+  <mat-divider class="my-2 mb-3"></mat-divider>
+
+  <div class="text-center" *ngIf="isLoading">
+    <mat-spinner diameter="80" class="mx-auto"></mat-spinner>
+  </div>
+
+  <div *ngIf="isCreateMode">
+    <mat-card class="p-3 mx-2 my-4">
+      <h3 style="font-weight: 500;">Novo Palestrante</h3>
+
+      <mat-form-field class="w-100">
+        <input matInput placeholder="Nome" [(ngModel)]="newSpeaker.name" required/>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <input matInput placeholder="Descrição curta" [(ngModel)]="newSpeaker.shortBio" required/>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <textarea matInput placeholder="Descrição completa" mat-autosize matAutosizeMinRows="3" [(ngModel)]="newSpeaker.bio"></textarea>
+      </mat-form-field>
+
+      <div class="row">
+        <div class="col-12 col-lg-6 d-flex align-items-center">
+          <fa-icon [icon]="faEnvelope" class="social-icon"></fa-icon>
+          <mat-form-field class="pl-3" style="flex: 1">
+            <input matInput placeholder="E-mail" [(ngModel)]="newSpeaker.social.email" />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center">
+          <fa-icon [icon]="faFacebookSquare" class="social-icon"></fa-icon>
+          <mat-form-field class="pl-3" style="flex: 1">
+            <input matInput placeholder="Facebook" [(ngModel)]="newSpeaker.social.facebook" />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center">
+          <fa-icon [icon]="faTwitter" class="social-icon"></fa-icon>
+          <mat-form-field class="pl-3" style="flex: 1">
+            <input matInput placeholder="Twitter" [(ngModel)]="newSpeaker.social.twitter" />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center">
+          <fa-icon [icon]="faLinkedin" class="social-icon"></fa-icon>
+          <mat-form-field class="pl-3" style="flex: 1">
+            <input matInput placeholder="LinkedIn" [(ngModel)]="newSpeaker.social.linkedIn" />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center">
+          <fa-icon [icon]="faInstagram" class="social-icon"></fa-icon>
+          <mat-form-field class="pl-3" style="flex: 1">
+            <input matInput placeholder="Instagram" [(ngModel)]="newSpeaker.social.instagram" />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center">
+          <fa-icon [icon]="faGithub" class="social-icon"></fa-icon>
+          <mat-form-field class="pl-3" style="flex: 1">
+            <input matInput placeholder="GitHub" [(ngModel)]="newSpeaker.social.github" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <h3 class="mt-3">Foto do palestrante (recomenda-se usar uma foto quadrada):</h3>
+      <app-file-upload image path="speakers" compact #imageEdit></app-file-upload>
+
+      <div class="text-right">
+        <button mat-raised-button type="button" (click)="cancelSpeaker()" class="mx-2">
+          <mat-icon>clear</mat-icon> Cancelar
+        </button>
+        <button mat-raised-button color="accent" type="button" [disabled]="!isNewSpeakerValid()" (click)="createSpeaker()" class="mx-2">
+          <mat-icon class="mr-2">person_add</mat-icon> Cadastrar
+        </button>
+      </div>
+    </mat-card>
+
+  </div>
+
+  <div *ngIf="!isLoading" class="row">
+    <div class="col-12 p-4 text-center" *ngIf="this.speakers?.length === 0">
+      Ainda não há nenhum palestrante.
+    </div>
+
+    <div class="col-12 col-xl-6 my-2" *ngFor="let speaker of speakers; let i = index">
+      <mat-card  class="p-3">
+        <div class="d-flex flex-column flex-sm-row">
+          <div class="d-flex justify-content-center">
+            <img [src]="speaker.imageUrl || defaultSpeakerImage" class="speaker-badge" [alt]="speaker.name"/>
+          </div>
+
+          <div class="py-3 px-2 py-sm-2 px-sm-3" style="flex: 1;">
+            <div class="d-flex align-items-center">
+              <mat-card-title style="flex: 1;">
+                {{ speaker.name }}
+              </mat-card-title>
+            </div>
+
+            <div *ngIf="!editMode[i]?.enabled" style="white-space: pre-line">
+              {{ speaker.shortBio }}
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-center flex-row flex-sm-column">
+            <div *ngIf="user?.isAdmin" class="mb-2" style="flex: 1">
+              <button mat-button class="action-button"  matTooltip="Editar palestrante" (click)="editMode[i].enabled = true">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-button class="action-button" matTooltip="Excluir palestrante" (click)="deleteSpeaker(speaker.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+
+            <button mat-stroked-button color="primary" type="button" (click)="viewSpeaker(speaker)">
+              Ver mais
+            </button>
+          </div>
+        </div>
+
+        <div [class.d-none]="!editMode[i]?.enabled" class="mt-3">
+          <mat-form-field class="w-100">
+            <input matInput placeholder="Nome" [(ngModel)]="editMode[i]?.data.name" required/>
+          </mat-form-field>
+
+          <mat-form-field class="w-100">
+            <input matInput placeholder="Descrição curta" [(ngModel)]="editMode[i]?.data.shortBio" required/>
+          </mat-form-field>
+
+          <mat-form-field class="w-100">
+            <textarea matInput placeholder="Descrição completa" mat-autosize matAutosizeMinRows="3" [(ngModel)]="editMode[i]?.data.bio"></textarea>
+          </mat-form-field>
+
+          <div class="row">
+            <div class="col-12 col-lg-6 d-flex align-items-center">
+              <fa-icon [icon]="faEnvelope" class="social-icon"></fa-icon>
+              <mat-form-field class="pl-3" style="flex: 1">
+                <input matInput placeholder="E-mail" [(ngModel)]="editMode[i]?.data.social.email" />
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-lg-6 d-flex align-items-center">
+              <fa-icon [icon]="faFacebookSquare" class="social-icon"></fa-icon>
+              <mat-form-field class="pl-3" style="flex: 1">
+                <input matInput placeholder="Facebook" [(ngModel)]="editMode[i]?.data.social.facebook" />
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-lg-6 d-flex align-items-center">
+              <fa-icon [icon]="faTwitter" class="social-icon"></fa-icon>
+              <mat-form-field class="pl-3" style="flex: 1">
+                <input matInput placeholder="Twitter" [(ngModel)]="editMode[i]?.data.social.twitter" />
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-lg-6 d-flex align-items-center">
+              <fa-icon [icon]="faLinkedin" class="social-icon"></fa-icon>
+              <mat-form-field class="pl-3" style="flex: 1">
+                <input matInput placeholder="LinkedIn" [(ngModel)]="editMode[i]?.data.social.linkedIn" />
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-lg-6 d-flex align-items-center">
+              <fa-icon [icon]="faInstagram" class="social-icon"></fa-icon>
+              <mat-form-field class="pl-3" style="flex: 1">
+                <input matInput placeholder="Instagram" [(ngModel)]="editMode[i]?.data.social.instagram" />
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-lg-6 d-flex align-items-center">
+              <fa-icon [icon]="faGithub" class="social-icon"></fa-icon>
+              <mat-form-field class="pl-3" style="flex: 1">
+                <input matInput placeholder="GitHub" [(ngModel)]="editMode[i]?.data.social.github" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <h3 class="mt-3">Foto do palestrante (recomenda-se usar uma foto quadrada):</h3>
+          <div class="text-center"*ngIf="speaker.imageUrl && editMode[i]?.data.imageUrl">
+            <a mat-raised-button color="accent" [href]="speaker.imageUrl" target="_blank">
+              <mat-icon class="mr-2">get_app</mat-icon> Baixar Foto Atual
+            </a>
+            <button mat-button color="accent" (click)="removeImage(i)">
+              <mat-icon class="mr-2">close</mat-icon> Remover Foto
+            </button>
+          </div>
+          <app-file-upload image path="speakers" compact (upload)="editSpeakerImage($event, i)"></app-file-upload>
+
+          <div class="text-right">
+            <button mat-raised-button type="button" (click)="cancelEditSpeaker(i)" class="mx-2">
+              <mat-icon>clear</mat-icon> Cancelar
+            </button>
+            <button mat-raised-button color="accent" type="button" [disabled]="!isEditSpeakerValid(editMode[i].data)" (click)="saveSpeaker(speaker.id, i)" class="mx-2">
+              <mat-icon>save</mat-icon> Salvar
+            </button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+</div>

@@ -40,6 +40,12 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
       icon: 'web',
     },
     {
+      text: 'Palestrantes',
+      link: '/palestrantes',
+      linkType: LinkType.route,
+      icon: 'record_voice_over',
+    },
+    {
       text: 'Cronograma',
       link: '/cronograma',
       linkType: LinkType.route,
@@ -59,12 +65,6 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
       link: '/admin/atividades',
       linkType: LinkType.route,
       icon: 'web',
-    },
-    {
-      text: 'Palestrantes',
-      link: '/admin/palestrantes',
-      linkType: LinkType.route,
-      icon: 'record_voice_over',
     },
     {
       text: 'Feedbacks',
