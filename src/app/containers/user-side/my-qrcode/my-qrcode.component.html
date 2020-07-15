@@ -12,7 +12,9 @@
   <div *ngIf="!isLoading" class="text-center">
     <p>Apresente o código abaixo para registrar sua presença nas atividades:</p>
 
-    <qrcode [qrdata]="user.uid" [width]="300" [errorCorrectionLevel]="'M'" [elementType]="'svg'" class="mx-auto"></qrcode>
+    <div>
+      <qrcode [qrdata]="user.uid" [width]="mobileQuery.matches ? 200: 300" [errorCorrectionLevel]="'M'" [elementType]="'svg'" class="mx-auto"></qrcode>
+    </div>
 
     <p class="text-center mt-4 user-label">
       {{ user.name | uppercase }}
