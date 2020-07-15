@@ -32,6 +32,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@types/lodash": "^4.14.157",
     "angular2-text-mask": "^9.0.0",
+    "angularx-qrcode": "~2.3.4",
     "firebase": "^7.14.0",
     "font-awesome": "^4.7.0",
     "js-brasil": "^2.1.0",

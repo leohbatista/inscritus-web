@@ -56,6 +56,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgBrazil } from 'ng-brazil'
 import { TextMaskModule } from 'angular2-text-mask';
+import { QRCodeModule } from 'angularx-qrcode';
+
 import { FileSizePipe } from './file-size.pipe';
 import { DropZoneDirective } from './drop-zone.directive';
 
@@ -68,6 +70,7 @@ import { DropZoneDirective } from './drop-zone.directive';
 
     TextMaskModule,
     NgBrazil,
+    QRCodeModule,
 
     A11yModule,
     BidiModule,
@@ -129,6 +132,7 @@ import { DropZoneDirective } from './drop-zone.directive';
 
     TextMaskModule,
     NgBrazil,
+    QRCodeModule,
 
     A11yModule,
     BidiModule,

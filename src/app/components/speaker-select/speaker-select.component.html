@@ -1,0 +1,49 @@
+<div mat-dialog-title class="d-flex align-items-center mb-2">
+
+  <div style="flex: 1;">
+    <h2 class="mb-1">Selecionar palestrante</h2>
+  </div>
+
+  <button mat-icon-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-divider class="mt-0 mb-3"></mat-divider>
+
+<div mat-dialog-content style="overflow: visible;">
+  <div class="d-flex align-items-center">
+    <mat-form-field style="flex: 1;" class="mr-2">
+      <mat-label>Buscar palestrantes</mat-label>
+      <input matInput type='text' name='searchValue' [(ngModel)]="searchValue" placeholder="Buscar palestrantes" (keydown.enter)="searchSpeakers()" [disabled]="isLoading" />
+    </mat-form-field>
+
+    <button mat-button (click)="searchSpeakers()" [disabled]="isLoading">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+
+  <div class="text-center" *ngIf="isLoading">
+    <mat-spinner diameter="50" class="mx-auto"></mat-spinner>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <mat-card class="my-1" *ngFor="let speaker of filteredSpeakers">
+      <div class="d-flex flex-row">
+        <div class="d-flex justify-content-center">
+          <img [src]="speaker.imageUrl || defaultSpeakerImage" class="speaker-badge" [alt]="speaker.name"/>
+        </div>
+
+        <div class="py-3 px-2 py-sm-2 px-sm-3 d-flex align-items-center" style="flex: 1; font-size: 1.2em; font-weight: 500;">
+          {{ speaker.name }}
+        </div>
+
+        <div class="d-flex align-items-center">
+          <button mat-raised-button (click)="onSelect(speaker)" [disabled]="isLoading">
+            Selecionar
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

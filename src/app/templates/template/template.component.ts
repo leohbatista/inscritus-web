@@ -34,6 +34,12 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
       icon: 'dynamic_feed',
     },
     {
+      text: 'Meu QRCode',
+      link: '/qrcode',
+      linkType: LinkType.route,
+      icon: 'qr_code',
+    },
+    {
       text: 'Minhas Atividades',
       link: '/atividades',
       linkType: LinkType.route,

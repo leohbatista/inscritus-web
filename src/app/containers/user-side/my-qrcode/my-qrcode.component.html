@@ -1,0 +1,21 @@
+<div class="container-fluid py-3 px-4">
+  <div class="d-flex align-items-center">
+    <h1 class="m-2" style="flex: 1">Meu QRCode</h1>
+  </div>
+
+  <mat-divider class="my-2 mb-3"></mat-divider>
+
+  <div *ngIf="isLoading" class="my-6 text-center">
+    <mat-spinner [diameter]="60" color="accent" class='d-inline-block mx-3'></mat-spinner>
+  </div>
+
+  <div *ngIf="!isLoading" class="text-center">
+    <p>Apresente o código abaixo para registrar sua presença nas atividades:</p>
+
+    <qrcode [qrdata]="user.uid" [width]="300" [errorCorrectionLevel]="'M'" [elementType]="'svg'" class="mx-auto"></qrcode>
+
+    <p class="text-center mt-4 user-label">
+      {{ user.name | uppercase }}
+    </p>
+  </div>
+</div>

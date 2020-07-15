@@ -34,6 +34,10 @@ import { PageTemplateComponent } from './templates/template/template.component';
 import { SpeakersComponent } from './containers/speakers/speakers.component';
 import { SpeakerDetailComponent } from './components/speaker-detail/speaker-detail.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { SpeakerSelectComponent } from './components/speaker-select/speaker-select.component';
+import { AuxiliaryDataComponent } from './containers/admin-side/auxiliary-data/auxiliary-data.component';
+import { ActivityTypesComponent } from './containers/admin-side/activity-types/activity-types.component';
+import { MyQrcodeComponent } from './containers/user-side/my-qrcode/my-qrcode.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,10 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
     SpeakersComponent,
     SpeakerDetailComponent,
     FileUploadComponent,
+    SpeakerSelectComponent,
+    AuxiliaryDataComponent,
+    ActivityTypesComponent,
+    MyQrcodeComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),

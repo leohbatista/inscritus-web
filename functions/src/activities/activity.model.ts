@@ -1,14 +1,18 @@
+import { firestore } from "firebase-admin";
+
 export interface Activity {
-  aid?: string;
+  id?: string;
   description?: string;
   endDate?: string;
   endTime?: string;
+  lastUpdate: firestore.Timestamp;
   location?: string;
   maxCapacity?: number;
   name?: string;
   preRegistration?: boolean;
   registrationDate?: string;
   registrationTime?: string;
+  speakers?: string[];
   startDate?: string;
   startTime?: string;
   type?: string;

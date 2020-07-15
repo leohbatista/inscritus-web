@@ -94,7 +94,7 @@ export class SpeakersComponent implements OnInit, OnDestroy {
       maxWidth: '600px',
       data: {
         alertTitle: 'Confirmar cadastro',
-        alertDescription: 'Deseja realmente cadastrado este palestrante?',
+        alertDescription: 'Deseja realmente cadastrar este palestrante?',
       }
     }).afterClosed().subscribe(result => {
       if (result) {

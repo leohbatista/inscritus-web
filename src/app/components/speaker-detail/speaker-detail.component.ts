@@ -1,5 +1,5 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookSquare, faGithub, faInstagram, faLinkedin, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { Speaker } from 'functions/src/speakers/speaker.model';

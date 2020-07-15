@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from 'src/app/components/alert-dialog/alert-dialog.component';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgBrazilValidators, MASKS } from 'ng-brazil';
 import { User } from 'functions/src/users/user.model';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -28,21 +27,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private dialog: MatDialog,
-    private router: Router,
     private formBuilder: FormBuilder,
     private angularFireAuth: AngularFireAuth,
   ) { }
 
   ngOnInit(): void {
     const passwordMatchValidator = (formGroup: FormGroup): void => {
-      const error = formGroup.get('newPasswordCtrl').value === formGroup.get('confirmCtrl').value ? null : { 'mismatch': true };
+      const error = formGroup.get('newPasswordCtrl').value === formGroup.get('confirmCtrl').value ? null : { mismatch: true };
       formGroup.get('confirmCtrl').setErrors(error);
-    } 
+    };
 
     const newPasswordLengthValidator = (formGroup: FormGroup): void => {
-      const error = formGroup.get('newPasswordCtrl').value !== '' && formGroup.get('newPasswordCtrl').value.length < 6 ? { 'minlength': true } : null;
+      const error = formGroup.get('newPasswordCtrl').value !== '' &&
+        formGroup.get('newPasswordCtrl').value.length < 6 ? { minlength: true } : null;
       formGroup.get('newPasswordCtrl').setErrors(error);
-    } 
+    };
 
     this.editUserFormGroup = this.formBuilder.group({
       nameCtrl: new FormControl('', [Validators.required]),
@@ -54,12 +53,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
       confirmCtrl: new FormControl('', []),
     }, { validators: [passwordMatchValidator, newPasswordLengthValidator] });
 
-    this.userSubscription = this.authService.user.subscribe(user => {      
+    this.userSubscription = this.authService.user.subscribe(user => {
       this.user = user;
       this.fillUserData();
       this.isLoading = false;
-    })
-    
+    });
+
   }
 
   ngOnDestroy(): void {
@@ -79,10 +78,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
           alertDescription: 'Um e-mail de confirmação foi enviado. Verifique sua caixa de entrada',
           isOnlyConfirm: true
         }
-      })
+      });
     }).catch(err => {
       console.error('Error resending e-mail verification', err);
-      
+
       this.dialog.open(AlertDialogComponent, {
         maxWidth: '600px',
         data: {
@@ -90,25 +89,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
           alertDescription: 'Ocorreu um erro ao enviar ao e-mail de confirmação. Tente novamente.',
           isOnlyConfirm: true
         }
-      })
+      });
     });
   }
 
   async editUser(): Promise<void> {
     this.isProcessing = true;
 
-    if(this.editUserFormGroup.valid) {  
+    if (this.editUserFormGroup.valid) {
       this.angularFireAuth.signInWithEmailAndPassword(
         this.editUserFormGroup.get('emailCtrl').value,
         this.editUserFormGroup.get('passwordCtrl').value
       ).then(() => {
         console.log('Signed in');
-        
+
         const changedPassword = this.editUserFormGroup.get('newPasswordCtrl').value && this.editUserFormGroup.get('confirmCtrl').value;
-        
-        if(this.hasChangedFieldValues() && changedPassword) {
+
+        if (this.hasChangedFieldValues() && changedPassword) {
           console.log('Changed data and password');
-          
+
           this.saveData().then(() => {
             console.log('Data successfully saved');
 
@@ -160,7 +159,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
             this.isProcessing = false;
           });
-        } else if(this.hasChangedFieldValues()) {
+        } else if (this.hasChangedFieldValues()) {
           console.log('Changed only data');
 
           this.saveData().then(() => {
@@ -195,9 +194,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.isProcessing = false;
           });
 
-        } else if(changedPassword) {
+        } else if (changedPassword) {
           console.log('Changed only password');
-          
+
           this.savePassword().then(() => {
             console.log('Password successfully changed');
 
@@ -235,7 +234,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
         this.resetFields();
 
-        if(err.code = 'auth/wrong-password') {
+        if (err.code = 'auth/wrong-password') {
           this.dialog.open(AlertDialogComponent, {
             maxWidth: '600px',
             data: {
@@ -257,7 +256,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
         this.isProcessing = false;
       });
-      
+
     }
   }
 
@@ -265,7 +264,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.editUserFormGroup.get('passwordCtrl').reset();
     this.editUserFormGroup.get('passwordCtrl').setErrors(null);
     this.editUserFormGroup.get('passwordCtrl').markAsUntouched();
-    
+
     this.editUserFormGroup.get('newPasswordCtrl').setValue('');
     this.editUserFormGroup.get('newPasswordCtrl').setErrors(null);
     this.editUserFormGroup.get('newPasswordCtrl').markAsUntouched();
@@ -274,7 +273,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.editUserFormGroup.get('confirmCtrl').setErrors(null);
     this.editUserFormGroup.get('confirmCtrl').markAsUntouched();
   }
-  
+
   fillUserData(): void {
     this.editUserFormGroup.get('nameCtrl').setValue(this.user?.name || '');
     this.editUserFormGroup.get('emailCtrl').setValue(this.user?.email || '');
@@ -286,28 +285,28 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   hasChangedFieldValues(): boolean {
-    if(
+    if (
       this.user.name !== this.editUserFormGroup.get('nameCtrl').value.trim().toUpperCase() ||
       this.user.phone !== this.editUserFormGroup.get('phoneCtrl').value ||
       this.user.cpf !== this.editUserFormGroup.get('cpfCtrl').value
-    ) { return true };
+    ) { return true; }
     return false;
   }
 
   shouldButtonDisable(): boolean {
-    const changedPassword = this.editUserFormGroup.get('newPasswordCtrl').value && this.editUserFormGroup.get('confirmCtrl').value;    
+    const changedPassword = this.editUserFormGroup.get('newPasswordCtrl').value && this.editUserFormGroup.get('confirmCtrl').value;
     return !((this.hasChangedFieldValues() || changedPassword) && this.editUserFormGroup.get('passwordCtrl').value);
   }
 
-  saveData(): Promise<void> {    
+  saveData(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.authService.editUser({
-        uid: this.user.uid, 
+        uid: this.user.uid,
         name: this.editUserFormGroup.get('nameCtrl').value.trim().toUpperCase(),
         phone: this.editUserFormGroup.get('phoneCtrl').value,
         cpf: this.editUserFormGroup.get('cpfCtrl').value || ''
       }).then(res => resolve(res)).catch(err => {
-        reject(err)
+        reject(err);
       });
     });
   }
@@ -317,7 +316,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       try {
         const user = await this.angularFireAuth.currentUser;
         user.updatePassword(this.editUserFormGroup.get('newPasswordCtrl').value).then((res) => resolve(res)).catch(err => reject(err));
-      } catch(err) {
+      } catch (err) {
         reject(err);
       }
     });
