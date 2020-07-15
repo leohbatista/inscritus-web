@@ -23,39 +23,54 @@
     <hr class="my-3"/>
 
     <div class="row px-3 py-2">
-      <div class="col-12 col-md-6">
-        <p>
-          <strong>Nome: </strong>{{ user.name }}
-        </p>
-        <p>
-          <strong>E-mail: </strong>{{ user.email }}
-        </p>
-        <p>
-          <strong>Telefone: </strong>{{ user.phone }}
-        </p>
-        <p>
-          <strong>CPF: </strong>{{ user.cpf }}
-        </p>        
+      <div class="col-12 col-lg-6 col-xl-8 d-flex align-items-center">
+        <div class="row">
+          <div class="col-12 col-xl-6 d-flex align-items-center">
+              <div>
+              <p>
+                <strong>Nome: </strong>{{ user.name }}
+              </p>
+              <p>
+                <strong>E-mail: </strong>{{ user.email }}
+              </p>
+              <p>
+                <strong>Telefone: </strong>{{ user.phone }}
+              </p>
+              <p>
+                <strong>CPF: </strong>{{ user.cpf }}
+              </p>
+            </div>
+          </div>
+
+          <div class="col-12 col-xl-6 d-flex align-items-center">
+            <div>
+              <p>
+                <strong>Criado em: </strong>{{ user.createdAt?.toDate()?.toLocaleString() }}
+              </p>
+              <p>
+                <strong>E-mail confirmado? </strong>{{ user.emailVerified ? 'Sim' : 'Não' }}
+              </p>
+              <p>
+                <strong>Usuário Ativo? </strong>{{ user.isActive ? 'Sim' : 'Não' }}
+              </p>
+              <p class="d-flex align-items-center">
+                <strong>Tipo: </strong>
+                <mat-chip-list aria-label="User type label" class="ml-3">
+                  <mat-chip class="my-2" color="accent" *ngIf="user.isAdmin" selected>Admin</mat-chip>
+                  <mat-chip class="my-2" *ngIf="!user.isAdmin">Participante</mat-chip>
+                </mat-chip-list>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="col-12 col-md-6">
-        <p>
-          <strong>Criado em: </strong>{{ user.createdAt?.toDate()?.toLocaleString() }}
-        </p>
-        <p>
-          <strong>E-mail confirmado? </strong>{{ user.emailVerified ? 'Sim' : 'Não' }}
-        </p>
-        <p>
-          <strong>Usuário Ativo? </strong>{{ user.isActive ? 'Sim' : 'Não' }}
-        </p>
-        <p class="d-flex align-items-center">
-          <strong>Tipo: </strong>
-          <mat-chip-list aria-label="User type label" class="ml-3">
-            <mat-chip class="my-2" color="accent" *ngIf="user.isAdmin" selected>Admin</mat-chip>
-            <mat-chip class="my-2" *ngIf="!user.isAdmin">Participante</mat-chip>
-          </mat-chip-list>
-        </p>
+      <div class="col-12 col-lg-6 col-xl-4 d-flex align-items-center justify-content-center">
+        <div>
+          <qrcode [qrdata]="user.uid" [width]="220" [errorCorrectionLevel]="'M'" [elementType]="'svg'" class="mx-auto"></qrcode>
+        </div>
       </div>
+
     </div>
   </mat-card>
 
