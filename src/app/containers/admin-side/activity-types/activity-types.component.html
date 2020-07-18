@@ -1,1 +1,87 @@
-<p>activity-types works!</p>
+<div class="container py-3 px-4 h-100">
+  <div class="d-flex align-items-center">
+    <h1 class="m-2" style="flex: 1">Tipos de Atividade</h1>
+    <button mat-raised-button color="primary" (click)="isCreateMode = true">
+      <mat-icon>add</mat-icon> Novo Tipo
+    </button>
+  </div>
+
+  <mat-divider class="my-2 mb-3"></mat-divider>
+
+  <div class="text-center" *ngIf="isLoading">
+    <mat-spinner diameter="80" class="mx-auto"></mat-spinner>
+  </div>
+
+  <div *ngIf="isCreateMode">
+    <mat-card class="p-3 mx-2 my-4">
+      <h3 style="font-weight: 500;">Novo Tipo de Atividade</h3>
+
+      <mat-form-field class="w-100">
+        <input matInput placeholder="Título" [(ngModel)]="newType.name"/>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+        <textarea matInput placeholder="Mensagem" mat-autosize matAutosizeMinRows="3" [(ngModel)]="newType.description" required></textarea>
+      </mat-form-field>
+
+      <div class="text-right">
+        <button mat-raised-button type="button" (click)="cancelCreateType()" class="mx-2">
+          <mat-icon>clear</mat-icon> Cancelar
+        </button>
+        <button mat-raised-button color="accent" type="button" [disabled]="!newType.description" (click)="createType()" class="mx-2">
+          <mat-icon class="mr-2">save</mat-icon> Criar
+        </button>
+      </div>
+    </mat-card>
+
+  </div>
+
+  <div *ngIf="!isLoading">
+    <p class="p-4 m-3 text-center" *ngIf="this.types?.length === 0">
+      Ainda não há nenhum aviso.
+    </p>
+
+    <mat-card *ngFor="let type of types; let i = index" class="p-3 m-2">
+      <div class="d-flex align-items-center">
+        <mat-card-title style="flex: 1;">
+          {{ type.name }}
+        </mat-card-title>
+
+        <div>
+          <button mat-button class="action-button"  matTooltip="Editar tipo" (click)="editMode[i].enabled = true">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-button class="action-button" matTooltip="Excluir tipo" (click)="deleteType(type.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+
+
+      <div *ngIf="!editMode[i]?.enabled" style="white-space: pre-line">
+        {{ type.description }}
+      </div>
+
+      <div *ngIf="editMode[i]?.enabled">
+        <mat-form-field class="w-100">
+          <input matInput placeholder="Nome" [(ngModel)]="editMode[i].data.name"/>
+        </mat-form-field>
+
+        <mat-form-field class="w-100">
+          <textarea matInput placeholder="Descrição" mat-autosize matAutosizeMinRows="3" [(ngModel)]="editMode[i].data.description" required></textarea>
+        </mat-form-field>
+
+        <div class="text-right">
+          <button mat-raised-button type="button" (click)="cancelEditType(i)" class="mx-2">
+            <mat-icon>clear</mat-icon> Cancelar
+          </button>
+          <button mat-raised-button color="accent" type="button" [disabled]="!editMode[i].data.description" (click)="saveType(type.id, i)" class="mx-2">
+            <mat-icon>save</mat-icon> Salvar
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+
+</div>

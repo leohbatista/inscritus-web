@@ -23,6 +23,7 @@ import { UserEditComponent } from './containers/admin-side/user-edit/user-edit.c
 import { UserListComponent } from './containers/admin-side/user-list/user-list.component';
 import { UserViewComponent } from './containers/admin-side/user-view/user-view.component';
 import { AuxiliaryDataComponent } from './containers/admin-side/auxiliary-data/auxiliary-data.component';
+import { ActivityTypesComponent } from './containers/admin-side/activity-types/activity-types.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -51,7 +52,7 @@ const routes: Routes = [
     { path: 'feedbacks', component: HomeComponent, canActivate: [AdminGuardService] },
     { path: 'cadastros-auxiliares', children: [
       { path: '', pathMatch: 'full', component: AuxiliaryDataComponent, canActivate: [AdminGuardService] },
-      { path: 'tipos-atividades', component: AuxiliaryDataComponent, canActivate: [AdminGuardService] },
+      { path: 'tipos-atividades', component: ActivityTypesComponent, canActivate: [AdminGuardService] },
       { path: 'locais', component: AuxiliaryDataComponent, canActivate: [AdminGuardService] },
     ]},
     { path: '**', redirectTo: '' },

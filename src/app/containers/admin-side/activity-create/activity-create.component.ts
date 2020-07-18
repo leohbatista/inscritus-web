@@ -68,7 +68,7 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
     });
 
     this.activityTypesSubscription = this.activitiesAdmin.getActivityTypes().subscribe(types => {
-      this.types = types;
+      this.types = _.sortBy(types, ['name']);
     });
 
     this.locationsSubscription = this.locationsService.getLocations().subscribe(locations => {

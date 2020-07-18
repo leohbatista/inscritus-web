@@ -30,7 +30,7 @@ export class FeedService {
     });
   }
 
-  deletePost(postId): Promise<void> {
+  deletePost(postId: string): Promise<void> {
     return new Promise((resolve, reject) => {
       this.angularFirestore.collection('feed').doc(postId).delete().then(() => {
         resolve();
