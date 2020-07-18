@@ -128,11 +128,23 @@ export class SpeakersComponent implements OnInit, OnDestroy {
   }
 
   clearNewSpeaker(): void {
-    this.newSpeaker.name = '';
-    this.newSpeaker.shortBio = '';
+    this.newSpeaker = {
+      bio: '',
+      imageUrl: '',
+      name: '',
+      shortBio: '',
+      social: {
+        email: '',
+        facebook: '',
+        github: '',
+        instagram: '',
+        linkedIn: '',
+        twitter: '',
+      }
+    }
   }
 
-  deleteSpeaker(postId): void {
+  deleteSpeaker(speakerId): void {
     const confirmSubscription = this.dialog.open(AlertDialogComponent, {
       maxWidth: '600px',
       data: {
@@ -141,7 +153,7 @@ export class SpeakersComponent implements OnInit, OnDestroy {
       }
     }).afterClosed().subscribe(result => {
       if (result) {
-        this.speakersService.deleteSpeaker(postId).then(() => {
+        this.speakersService.deleteSpeaker(speakerId).then(() => {
           this.snackbar.open('Palestrante excluído!', null, {
             duration: 2000,
           });
@@ -229,10 +241,6 @@ export class SpeakersComponent implements OnInit, OnDestroy {
   }
 
   removeImage(i) {
-    console.log(this.speakers[i], this.editMode[i]);
-
     this.editMode[i].data.imageUrl = '';
-
-    console.log(this.speakers[i], this.editMode[i]);
   }
 }

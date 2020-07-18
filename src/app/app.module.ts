@@ -38,6 +38,7 @@ import { SpeakerSelectComponent } from './components/speaker-select/speaker-sele
 import { AuxiliaryDataComponent } from './containers/admin-side/auxiliary-data/auxiliary-data.component';
 import { ActivityTypesComponent } from './containers/admin-side/activity-types/activity-types.component';
 import { MyQrcodeComponent } from './containers/user-side/my-qrcode/my-qrcode.component';
+import { LocationsComponent } from './containers/admin-side/locations/locations.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { MyQrcodeComponent } from './containers/user-side/my-qrcode/my-qrcode.co
     AuxiliaryDataComponent,
     ActivityTypesComponent,
     MyQrcodeComponent,
+    LocationsComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),

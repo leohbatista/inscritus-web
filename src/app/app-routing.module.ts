@@ -24,6 +24,7 @@ import { UserListComponent } from './containers/admin-side/user-list/user-list.c
 import { UserViewComponent } from './containers/admin-side/user-view/user-view.component';
 import { AuxiliaryDataComponent } from './containers/admin-side/auxiliary-data/auxiliary-data.component';
 import { ActivityTypesComponent } from './containers/admin-side/activity-types/activity-types.component';
+import { LocationsComponent } from './containers/admin-side/locations/locations.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -53,7 +54,7 @@ const routes: Routes = [
     { path: 'cadastros-auxiliares', children: [
       { path: '', pathMatch: 'full', component: AuxiliaryDataComponent, canActivate: [AdminGuardService] },
       { path: 'tipos-atividades', component: ActivityTypesComponent, canActivate: [AdminGuardService] },
-      { path: 'locais', component: AuxiliaryDataComponent, canActivate: [AdminGuardService] },
+      { path: 'locais', component: LocationsComponent, canActivate: [AdminGuardService] },
     ]},
     { path: '**', redirectTo: '' },
   ]},

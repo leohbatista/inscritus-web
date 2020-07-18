@@ -54,6 +54,10 @@ export class SpeakersService {
     });
   }
 
+  getSpeaker(id: string): Observable<Speaker> {
+    return this.angularFirestore.collection('speakers').doc(id).valueChanges();
+  }
+
   getSpeakers(): Observable<Speaker[]> {
     return this.angularFirestore.collection('speakers').valueChanges();
   }
