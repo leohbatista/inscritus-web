@@ -15,7 +15,7 @@ import { AlertDialogComponent } from 'src/app/components/alert-dialog/alert-dial
 })
 export class SignupComponent implements OnInit {
   public MASKS = MASKS;
-  
+
   termsOfService = AppInfo.termsOfServiceLink;
   privacyPolicy = AppInfo.privacyPolicyLink;
 
@@ -28,11 +28,11 @@ export class SignupComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     const passwordMatchValidator = (formGroup: FormGroup): void => {
       const error = formGroup.get('passwordCtrl').value === formGroup.get('confirmCtrl').value ? null : { 'mismatch': true };
       formGroup.get('confirmCtrl').setErrors(error);
-    } 
+    }
 
     this.createUserFormGroup = this.formBuilder.group({
       nameCtrl: new FormControl('', [Validators.required]),

@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ActivityType, Activity } from 'functions/src/activities/activity.model';
+import { firestore } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -15,20 +16,29 @@ export class AdminActivitiesService {
   ) { }
 
   // Activities
-  createActivity(activity: Activity, /* speakers?: Speaker[] */) {
+  createActivity(activity: Activity) {
     return new Promise((resolve, reject) => {
       const activityId = this.angularFirestore.createId();
       this.angularFirestore.collection('activities').doc(activityId).set({
         ...activity,
-        aid: activityId,
+        id: activityId,
+        lastUpdate: firestore.Timestamp.now()
       }, { merge: true }).then(() => {
         console.error('Activity was saved');
         resolve();
       }).catch(err => {
         console.error('Error saving activity', err);
         reject(err);
-      })
-    })
+      });
+    });
+  }
+
+  getActivity(id: string): Observable<ActivityType> {
+    return this.angularFirestore.collection('activities').doc(id).valueChanges();
+  }
+
+  getActivities(): Observable<ActivityType[]> {
+    return this.angularFirestore.collection('activities').valueChanges();
   }
 
   // Activity Types

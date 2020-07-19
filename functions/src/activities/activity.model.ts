@@ -5,7 +5,7 @@ export interface Activity {
   description?: string;
   endDate?: string;
   endTime?: string;
-  lastUpdate: firestore.Timestamp;
+  lastUpdate?: firestore.Timestamp;
   location?: string;
   maxCapacity?: number;
   name?: string;

@@ -74,6 +74,9 @@
                 <input matInput [matDatepicker]="startPicker" formControlName="startDateCtrl">
                 <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
                 <mat-datepicker #startPicker></mat-datepicker>
+                <mat-error *ngIf="createActivityFormGroup.controls.startDateCtrl.hasError('customReq')">
+                  Data de início necessária
+                </mat-error>
               </mat-form-field>
             </div>
 
@@ -81,6 +84,9 @@
               <mat-form-field class="w-100 mt-2" color="primary">
                 <mat-label>Horário de início</mat-label>
                 <input matInput type="time" formControlName="startTimeCtrl">
+                <mat-error *ngIf="createActivityFormGroup.controls.startTimeCtrl.hasError('customReq')">
+                  Horário de início necessário
+                </mat-error>
               </mat-form-field>
             </div>
 
@@ -90,6 +96,12 @@
                 <input matInput [matDatepicker]="endPicker" formControlName="endDateCtrl">
                 <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
                 <mat-datepicker #endPicker></mat-datepicker>
+                <mat-error *ngIf="createActivityFormGroup.controls.endDateCtrl.hasError('customReq')">
+                  Data de fim necessária
+                </mat-error>
+                <mat-error *ngIf="createActivityFormGroup.controls.endDateCtrl.hasError('endDate')">
+                  Data de fim antes da data de início
+                </mat-error>
               </mat-form-field>
             </div>
 
@@ -97,6 +109,12 @@
               <mat-form-field class="w-100 mt-2" color="primary">
                 <mat-label>Horário de fim</mat-label>
                 <input matInput type="time" formControlName="endTimeCtrl">
+                <mat-error *ngIf="createActivityFormGroup.controls.endTimeCtrl.hasError('customReq')">
+                  Horário de fim necessário
+                </mat-error>
+                <mat-error *ngIf="createActivityFormGroup.controls.endTimeCtrl.hasError('endTime')">
+                  Horário de fim antes do horário de início
+                </mat-error>
               </mat-form-field>
             </div>
 
@@ -125,6 +143,9 @@
                 <input matInput [matDatepicker]="registrationPicker" formControlName="registrationDateCtrl">
                 <mat-datepicker-toggle matSuffix [for]="registrationPicker"></mat-datepicker-toggle>
                 <mat-datepicker #registrationPicker></mat-datepicker>
+                <mat-error *ngIf="createActivityFormGroup.controls.registrationDateCtrl.hasError('customReq')">
+                  Data de abertura de inscrição necessária
+                </mat-error>
               </mat-form-field>
             </div>
 
@@ -132,10 +153,13 @@
               <mat-form-field class="w-100 mt-2" color="primary">
                 <mat-label>Horário de abertura da inscrição</mat-label>
                 <input matInput type="time" formControlName="registrationTimeCtrl">
+                <mat-error *ngIf="createActivityFormGroup.controls.registrationTimeCtrl.hasError('customReq')">
+                  Horário de abertura de inscrição necessário
+                </mat-error>
               </mat-form-field>
             </div>
 
-            <div class="col-12 colored-box">
+            <div class="col-12 colored-box mt-2">
               <div class="d-flex align-items-center">
                 <h3 class="d-flex align-items-center m-0" style="flex: 1;">Palestrantes</h3>
                 <button type="button" mat-icon-button color="primary" (click)="addSpeaker()">

@@ -15,7 +15,7 @@ import { AdminActivitiesService } from 'src/app/services/admin-activities.servic
 import { LocationsService } from 'src/app/services/locations.service';
 import { AlertDialogComponent } from 'src/app/components/alert-dialog/alert-dialog.component';
 import { SpeakerSelectComponent } from 'src/app/components/speaker-select/speaker-select.component';
-import { ActivityType } from 'functions/src/activities/activity.model';
+import { ActivityType, Activity } from 'functions/src/activities/activity.model';
 import { Location } from 'functions/src/locations/location.model';
 
 @Component({
@@ -65,7 +65,7 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
       maxCapacityCtrl: new FormControl(),
       preRegistrationCtrl: new FormControl(false),
       visibleCtrl: new FormControl(true),
-    });
+    }, { validators: this.dateValidator });
 
     this.activityTypesSubscription = this.activitiesAdmin.getActivityTypes().subscribe(types => {
       this.types = _.sortBy(types, ['name']);
@@ -82,8 +82,6 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
   }
 
   createActivity(): void {
-    console.log(this.createActivityFormGroup.controls);
-
     const confirmSubscription = this.dialog.open(AlertDialogComponent, {
       maxWidth: '600px',
       data: {
@@ -92,30 +90,52 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
       }
     }).afterClosed().subscribe(result => {
       if (result) {
-        // const activity = {
-        //   ...this.newSpeaker,
-        //   imageUrl: this.fileUploader.getDocumentUrl()
-        // };
+        console.log(this.createActivityFormGroup);
 
-        // this.activitiesAdmin.createActivity(activity).then(() => {
-        //   this.isCreateMode = false;
-        //   this.clearNewSpeaker();
-        //   this.snackbar.open('Atividade cadastrada!', null, {
-        //     duration: 2000,
-        //   });
-        //   this.router.navigate(['/admin/atividades'])
-        // }).catch(err => {
-        //   console.error('Error creating activity', err);
+        const activity: Activity = {
+          description: this.createActivityFormGroup.get('descriptionCtrl').value,
+          location: this.createActivityFormGroup.get('locationCtrl').value || null,
+          maxCapacity: this.createActivityFormGroup.get('maxCapacityCtrl').value,
+          name: this.createActivityFormGroup.get('nameCtrl').value,
+          preRegistration: !!this.createActivityFormGroup.get('preRegistrationCtrl').value,
+          speakers: this.speakers.map(s => s.id),
+          type: this.createActivityFormGroup.get('typeCtrl').value,
+          visible: !!this.createActivityFormGroup.get('visibleCtrl').value,
+        };
 
-        //   this.dialog.open(AlertDialogComponent, {
-        //     maxWidth: '600px',
-        //     data: {
-        //       alertTitle: 'Erro ao cadastrar',
-        //       alertDescription: 'Não foi possível cadastrar a atividade. Tente novamente mais tarde.',
-        //       isOnlyConfirm: true,
-        //     }
-        //   });
-        // });
+        if (this.createActivityFormGroup.get('startDateCtrl').value) {
+          activity.startTime = this.createActivityFormGroup.get('startTimeCtrl').value || null;
+          activity.startDate = this.createActivityFormGroup.get('startDateCtrl').value?.format('YYYY-MM-DD');
+        }
+
+        if (this.createActivityFormGroup.get('endDateCtrl').value) {
+          activity.endTime = this.createActivityFormGroup.get('endTimeCtrl').value || null;
+          activity.endDate = this.createActivityFormGroup.get('endDateCtrl').value?.format('YYYY-MM-DD');
+        }
+
+        if (this.createActivityFormGroup.get('registrationDateCtrl').value) {
+          activity.registrationTime = this.createActivityFormGroup.get('registrationTimeCtrl').value || null;
+          activity.registrationDate = this.createActivityFormGroup.get('registrationDateCtrl').value?.format('YYYY-MM-DD');
+        }
+        console.log(activity);
+
+        this.activitiesAdmin.createActivity(activity).then(() => {
+          this.snackbar.open('Atividade cadastrada!', null, {
+            duration: 2000,
+          });
+          this.router.navigate(['/admin/atividades']);
+        }).catch(err => {
+          console.error('Error creating activity', err);
+
+          this.dialog.open(AlertDialogComponent, {
+            maxWidth: '600px',
+            data: {
+              alertTitle: 'Erro ao cadastrar',
+              alertDescription: 'Não foi possível cadastrar a atividade. Tente novamente mais tarde.',
+              isOnlyConfirm: true,
+            }
+          });
+        });
       }
 
       if (confirmSubscription) { confirmSubscription.unsubscribe(); }
@@ -149,5 +169,83 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
 
       if (selectSubscription) { selectSubscription.unsubscribe(); }
     });
+  }
+
+
+
+  // Validators
+  dateValidator(formGroup: FormGroup): void {
+    // Start Date
+    if (!formGroup.get('startDateCtrl').value && (formGroup.get('startTimeCtrl').value || formGroup.get('endDateCtrl').value)) {
+      formGroup.get('startDateCtrl').setErrors({ customReq: true });
+    } else {
+      formGroup.get('startDateCtrl').setErrors(null);
+    }
+
+    // End Date
+    if (!formGroup.get('endDateCtrl').value && formGroup.get('endTimeCtrl').value) {
+      formGroup.get('endDateCtrl').setErrors({ customReq: true });
+    } else {
+      formGroup.get('endDateCtrl').setErrors(null);
+    }
+
+    // Start Time
+    if (!formGroup.get('startTimeCtrl').value && formGroup.get('endTimeCtrl').value) {
+      formGroup.get('startTimeCtrl').setErrors({ customReq: true });
+    } else {
+      formGroup.get('startTimeCtrl').setErrors(null);
+    }
+
+    // End Time
+    if (!formGroup.get('endTimeCtrl').value && formGroup.get('startTimeCtrl').value && formGroup.get('endDateCtrl').value) {
+      formGroup.get('endTimeCtrl').setErrors({ customReq: true });
+    } else {
+      formGroup.get('endTimeCtrl').setErrors(null);
+    }
+
+    // Registration Date
+    if (
+      formGroup.get('preRegistrationCtrl').value &&
+      !formGroup.get('registrationDateCtrl').value &&
+      formGroup.get('registrationTimeCtrl').value
+    ) {
+      formGroup.get('registrationDateCtrl').setErrors({ customReq: true });
+    } else {
+      formGroup.get('registrationDateCtrl').setErrors(null);
+    }
+
+    // Registration  Time
+    if (
+      formGroup.get('preRegistrationCtrl').value &&
+      !formGroup.get('registrationTimeCtrl').value &&
+      formGroup.get('registrationDateCtrl').value
+    ) {
+      formGroup.get('registrationTimeCtrl').setErrors({ customReq: true });
+    } else {
+      formGroup.get('registrationTimeCtrl').setErrors(null);
+    }
+
+    // Validate end before start
+    if (formGroup.get('startDateCtrl').value && formGroup.get('endDateCtrl').value) {
+      const startDateStr = formGroup.get('startDateCtrl').value.format('YYYY-MM-DD');
+      const endDateStr = formGroup.get('endDateCtrl').value.format('YYYY-MM-DD');
+
+      console.log(startDateStr, endDateStr, formGroup.get('startTimeCtrl').value, formGroup.get('endTimeCtrl').value);
+
+      formGroup.get('endDateCtrl').setErrors(null);
+
+      if (startDateStr > endDateStr) {
+        formGroup.get('endDateCtrl').setErrors({ endDate: true });
+      } else if (startDateStr === endDateStr) {
+        if (
+          formGroup.get('startTimeCtrl').value && formGroup.get('endTimeCtrl').value &&
+          formGroup.get('startTimeCtrl').value > formGroup.get('endTimeCtrl').value
+        ) {
+          formGroup.get('endTimeCtrl').setErrors({ endTime: true });
+        } else {
+          formGroup.get('endTimeCtrl').setErrors(null);
+        }
+      }
+    }
   }
 }
