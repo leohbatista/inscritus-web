@@ -33,6 +33,21 @@ export class AdminActivitiesService {
     });
   }
 
+  editActivity(activity: Activity) {
+    return new Promise((resolve, reject) => {
+      this.angularFirestore.collection('activities').doc(activity.id).set({
+        ...activity,
+        lastUpdate: firestore.Timestamp.now()
+      }, { merge: true }).then(() => {
+        console.error('Activity was saved');
+        resolve();
+      }).catch(err => {
+        console.error('Error saving activity', err);
+        reject(err);
+      });
+    });
+  }
+
   getActivity(id: string): Observable<ActivityType> {
     return this.angularFirestore.collection('activities').doc(id).valueChanges();
   }

@@ -52,7 +52,7 @@
     </div>
 
     <div class="col-12 col-xl-6 my-2" *ngFor="let location of locations; let i = index">
-      <mat-card  class="p-3">
+      <mat-card class="p-3">
         <div class="d-flex flex-column flex-sm-row">
           <div class="d-flex justify-content-center">
             <img [src]="location.imageUrl || defaultLocationImage" class="location-badge" [alt]="location.name"/>

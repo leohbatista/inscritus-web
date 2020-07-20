@@ -90,8 +90,6 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
       }
     }).afterClosed().subscribe(result => {
       if (result) {
-        console.log(this.createActivityFormGroup);
-
         const activity: Activity = {
           description: this.createActivityFormGroup.get('descriptionCtrl').value,
           location: this.createActivityFormGroup.get('locationCtrl').value || null,
@@ -117,7 +115,6 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
           activity.registrationTime = this.createActivityFormGroup.get('registrationTimeCtrl').value || null;
           activity.registrationDate = this.createActivityFormGroup.get('registrationDateCtrl').value?.format('YYYY-MM-DD');
         }
-        console.log(activity);
 
         this.activitiesAdmin.createActivity(activity).then(() => {
           this.snackbar.open('Atividade cadastrada!', null, {
@@ -170,8 +167,6 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
       if (selectSubscription) { selectSubscription.unsubscribe(); }
     });
   }
-
-
 
   // Validators
   dateValidator(formGroup: FormGroup): void {
@@ -229,8 +224,6 @@ export class ActivityCreateComponent implements OnInit, OnDestroy {
     if (formGroup.get('startDateCtrl').value && formGroup.get('endDateCtrl').value) {
       const startDateStr = formGroup.get('startDateCtrl').value.format('YYYY-MM-DD');
       const endDateStr = formGroup.get('endDateCtrl').value.format('YYYY-MM-DD');
-
-      console.log(startDateStr, endDateStr, formGroup.get('startTimeCtrl').value, formGroup.get('endTimeCtrl').value);
 
       formGroup.get('endDateCtrl').setErrors(null);
 
