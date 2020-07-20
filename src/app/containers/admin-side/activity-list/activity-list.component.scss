@@ -1,0 +1,30 @@
+@import "../../../../variables";
+
+.mat-card-title {
+  font-size: 1.25em;
+}
+
+.action-button {
+  min-width: unset;
+  padding: 0 12px;
+
+  mat-icon {
+    color: #666;
+  }
+}
+
+.icon {
+  color: #666;
+}
+
+.activity-type {
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.activity-info {
+
+  p {
+    margin-bottom: 0.2em;
+  }
+}
