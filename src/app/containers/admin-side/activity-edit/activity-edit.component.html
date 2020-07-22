@@ -169,11 +169,15 @@
 
               <hr />
 
-              <div *ngIf="speakers?.length === 0" class="text-center">
+              <div *ngIf="isLoadingSpeakers">
+                <mat-spinner diameter="30" class="mx-auto"></mat-spinner>
+              </div>
+
+              <div *ngIf="!isLoadingSpeakers && speakers?.length === 0" class="text-center">
                 Nenhum palestrante adicionado
               </div>
 
-              <div *ngIf="speakers?.length >= 0" class="row">
+              <div *ngIf="!isLoadingSpeakers && speakers?.length >= 0" class="row">
                 <div class="col-12 col-lg-6 col-xl-4 my-2" *ngFor="let speaker of speakers; let i = index">
                   <mat-card>
                     <div class="d-flex flex-row align-items-center">

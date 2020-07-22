@@ -17,6 +17,8 @@ import { AlertDialogComponent } from 'src/app/components/alert-dialog/alert-dial
 import { SpeakerSelectComponent } from 'src/app/components/speaker-select/speaker-select.component';
 import { ActivityType, Activity } from 'functions/src/activities/activity.model';
 import { Location } from 'functions/src/locations/location.model';
+import { SpeakersService } from 'src/app/services/speakers.service';
+import { Speaker } from 'functions/src/speakers/speaker.model';
 
 @Component({
   selector: 'app-activity-edit',
@@ -42,9 +44,12 @@ export class ActivityEditComponent implements OnInit, OnDestroy {
   locationsSubscription: Subscription;
   locations: Location[] = [];
 
+  speakersSubscription: Subscription;
+  speakers: Speaker[] = [];
+  isLoadingSpeakers = true;
+
   editActivityFormGroup: FormGroup;
   isLoading = false;
-  speakers = [];
 
   constructor(
     private dialog: MatDialog,
@@ -53,6 +58,7 @@ export class ActivityEditComponent implements OnInit, OnDestroy {
     private locationsService: LocationsService,
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
+    private speakersService: SpeakersService,
   ) { }
 
   ngOnInit(): void {
@@ -77,6 +83,11 @@ export class ActivityEditComponent implements OnInit, OnDestroy {
     this.activitySubscription = this.activitiesAdmin.getActivity(this.activityId).subscribe(activity => {
       this.activity = activity;
       this.fillFields();
+
+      this.speakersSubscription = this.speakersService.getSpeakers().subscribe(speakers => {
+        this.speakers = speakers.filter(s => this.activity.speakers.indexOf(s.id) >= 0);
+        this.isLoadingSpeakers = false;
+      });
     });
 
     this.activityTypesSubscription = this.activitiesAdmin.getActivityTypes().subscribe(types => {
@@ -91,6 +102,7 @@ export class ActivityEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.activityTypesSubscription) { this.activityTypesSubscription.unsubscribe(); }
     if (this.locationsSubscription) { this.locationsSubscription.unsubscribe(); }
+    if (this.speakersSubscription) { this.speakersSubscription.unsubscribe(); }
   }
 
   editActivity(): void {

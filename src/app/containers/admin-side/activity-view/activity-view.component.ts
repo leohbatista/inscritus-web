@@ -59,7 +59,7 @@ export class ActivityViewComponent implements OnInit, OnDestroy {
       });
 
       this.speakersSubscription = this.speakersService.getSpeakers().subscribe(speakers => {
-        this.speakers = speakers.filter(s => this.activity.speakers.indexOf(s.id));
+        this.speakers = speakers.filter(s => this.activity.speakers.indexOf(s.id) >= 0);
       });
 
       this.isLoading = false;
