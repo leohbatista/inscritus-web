@@ -14,7 +14,7 @@
         Dados da atividade:
       </mat-card-title>
       <div style="flex: 1;" class="text-right">
-        <a mat-flat-button [routerLink]="'/admin/atividades/' + activity.id + '/editar'" class="mx-1" color="primary">
+        <a mat-flat-button [routerLink]="'/admin/atividades/' + activity?.id + '/editar'" class="mx-1" color="primary">
           <mat-icon>edit</mat-icon> Editar atividade
         </a>
       </div>
@@ -23,16 +23,16 @@
     <hr class="my-3"/>
 
     <div class="row px-3 py-2">
-      <div class="col-12 col-xl-8">
-        <h2>{{ activity.name }}</h2>
+      <div class="col-12" [class.col-xl-8]="activity?.location">
+        <h2>{{ activity?.name }}</h2>
         <div class="row">
           <div class="col-12 col-xl-6 d-flex align-items-center">
             <div>
               <p class="d-flex align-items-center">
                 <strong>Status: </strong>
                 <mat-chip-list aria-label="User type label" class="ml-3">
-                  <mat-chip class="my-2" color="accent" *ngIf="activity.visible" selected>Visível</mat-chip>
-                  <mat-chip class="my-2" *ngIf="!activity.visible">Oculta</mat-chip>
+                  <mat-chip class="my-2" color="accent" *ngIf="activity?.visible" selected>Visível</mat-chip>
+                  <mat-chip class="my-2" *ngIf="!activity?.visible">Oculta</mat-chip>
                 </mat-chip-list>
               </p>
               <p>
@@ -40,7 +40,7 @@
               </p>
               <p>
                 <strong>Descrição: </strong><br />
-                {{ activity.description || '-' }}
+                {{ activity?.description || '-' }}
               </p>
             </div>
           </div>
@@ -48,13 +48,13 @@
           <div class="col-12 col-xl-6 d-flex align-items-center">
             <div>
               <p>
-                <strong>Tipo: </strong>{{ type.name }}
+                <strong>Tipo: </strong>{{ type?.name }}
               </p>
               <p>
-                <strong>Capacidade Máxima: </strong>{{ activity.maxCapacity || '-' }}
+                <strong>Capacidade Máxima: </strong>{{ activity?.maxCapacity || '-' }}
               </p>
               <p>
-                <strong>Necessita inscrição? </strong>{{ activity.preRegistration ? 'Sim' : 'Não' }}
+                <strong>Necessita inscrição? </strong>{{ activity?.preRegistration ? 'Sim' : 'Não' }}
               </p>
               <p>
                 <strong>Abertura das inscrições: </strong>{{ getRegistrationDateTime(activity) }}
@@ -97,21 +97,21 @@
         </div>
       </div>
 
-      <div class="col-12 col-xl-4">
+      <div class="col-12 col-xl-4" *ngIf="activity?.location">
         <div class="colored-box">
           <div class="d-flex align-items-center">
             <h3 class="d-flex align-items-center m-0" style="flex: 1;">Local</h3>
           </div>
           <hr />
-          <img [src]="location.imageUrl || defaultLocationImage" class="location-image"/>
+          <img [src]="location?.imageUrl || defaultLocationImage" class="location-image"/>
           <p class="mt-4">
-            <strong>{{ location.name }}</strong>
+            <strong>{{ location?.name || '-' }}</strong>
           </p>
           <p>
-            {{ location.description }}
+            {{ location?.description || '-' }}
           </p>
           <p class="text-center mt-3">
-            <a mat-flat-button [href]="location.mapsLink" target="_blank" *ngIf="location.mapsLink" color="primary" >
+            <a mat-flat-button [href]="location?.mapsLink" target="_blank" *ngIf="location?.mapsLink" color="primary" >
               Ver no mapa <mat-icon class="ml-2">open_in_new</mat-icon>
             </a>
           </p>
@@ -119,35 +119,45 @@
       </div>
     </div>
     <mat-card-footer class="text-right px-4 py-3 update-label">
-      Última alteração: {{ activity.lastUpdate?.toDate() }}
+      Última alteração: {{ activity?.lastUpdate?.toDate() }}
     </mat-card-footer>
   </mat-card>
+  <div class="row">
+    <div class="mt-3 col-12" [class.col-lg-6]="activity?.preRegistration">
+      <mat-card>
+        <mat-card-header class="mt-2 mb-3 d-flex align-items-center">
+          <mat-card-title class='m-0' style="flex: 1;">
+            Presenças:
+          </mat-card-title>
+        </mat-card-header>
 
-  <mat-card class="mt-3">
-    <mat-card-header class="mt-2 mb-3 d-flex align-items-center">
-      <mat-card-title class='m-0' style="flex: 1;">
-        Presenças:
-      </mat-card-title>
-    </mat-card-header>
+        <hr class="my-3"/>
 
-    <hr class="my-3"/>
-
-    <div>
-
+        <div class="text-center">
+          <button mat-raised-button color="primary">
+            Gerenciar Presenças <mat-icon class="ml-2">open_in_new</mat-icon>
+          </button>
+        </div>
+      </mat-card>
     </div>
-  </mat-card>
 
-  <mat-card class="mt-3">
-    <mat-card-header class="mt-2 mb-3 d-flex align-items-center">
-      <mat-card-title class='m-0' style="flex: 1;">
-        Inscrições:
-      </mat-card-title>
-    </mat-card-header>
+    <div class="mt-3 col-12 col-lg-6" *ngIf="activity?.preRegistration">
+      <mat-card>
+        <mat-card-header class="mt-2 mb-3 d-flex align-items-center">
+          <mat-card-title class='m-0' style="flex: 1;">
+            Inscrições:
+          </mat-card-title>
+        </mat-card-header>
 
-    <hr class="my-3"/>
+        <hr class="my-3"/>
 
-    <div>
-
+        <div class="text-center">
+          <button mat-raised-button color="primary">
+            Gerenciar Inscrições <mat-icon class="ml-2">open_in_new</mat-icon>
+          </button>
+        </div>
+      </mat-card>
     </div>
-  </mat-card>
+  </div>
+
 </div>

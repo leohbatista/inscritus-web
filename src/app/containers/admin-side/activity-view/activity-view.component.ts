@@ -50,17 +50,23 @@ export class ActivityViewComponent implements OnInit, OnDestroy {
     this.activitySubscription = this.activitiesAdmin.getActivity(this.activityId).subscribe(activity => {
       this.activity = activity;
 
-      this.activityTypeSubscription = this.activitiesAdmin.getActivityType(this.activity.type).subscribe(type => {
-        this.type = type;
-      });
+      if (activity.type) {
+        this.activityTypeSubscription = this.activitiesAdmin.getActivityType(this.activity.type).subscribe(type => {
+          this.type = type;
+        });
+      }
 
-      this.locationSubscription = this.locationService.getLocation(this.activity.location).subscribe(location => {
-        this.location = location;
-      });
+      if (activity.location) {
+        this.locationSubscription = this.locationService.getLocation(this.activity.location).subscribe(location => {
+          this.location = location;
+        });
+      }
 
-      this.speakersSubscription = this.speakersService.getSpeakers().subscribe(speakers => {
-        this.speakers = speakers.filter(s => this.activity.speakers.indexOf(s.id) >= 0);
-      });
+      if(activity.speakers) {
+        this.speakersSubscription = this.speakersService.getSpeakers().subscribe(speakers => {
+          this.speakers = speakers.filter(s => this.activity.speakers.indexOf(s.id) >= 0);
+        });
+      }
 
       this.isLoading = false;
     });
@@ -74,15 +80,19 @@ export class ActivityViewComponent implements OnInit, OnDestroy {
   }
 
   getDateTime(activity: Activity) {
-    const startDate = moment(activity.startDate);
-    const endDate = activity.endDate ? moment(activity.endDate) : null;
+    if(activity?.startDate) {
+      const startDate = moment(activity.startDate);
+      const endDate = activity.endDate ? moment(activity.endDate) : null;
 
-    return `${startDate.format('DD/MM/YYYY')} ${activity.startTime || ''}` +
-      (!!endDate ? ` - ${endDate.format('DD/MM/YYYY')} ${activity.endTime || ''}` : '');
+      return `${startDate.format('DD/MM/YYYY')} ${activity.startTime || ''}` +
+        (!!endDate ? ` - ${endDate.format('DD/MM/YYYY')} ${activity.endTime || ''}` : '');
+    } else {
+      return '-';
+    }
   }
 
   getRegistrationDateTime(activity: Activity) {
-    if (activity.preRegistration && activity.registrationDate) {
+    if (activity?.preRegistration && activity?.registrationDate) {
       const regDate = moment(activity.registrationDate);
       return `${regDate.format('DD/MM/YYYY')} ${activity.registrationTime || ''}`;
     } else {

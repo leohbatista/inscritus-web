@@ -13,7 +13,7 @@
           <a mat-flat-icon [routerLink]="'/admin/atividades/' + activityId" class="mr-3">
             <mat-icon>chevron_left</mat-icon>
           </a>
-          Editar Atividade: {{ activity.name }}
+          Editar Atividade: {{ activity?.name }}
         </mat-card-title>
       </mat-card-header>
 
@@ -61,6 +61,7 @@
               <mat-form-field class="w-100 mt-2" color="primary">
                 <mat-label>Local</mat-label>
                 <mat-select formControlName="locationCtrl" name="activityLocation">
+                  <mat-option>Nenhum</mat-option>
                   <mat-option *ngFor="let location of locations" [value]="location.id" [matTooltip]="location.description">
                     {{ location.name }}
                   </mat-option>

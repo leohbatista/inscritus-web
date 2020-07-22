@@ -24,7 +24,7 @@ export class AdminActivitiesService {
         id: activityId,
         lastUpdate: firestore.Timestamp.now()
       }, { merge: true }).then(() => {
-        console.error('Activity was saved');
+        console.log('Activity was saved');
         resolve();
       }).catch(err => {
         console.error('Error saving activity', err);
@@ -39,7 +39,7 @@ export class AdminActivitiesService {
         ...activity,
         lastUpdate: firestore.Timestamp.now()
       }, { merge: true }).then(() => {
-        console.error('Activity was saved');
+        console.log('Activity was saved');
         resolve();
       }).catch(err => {
         console.error('Error saving activity', err);
@@ -48,11 +48,11 @@ export class AdminActivitiesService {
     });
   }
 
-  getActivity(id: string): Observable<ActivityType> {
+  getActivity(id: string): Observable<Activity> {
     return this.angularFirestore.collection('activities').doc(id).valueChanges();
   }
 
-  getActivities(): Observable<ActivityType[]> {
+  getActivities(): Observable<Activity[]> {
     return this.angularFirestore.collection('activities').valueChanges();
   }
 
