@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ActivityType, Activity } from 'functions/src/activities/activity.model';
+import { ActivityType, Activity, ActivityRegistration, ActivityAttendance } from 'functions/src/activities/activity.model';
 import { firestore } from 'firebase';
 
 @Injectable({
@@ -92,7 +92,67 @@ export class AdminActivitiesService {
     });
   }
 
+  getActivityType(id: string): Observable<ActivityType> {
+    return this.angularFirestore.collection('activity-types').doc(id).valueChanges();
+  }
+
   getActivityTypes(): Observable<ActivityType[]> {
     return this.angularFirestore.collection('activity-types').valueChanges();
+  }
+
+  // Attendances
+  createAttendant(attendance: ActivityAttendance): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.angularFirestore.collection('activities').doc(attendance.activity).collection('attendants').doc(attendance.user).set(
+        attendance
+      ).then(() => {
+        resolve();
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
+
+  deleteAttendant(attendance: ActivityAttendance): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.angularFirestore.collection('activities').doc(attendance.activity).collection('attendants')
+      .doc(attendance.user).delete().then(() => {
+        resolve();
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
+
+  getAttendants(activityId: string): Observable<ActivityAttendance[]> {
+    return this.angularFirestore.collection('activity-types').doc(activityId).collection('attendants').valueChanges();
+  }
+
+  // Registered
+  createRegistration(registration: ActivityRegistration): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.angularFirestore.collection('activities').doc(registration.activity).collection('registrations').doc(registration.user).set(
+        registration
+      ).then(() => {
+        resolve();
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
+
+  deleteRegistration(registration: ActivityRegistration): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.angularFirestore.collection('activities').doc(registration.activity).collection('registrations')
+      .doc(registration.user).delete().then(() => {
+        resolve();
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
+
+  getRegistered(activityId: string): Observable<ActivityRegistration[]> {
+    return this.angularFirestore.collection('activity-types').doc(activityId).collection('registrations').valueChanges();
   }
 }

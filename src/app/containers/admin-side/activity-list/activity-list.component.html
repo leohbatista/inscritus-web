@@ -8,7 +8,13 @@
 
   <mat-divider class="my-2 mb-3"></mat-divider>
 
-  <div class="p-3 row">
+  <div class="p-3 h-100" *ngIf="!loadedActivities">
+    <div class="d-flex align-items-center justify-content-center" style="min-height: 100%;">
+      <mat-spinner diameter="80"></mat-spinner>
+    </div>
+  </div>
+
+  <div class="p-3 row" *ngIf="loadedActivities">
     <div class="col-12 my-2" *ngFor="let activity of activities; let i = index">
       <mat-card class="p-3">
         <div class="d-flex flex-column flex-sm-row">
@@ -27,7 +33,7 @@
 
           <div class="d-flex flex-column align-items-center justify-content-center">
             <div class="px-2 mb-3 text-center">
-              <span class="mb-1">Status:</span>
+              <span class="mb-1" style="font-weight: 600;">Status:</span>
               <mat-chip-list class="">
                 <mat-chip color="accent" selected *ngIf="activity.visible">
                   Visível
@@ -49,9 +55,6 @@
           </div>
 
         </div>
-
-
-
       </mat-card>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AdminUsersService } from 'src/app/services/admin-users.service';
@@ -9,7 +9,7 @@ import { User } from 'functions/src/users/user.model';
   templateUrl: './user-view.component.html',
   styleUrls: ['./user-view.component.scss']
 })
-export class UserViewComponent implements OnInit {
+export class UserViewComponent implements OnInit, OnDestroy {
 
   userSubscription: Subscription;
   user: User;
@@ -28,6 +28,10 @@ export class UserViewComponent implements OnInit {
       this.user = user;
       this.isLoading = false;
     });
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) { this.userSubscription.unsubscribe(); }
   }
 
 }

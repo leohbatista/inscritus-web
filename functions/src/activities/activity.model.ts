@@ -31,3 +31,17 @@ export interface ActivitiesResult {
   total: number;
   results: any[];
 }
+
+export interface ActivityRegistration {
+  activity?: string;
+  registeredBy?: string;
+  user?: string;
+  registeredAt?: firestore.Timestamp;
+}
+
+export interface ActivityAttendance {
+  activity?: string;
+  registeredBy?: string;
+  user?: string;
+  registeredAt?: firestore.Timestamp;
+}

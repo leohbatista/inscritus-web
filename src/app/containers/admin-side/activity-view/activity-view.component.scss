@@ -1,0 +1,28 @@
+.colored-box {
+  background-color: #eee;
+  border: 1px solid #999;
+  border-radius: 0.5em;
+  padding: 1em;
+
+  h3 {
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+.speaker-badge {
+  width: 70px;
+  height: 70px;
+  border-radius: 0.5em;
+}
+
+.location-image {
+  width: 200px;
+  margin: 0 auto;
+  display: block;
+}
+
+.update-label {
+  color: #555;
+  font-size: 0.9em;
+}

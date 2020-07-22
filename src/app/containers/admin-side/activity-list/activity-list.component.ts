@@ -16,6 +16,8 @@ import * as moment from 'moment';
 })
 export class ActivityListComponent implements OnInit, OnDestroy {
 
+  loadedActivities = false;
+
   activities: Activity[];
   locations: Location[];
   speakers: Speaker[];
@@ -35,6 +37,7 @@ export class ActivityListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activitiesSubscription = this.activitiesAdmin.getActivities().subscribe(activities => {
       this.activities = _.sortBy(activities, ['name']);
+      this.loadedActivities = true;
     });
 
     this.activityTypesSubscription = this.activitiesAdmin.getActivityTypes().subscribe(types => {
@@ -70,13 +73,14 @@ export class ActivityListComponent implements OnInit, OnDestroy {
   }
 
   getDateTime(activity: Activity) {
-    const startDate = moment(activity.startDate);
-    const endDate = activity.endDate ? moment(activity.endDate) : null;
+    if (activity.startDate) {
+      const startDate = moment(activity.startDate);
+      const endDate = activity.endDate ? moment(activity.endDate) : null;
 
-    console.log(startDate, endDate);
-
-
-    return `${startDate.format('DD/MM/YYYY')} ${activity.startTime || ''}` +
-      (!!endDate ? ` - ${endDate.format('DD/MM/YYYY')} ${activity.endTime || ''}` : '');
+      return `${startDate.format('DD/MM/YYYY')} ${activity.startTime || ''}` +
+        (!!endDate ? ` - ${endDate.format('DD/MM/YYYY')} ${activity.endTime || ''}` : '');
+    } else {
+      return '-';
+    }
   }
 }

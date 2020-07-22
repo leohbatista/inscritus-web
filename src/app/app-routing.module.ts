@@ -50,7 +50,7 @@ const routes: Routes = [
       { path: ':id', component: ActivityViewComponent, canActivate: [AdminGuardService] },
       { path: ':id/editar', component: ActivityEditComponent, canActivate: [AdminGuardService] },
     ]},
-    { path: 'feedbacks', component: HomeComponent, canActivate: [AdminGuardService] },
+    // { path: 'feedbacks', component: HomeComponent, canActivate: [AdminGuardService] },
     { path: 'cadastros-auxiliares', children: [
       { path: '', pathMatch: 'full', component: AuxiliaryDataComponent, canActivate: [AdminGuardService] },
       { path: 'tipos-atividades', component: ActivityTypesComponent, canActivate: [AdminGuardService] },

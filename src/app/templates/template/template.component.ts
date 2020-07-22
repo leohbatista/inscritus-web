@@ -72,12 +72,12 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
       linkType: LinkType.route,
       icon: 'web',
     },
-    {
-      text: 'Feedbacks',
-      link: '/admin/feedbacks',
-      linkType: LinkType.route,
-      icon: 'feedback',
-    },
+    // {
+    //   text: 'Feedbacks',
+    //   link: '/admin/feedbacks',
+    //   linkType: LinkType.route,
+    //   icon: 'feedback',
+    // },
     {
       text: 'Cadastros Auxiliares',
       link: '/admin/cadastros-auxiliares',
