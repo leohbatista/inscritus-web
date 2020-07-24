@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { UsersResult, User, FavoriteActivity } from 'functions/src/users/user.model';
+import { UsersResult, User, FavoriteActivity, UserRegistration, UserAttendance } from 'functions/src/users/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
@@ -21,7 +21,6 @@ export class AdminUsersService {
 
   addFavoriteActivity(user: string, activity: string) {
     return new Promise((resolve, reject) => {
-      const now = new Date();
       this.angularFirestore.collection('users').doc(user).collection('favorites').doc(activity).set({
         activity,
         createdAt: firestore.Timestamp.now()
@@ -55,6 +54,14 @@ export class AdminUsersService {
 
   getFavoriteActivities(uid: string): Observable<FavoriteActivity[]> {
     return this.angularFirestore.doc(`users/${uid}`).collection('favorites').valueChanges();
+  }
+
+  getAttendances(uid: string): Observable<UserAttendance[]> {
+    return this.angularFirestore.doc(`users/${uid}`).collection('attendances').valueChanges();
+  }
+
+  getRegistrations(uid: string): Observable<UserRegistration[]> {
+    return this.angularFirestore.doc(`users/${uid}`).collection('registrations').valueChanges();
   }
 
   getUserByUID(uid: string): Observable<User> {

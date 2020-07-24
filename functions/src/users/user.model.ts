@@ -22,5 +22,15 @@ export interface UsersResult {
 
 export interface FavoriteActivity {
   activity?: string;
-  cretaedAt?: firestore.Timestamp;
+  createdAt?: firestore.Timestamp;
+}
+
+export interface UserAttendance {
+  activity?: string;
+  createdAt?: firestore.Timestamp;
+}
+
+export interface UserRegistration {
+  activity?: string;
+  createdAt?: firestore.Timestamp;
 }

@@ -59,7 +59,15 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         this.user = user.uid;
 
         this.favoritesSubscription = this.usersAdmin.getFavoriteActivities(user.uid).subscribe(favorites => {
-          this.favorites = _.filter(activities, a => !!_.find(favorites, ['activity', a.id]));
+          this.favorites = _.sortBy(_.filter(activities, a => !!_.find(favorites, ['activity', a.id])), ['name']);
+        });
+
+        this.attendancesSubscription = this.usersAdmin.getAttendances(user.uid).subscribe(attendances => {
+          this.attendances = _.sortBy(_.filter(activities, a => !!_.find(attendances, ['activity', a.id])), ['name']);
+        });
+
+        this.registrationsSubscription = this.usersAdmin.getRegistrations(user.uid).subscribe(registrations => {
+          this.registrations = _.sortBy(_.filter(activities, a => !!_.find(registrations, ['activity', a.id])), ['name']);
         });
       });
     });
@@ -84,6 +92,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     if (this.speakersSubscription) { this.speakersSubscription.unsubscribe(); }
     if (this.userSubscription) { this.userSubscription.unsubscribe(); }
     if (this.favoritesSubscription) { this.favoritesSubscription.unsubscribe(); }
+    if (this.attendancesSubscription) { this.attendancesSubscription.unsubscribe(); }
+    if (this.registrationsSubscription) { this.registrationsSubscription.unsubscribe(); }
   }
 
   getActivityType(typeId: string): string {

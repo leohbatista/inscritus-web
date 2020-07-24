@@ -5,7 +5,7 @@
 
   <mat-divider class="my-2 mb-3"></mat-divider>
 
-  <div class="mb-2">
+  <div class="mb-4">
     <h2 class="mb-1 text-center">Favoritas</h2>
     <mat-divider class="my-2 mb-3"></mat-divider>
 
@@ -58,5 +58,109 @@
     </div>
   </div>
 
+  <div class="mb-4">
+    <h2 class="mb-1 text-center">Presenças registradas</h2>
+    <mat-divider class="my-2 mb-3"></mat-divider>
 
+    <div class="p-3 h-100" *ngIf="!attendances">
+      <div class="d-flex align-items-center justify-content-center" style="min-height: 100%;">
+        <mat-spinner diameter="60"></mat-spinner>
+      </div>
+    </div>
+
+    <div class="p-3 h-100" *ngIf="attendances && !attendances.length">
+      <p class="text-center">Nenhuma presença registrada.</p>
+    </div>
+
+    <div class="row" *ngIf="attendances?.length > 0">
+      <div class="col-12 col-lg-6 my-2" *ngFor="let activity of attendances;">
+        <mat-card class="p-3">
+          <div class="d-flex align-items-center">
+            <div style="flex: 1;">
+              <span class="mb-2 d-block activity-type">{{ getActivityType(activity.type) | uppercase }}</span>
+              <mat-card-title>
+                {{ activity.name }}
+              </mat-card-title>
+            </div>
+            <div class="d-flex">
+              <button mat-icon-button (click)="toggleFavorite(activity)" color="warn">
+                <mat-icon>{{ isFavorite(activity) ? 'favorite': 'favorite_border'}}</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="d-flex flex-column flex-sm-row flex-lg-column">
+            <div style="flex: 1;">
+              <div class="activity-info">
+                <p *ngIf="activity.speakers?.length">Palestrantes: {{ getSpeakers(activity).join(', ') }}</p>
+                <p *ngIf="activity.location">Local: {{ getLocation(activity.location) }}</p>
+                <p *ngIf="activity.startDate">Horário: {{ getDateTime(activity) }}</p>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center justify-content-center">
+              <div class="my-3">
+                <a mat-raised-button color="primary" class="mx-1" [routerLink]="'/atividades/' + activity.id">
+                  Ver mais <mat-icon class="ml-2">arrow_right</mat-icon>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <h2 class="mb-1 text-center">Inscrições efetuadas</h2>
+    <mat-divider class="my-2 mb-3"></mat-divider>
+
+    <div class="p-3 h-100" *ngIf="!registrations">
+      <div class="d-flex align-items-center justify-content-center" style="min-height: 100%;">
+        <mat-spinner diameter="60"></mat-spinner>
+      </div>
+    </div>
+
+    <div class="p-3 h-100" *ngIf="registrations && !registrations.length">
+      <p class="text-center">Nenhuma inscrição registrada.</p>
+    </div>
+
+    <div class="row" *ngIf="registrations?.length > 0">
+      <div class="col-12 col-lg-6 my-2" *ngFor="let activity of registrations;">
+        <mat-card class="p-3">
+          <div class="d-flex align-items-center">
+            <div style="flex: 1;">
+              <span class="mb-2 d-block activity-type">{{ getActivityType(activity.type) | uppercase }}</span>
+              <mat-card-title>
+                {{ activity.name }}
+              </mat-card-title>
+            </div>
+            <div class="d-flex">
+              <button mat-icon-button (click)="toggleFavorite(activity)" color="warn">
+                <mat-icon>{{ isFavorite(activity) ? 'favorite': 'favorite_border'}}</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="d-flex flex-column flex-sm-row flex-lg-column">
+            <div style="flex: 1;">
+              <div class="activity-info">
+                <p *ngIf="activity.speakers?.length">Palestrantes: {{ getSpeakers(activity).join(', ') }}</p>
+                <p *ngIf="activity.location">Local: {{ getLocation(activity.location) }}</p>
+                <p *ngIf="activity.startDate">Horário: {{ getDateTime(activity) }}</p>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center justify-content-center">
+              <div class="my-3">
+                <a mat-raised-button color="primary" class="mx-1" [routerLink]="'/atividades/' + activity.id">
+                  Ver mais <mat-icon class="ml-2">arrow_right</mat-icon>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
 </div>
