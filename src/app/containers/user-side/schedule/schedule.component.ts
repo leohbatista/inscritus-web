@@ -27,8 +27,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   favoritesSubscription: Subscription;
 
   loadedActivities = false;
+  activitiesByDay: { [day: string]: Activity[] };
+  activitiesWithoutDate: Activity[];
+  dates = [];
 
-  activities: Activity[];
   locations: Location[];
   speakers: Speaker[];
   types: ActivityType[];
@@ -49,7 +51,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activitiesSubscription = this.activitiesAdmin.getActivities().subscribe(activities => {
-      this.activities = _.sortBy(activities, ['startDate']);
+      this.activitiesByDay = _.groupBy(_.sortBy(activities, ['startDate']), 'startDate');
+      this.activitiesWithoutDate = _.concat(
+        (this.activitiesByDay.null || []),
+        (this.activitiesByDay.undefined || []),
+        (this.activitiesByDay[''] || [])
+      );
+      this.activitiesByDay = _.omit(this.activitiesByDay, ['', 'null', 'undefined']);
+      this.dates = Object.keys(this.activitiesByDay).map(d => ({ key: d, value: moment(d).format('DD/MM/YYYY') }));
+
       this.loadedActivities = true;
     });
 
