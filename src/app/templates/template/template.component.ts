@@ -46,17 +46,17 @@ export class PageTemplateComponent implements OnInit, OnDestroy {
       icon: 'web',
     },
     {
+      text: 'Cronograma',
+      link: '/cronograma',
+      linkType: LinkType.route,
+      icon: 'calendar_today',
+    },
+    {
       text: 'Palestrantes',
       link: '/palestrantes',
       linkType: LinkType.route,
       icon: 'record_voice_over',
     },
-    {
-      text: 'Cronograma',
-      link: '/cronograma',
-      linkType: LinkType.route,
-      icon: 'calendar_today',
-    }
   ];
 
   fillerNavAdmin: NavItem[] = [

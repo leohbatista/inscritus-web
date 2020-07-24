@@ -14,10 +14,11 @@ import { ProfileComponent } from './containers/user-side/profile/profile.compone
 import { ActivitiesComponent } from './containers/user-side/activities/activities.component';
 import { ScheduleComponent } from './containers/user-side/schedule/schedule.component';
 import { MyQrcodeComponent } from './containers/user-side/my-qrcode/my-qrcode.component';
+import { ActivityViewComponent } from './containers/user-side/activity-view/activity-view.component';
 import { ActivityCreateComponent } from './containers/admin-side/activity-create/activity-create.component';
 import { ActivityEditComponent } from './containers/admin-side/activity-edit/activity-edit.component';
 import { ActivityListComponent } from './containers/admin-side/activity-list/activity-list.component';
-import { ActivityViewComponent } from './containers/admin-side/activity-view/activity-view.component';
+import { ActivityViewAdminComponent } from './containers/admin-side/activity-view/activity-view.component';
 // import { UserCreateComponent } from './containers/admin-side/user-create/user-create.component';
 import { UserEditComponent } from './containers/admin-side/user-edit/user-edit.component';
 import { UserListComponent } from './containers/admin-side/user-list/user-list.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'cadastro', component: SignupComponent },
   { path: 'avisos', component: FeedComponent, canActivate: [AuthGuardService] },
   { path: 'atividades', component: ActivitiesComponent, canActivate: [AuthGuardService] },
+  { path: 'atividades/:id', component: ActivityViewComponent, canActivate: [AuthGuardService] },
   { path: 'cronograma', component: ScheduleComponent, canActivate: [AuthGuardService] },
   { path: 'palestrantes', component: SpeakersComponent, canActivate: [AuthGuardService] },
   { path: 'minha-conta', component: ProfileComponent, canActivate: [AuthGuardService] },
@@ -47,7 +49,7 @@ const routes: Routes = [
     { path: 'atividades', children: [
       { path: '', pathMatch: 'full', component: ActivityListComponent, canActivate: [AdminGuardService] },
       { path: 'criar', component: ActivityCreateComponent, canActivate: [AdminGuardService] },
-      { path: ':id', component: ActivityViewComponent, canActivate: [AdminGuardService] },
+      { path: ':id', component: ActivityViewAdminComponent, canActivate: [AdminGuardService] },
       { path: ':id/editar', component: ActivityEditComponent, canActivate: [AdminGuardService] },
     ]},
     // { path: 'feedbacks', component: HomeComponent, canActivate: [AdminGuardService] },

@@ -17,7 +17,7 @@ import { SpeakerDetailComponent } from 'src/app/components/speaker-detail/speake
   templateUrl: './activity-view.component.html',
   styleUrls: ['./activity-view.component.scss']
 })
-export class ActivityViewAdminComponent implements OnInit, OnDestroy {
+export class ActivityViewComponent implements OnInit, OnDestroy {
   readonly defaultLocationImage = '../../assets/img/location-badge.png';
   readonly defaultSpeakerImage = '../../assets/img/user-badge.png';
 

@@ -109,8 +109,8 @@ export class ActivityEditComponent implements OnInit, OnDestroy {
     const confirmSubscription = this.dialog.open(AlertDialogComponent, {
       maxWidth: '600px',
       data: {
-        alertTitle: 'Confirmar cadastro',
-        alertDescription: 'Deseja realmente cadastrado esta atividade?',
+        alertTitle: 'Confirmar edição',
+        alertDescription: 'Deseja realmente editar esta atividade?',
       }
     }).afterClosed().subscribe(result => {
       if (result) {
@@ -129,16 +129,25 @@ export class ActivityEditComponent implements OnInit, OnDestroy {
         if (this.editActivityFormGroup.get('startDateCtrl').value) {
           activity.startTime = this.editActivityFormGroup.get('startTimeCtrl').value || null;
           activity.startDate = this.editActivityFormGroup.get('startDateCtrl').value?.format('YYYY-MM-DD');
+        } else {
+          activity.startTime = null;
+          activity.startDate = null;
         }
 
         if (this.editActivityFormGroup.get('endDateCtrl').value) {
           activity.endTime = this.editActivityFormGroup.get('endTimeCtrl').value || null;
           activity.endDate = this.editActivityFormGroup.get('endDateCtrl').value?.format('YYYY-MM-DD');
+        } else {
+          activity.endTime = null;
+          activity.endDate = null;
         }
 
         if (this.editActivityFormGroup.get('registrationDateCtrl').value) {
           activity.registrationTime = this.editActivityFormGroup.get('registrationTimeCtrl').value || null;
           activity.registrationDate = this.editActivityFormGroup.get('registrationDateCtrl').value?.format('YYYY-MM-DD');
+        } else {
+          activity.registrationTime = null;
+          activity.registrationDate = null;
         }
 
         this.activitiesAdmin.editActivity(activity).then(() => {

@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LocationsService } from 'src/app/services/locations.service';
-import { AdminActivitiesService } from 'src/app/services/admin-activities.service';
-import { Activity, ActivityType } from 'functions/src/activities/activity.model';
-import { Location } from 'functions/src/locations/location.model';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
-import { SpeakersService } from 'src/app/services/speakers.service';
-import { Speaker } from 'functions/src/speakers/speaker.model';
 import * as moment from 'moment';
+
+import { Activity, ActivityType } from 'functions/src/activities/activity.model';
+import { Location } from 'functions/src/locations/location.model';
+import { Speaker } from 'functions/src/speakers/speaker.model';
+import { LocationsService } from 'src/app/services/locations.service';
+import { AdminActivitiesService } from 'src/app/services/admin-activities.service';
+import { SpeakersService } from 'src/app/services/speakers.service';
 
 @Component({
   selector: 'app-activity-list',

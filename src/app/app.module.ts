@@ -17,7 +17,7 @@ import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.com
 import { ActivityCreateComponent } from './containers/admin-side/activity-create/activity-create.component';
 import { ActivityEditComponent } from './containers/admin-side/activity-edit/activity-edit.component';
 import { ActivityListComponent } from './containers/admin-side/activity-list/activity-list.component';
-import { ActivityViewComponent } from './containers/admin-side/activity-view/activity-view.component';
+import { ActivityViewAdminComponent } from './containers/admin-side/activity-view/activity-view.component';
 import { UserCreateComponent } from './containers/admin-side/user-create/user-create.component';
 import { UserEditComponent } from './containers/admin-side/user-edit/user-edit.component';
 import { UserListComponent } from './containers/admin-side/user-list/user-list.component';
@@ -29,6 +29,7 @@ import { ActivitiesComponent } from './containers/user-side/activities/activitie
 import { FeedComponent } from './containers/feed/feed.component';
 import { ProfileComponent } from './containers/user-side/profile/profile.component';
 import { ScheduleComponent } from './containers/user-side/schedule/schedule.component';
+import { ActivityViewComponent } from './containers/user-side/activity-view/activity-view.component';
 import { VerifyEmailComponent } from './containers/verify-email/verify-email.component';
 import { PageTemplateComponent } from './templates/template/template.component';
 import { SpeakersComponent } from './containers/speakers/speakers.component';
@@ -58,7 +59,7 @@ import { LocationsComponent } from './containers/admin-side/locations/locations.
     UserCreateComponent,
     ActivityListComponent,
     ActivityCreateComponent,
-    ActivityViewComponent,
+    ActivityViewAdminComponent,
     ActivityEditComponent,
     FeedComponent,
     SpeakersComponent,
@@ -69,6 +70,7 @@ import { LocationsComponent } from './containers/admin-side/locations/locations.
     ActivityTypesComponent,
     MyQrcodeComponent,
     LocationsComponent,
+    ActivityViewComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),

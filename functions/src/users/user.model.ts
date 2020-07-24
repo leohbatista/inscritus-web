@@ -19,3 +19,8 @@ export interface UsersResult {
   total: number;
   results: any[];
 }
+
+export interface FavoriteActivity {
+  activity?: string;
+  cretaedAt?: firestore.Timestamp;
+}

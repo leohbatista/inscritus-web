@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActivityViewAdminComponent } from './activity-view.component';
+import { ActivityViewComponent } from './activity-view.component';
 
 describe('ActivityViewComponent', () => {
-  let component: ActivityViewAdminComponent;
-  let fixture: ComponentFixture<ActivityViewAdminComponent>;
+  let component: ActivityViewComponent;
+  let fixture: ComponentFixture<ActivityViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActivityViewAdminComponent ]
+      declarations: [ ActivityViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ActivityViewAdminComponent);
+    fixture = TestBed.createComponent(ActivityViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
