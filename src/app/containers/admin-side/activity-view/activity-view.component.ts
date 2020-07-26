@@ -103,7 +103,7 @@ export class ActivityViewAdminComponent implements OnInit, OnDestroy {
 
   openAttendancesManagement(): void {
     const sattendancesSubscriptionSubscription = this.dialog.open(ActivityAttendancesComponent, {
-      minWidth: '400px',
+      minWidth: '300px',
       maxWidth: '800px',
       data: {
         activity: this.activityId,

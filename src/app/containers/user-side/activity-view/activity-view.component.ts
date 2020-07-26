@@ -45,6 +45,9 @@ export class ActivityViewComponent implements OnInit, OnDestroy {
   isFavorite: boolean;
   favoritesSubscription: Subscription;
 
+  isAttendee: boolean;
+  attendancesSubscription: Subscription;
+
   isLoading = true;
 
   constructor(
@@ -93,12 +96,17 @@ export class ActivityViewComponent implements OnInit, OnDestroy {
         this.isFavorite = !!_.find(favorites, ['activity', this.activityId]);
       });
 
+      this.attendancesSubscription = this.usersAdmin.getAttendances(user.uid).subscribe(attendances => {
+        this.isAttendee = !!_.find(attendances, ['activity', this.activityId]);
+      });
+
     });
   }
 
   ngOnDestroy() {
     if (this.activitySubscription) { this.activitySubscription.unsubscribe(); }
     if (this.activityTypeSubscription) { this.activityTypeSubscription.unsubscribe(); }
+    if (this.attendancesSubscription) { this.attendancesSubscription.unsubscribe(); }
     if (this.favoritesSubscription) { this.favoritesSubscription.unsubscribe(); }
     if (this.locationSubscription) { this.locationSubscription.unsubscribe(); }
     if (this.speakersSubscription) { this.speakersSubscription.unsubscribe(); }

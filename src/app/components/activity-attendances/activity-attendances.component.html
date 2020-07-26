@@ -31,13 +31,13 @@
 
       <div *ngIf="!isLoading">
         <table class="my-1">
-          <tr class="my-1 register">
+          <tr class="my-1 register d-flex d-md-table-row flex-column py-1">
             <td class="px-2 header">Nome</td>
             <td class="px-2 header">E-mail</td>
             <td class="px-2 header"></td>
           </tr>
 
-          <tr *ngFor="let user of filteredUsers">
+          <tr *ngFor="let user of filteredUsers" class="d-flex d-md-table-row flex-column py-1">
             <td class="px-2" style="font-weight: 500;">
               {{ user.name }}
             </td>
@@ -60,7 +60,7 @@
       <p *ngIf="!attendants?.length">
         Nenhuma presença registrada
       </p>
-      <table mat-table [dataSource]="attendantsDataSource" class="w-100" [class.d-none]="!attendants?.length">
+      <table mat-table [dataSource]="attendantsDataSource" class="w-100" [class.d-none]="!attendants?.length" style="overflow-x: auto;">
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">

@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center">
     <h1 class="m-2" style="flex: 1">Palestrantes</h1>
     <button mat-raised-button color="primary" (click)="isCreateMode = true" *ngIf="user?.isAdmin">
-      <mat-icon>person_add</mat-icon> Novo palestrante
+      <mat-icon>person_add</mat-icon> <span class="d-none d-sm-inline">Novo palestrante</span>
     </button>
   </div>
 
@@ -71,10 +71,10 @@
       <app-file-upload image path="speakers" compact #imageEdit></app-file-upload>
 
       <div class="text-right">
-        <button mat-raised-button type="button" (click)="cancelSpeaker()" class="mx-2">
+        <button mat-raised-button type="button" (click)="cancelSpeaker()" class="mx-2 my-1">
           <mat-icon>clear</mat-icon> Cancelar
         </button>
-        <button mat-raised-button color="accent" type="button" [disabled]="!isNewSpeakerValid()" (click)="createSpeaker()" class="mx-2">
+        <button mat-raised-button color="accent" type="button" [disabled]="!isNewSpeakerValid()" (click)="createSpeaker()" class="mx-2 my-1">
           <mat-icon class="mr-2">person_add</mat-icon> Cadastrar
         </button>
       </div>
