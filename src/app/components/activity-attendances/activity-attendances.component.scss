@@ -1,0 +1,9 @@
+tr.register {
+  td {
+    &.header {
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 1px solid #333;
+    }
+  }
+}

@@ -11,6 +11,7 @@ import { AdminActivitiesService } from 'src/app/services/admin-activities.servic
 import { LocationsService } from 'src/app/services/locations.service';
 import { SpeakersService } from 'src/app/services/speakers.service';
 import { SpeakerDetailComponent } from 'src/app/components/speaker-detail/speaker-detail.component';
+import { ActivityAttendancesComponent } from 'src/app/components/activity-attendances/activity-attendances.component';
 
 @Component({
   selector: 'app-activity-view',
@@ -98,6 +99,18 @@ export class ActivityViewAdminComponent implements OnInit, OnDestroy {
     } else {
       return '-';
     }
+  }
+
+  openAttendancesManagement(): void {
+    const sattendancesSubscriptionSubscription = this.dialog.open(ActivityAttendancesComponent, {
+      minWidth: '400px',
+      maxWidth: '800px',
+      data: {
+        activity: this.activityId,
+      }
+    }).afterClosed().subscribe(() => {
+      if (sattendancesSubscriptionSubscription) { sattendancesSubscriptionSubscription.unsubscribe(); }
+    });
   }
 
   viewSpeakerDetail(speaker: Speaker) {

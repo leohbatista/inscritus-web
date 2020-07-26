@@ -33,15 +33,13 @@ export interface ActivitiesResult {
 }
 
 export interface ActivityRegistration {
-  activity?: string;
+  registeredAt?: firestore.Timestamp;
   registeredBy?: string;
   user?: string;
-  registeredAt?: firestore.Timestamp;
 }
 
 export interface ActivityAttendance {
-  activity?: string;
+  registeredAt?: firestore.Timestamp;
   registeredBy?: string;
   user?: string;
-  registeredAt?: firestore.Timestamp;
 }

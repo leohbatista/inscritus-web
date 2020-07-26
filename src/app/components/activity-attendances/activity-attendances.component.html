@@ -1,0 +1,98 @@
+<div mat-dialog-title class="d-flex align-items-center mb-2">
+
+  <div style="flex: 1;">
+    <h2 class="mb-1">Gerenciar Presenças</h2>
+  </div>
+
+  <button mat-icon-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-divider class="mt-0 mb-3"></mat-divider>
+
+<div mat-dialog-content style="overflow: visible;">
+  <mat-tab-group>
+    <mat-tab label="Registrar">
+      <div class="d-flex align-items-center">
+        <mat-form-field style="flex: 1;" class="my-2">
+          <mat-label>Buscar usuários</mat-label>
+          <input matInput type='text' name='searchValue' [(ngModel)]="searchValue" placeholder="Digite o nome ou e-mail" (keydown.enter)="searchUsers()" [disabled]="isLoading" />
+        </mat-form-field>
+
+        <button mat-button (click)="searchUsers()" [disabled]="isLoading">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+
+      <div class="text-center" *ngIf="isLoading">
+        <mat-spinner diameter="50" class="mx-auto"></mat-spinner>
+      </div>
+
+      <div *ngIf="!isLoading">
+        <table class="my-1">
+          <tr class="my-1 register">
+            <td class="px-2 header">Nome</td>
+            <td class="px-2 header">E-mail</td>
+            <td class="px-2 header"></td>
+          </tr>
+
+          <tr *ngFor="let user of filteredUsers">
+            <td class="px-2" style="font-weight: 500;">
+              {{ user.name }}
+            </td>
+            <td class="px-2">
+              {{ user.email }}
+            </td>
+            <td class="px-2">
+              <button mat-flat-button color="primary" (click)="onSelect(user)" [disabled]="isLoading" *ngIf="!isAttendant(user)">
+                <mat-icon>check</mat-icon> Registrar presença
+              </button>
+              <button mat-flat-button color="accent" (click)="onRemove(user)" [disabled]="isLoading" *ngIf="isAttendant(user)">
+                <mat-icon>close</mat-icon> Remover presença
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-tab>
+    <mat-tab label="Listar">
+      <p *ngIf="!attendants?.length">
+        Nenhuma presença registrada
+      </p>
+      <table mat-table [dataSource]="attendantsDataSource" class="w-100" [class.d-none]="!attendants?.length">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="px-2"> Nome </th>
+          <td mat-cell *matCellDef="let row" class="px-2"> {{ getUserName(row.user) }} </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef class="px-2"> E-mail </th>
+          <td mat-cell *matCellDef="let row" class="px-2"> {{ getUserEmail(row.user) }} </td>
+        </ng-container>
+
+        <!-- Registered At Column -->
+        <ng-container matColumnDef="registeredAt">
+          <th mat-header-cell *matHeaderCellDef class="px-2"> Registrado em </th>
+          <td mat-cell *matCellDef="let row" class="px-2"> {{ row.registeredAt?.toDate()?.toLocaleString() }} </td>
+        </ng-container>
+
+        <!-- Registered By Column -->
+        <ng-container matColumnDef="registeredBy">
+          <th mat-header-cell *matHeaderCellDef class="px-2"> Registrado por </th>
+          <td mat-cell *matCellDef="let row" class="px-2"> {{ getUserName(row.registeredBy) }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['name', 'email', 'registeredAt', 'registeredBy']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'email', 'registeredAt', 'registeredBy'];">
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
+    </mat-tab>
+  </mat-tab-group>
+
+</div>

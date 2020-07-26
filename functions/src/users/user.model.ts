@@ -27,10 +27,12 @@ export interface FavoriteActivity {
 
 export interface UserAttendance {
   activity?: string;
-  createdAt?: firestore.Timestamp;
+  registeredAt?: firestore.Timestamp;
+  registeredBy?: string;
 }
 
 export interface UserRegistration {
   activity?: string;
-  createdAt?: firestore.Timestamp;
+  registeredAt?: firestore.Timestamp;
+  registeredBy?: string;
 }

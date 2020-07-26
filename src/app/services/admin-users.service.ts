@@ -44,12 +44,12 @@ export class AdminUsersService {
       const userRef = this.angularFirestore.collection<User>('users').doc(user.uid);
 
       userRef.set(user, { merge: true }).then(() => {
-        resolve()
+        resolve();
       }).catch(err => {
         console.log('Error saving user');
         reject(err);
-      })
-    })
+      });
+    });
   }
 
   getFavoriteActivities(uid: string): Observable<FavoriteActivity[]> {
@@ -66,6 +66,10 @@ export class AdminUsersService {
 
   getUserByUID(uid: string): Observable<User> {
     return this.angularFirestore.doc(`users/${uid}`).valueChanges();
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.angularFirestore.collection(`users`).valueChanges();
   }
 
   removeFavoriteActivity(user: string, activity: string): Promise<void> {
