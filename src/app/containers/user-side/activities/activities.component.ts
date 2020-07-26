@@ -55,19 +55,21 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activitiesSubscription = this.activitiesAdmin.getActivities().subscribe(activities => {
+      const visibleActivities = _.filter(activities, a => a.visible);
+
       this.userSubscription = this.authService.user.subscribe(user => {
         this.user = user.uid;
 
         this.favoritesSubscription = this.usersAdmin.getFavoriteActivities(user.uid).subscribe(favorites => {
-          this.favorites = _.sortBy(_.filter(activities, a => !!_.find(favorites, ['activity', a.id])), ['name']);
+          this.favorites = _.sortBy(_.filter(visibleActivities, a => !!_.find(favorites, ['activity', a.id])), ['name']);
         });
 
         this.attendancesSubscription = this.usersAdmin.getAttendances(user.uid).subscribe(attendances => {
-          this.attendances = _.sortBy(_.filter(activities, a => !!_.find(attendances, ['activity', a.id])), ['name']);
+          this.attendances = _.sortBy(_.filter(visibleActivities, a => !!_.find(attendances, ['activity', a.id])), ['name']);
         });
 
         this.registrationsSubscription = this.usersAdmin.getRegistrations(user.uid).subscribe(registrations => {
-          this.registrations = _.sortBy(_.filter(activities, a => !!_.find(registrations, ['activity', a.id])), ['name']);
+          this.registrations = _.sortBy(_.filter(visibleActivities, a => !!_.find(registrations, ['activity', a.id])), ['name']);
         });
       });
     });

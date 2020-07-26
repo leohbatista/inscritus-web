@@ -188,6 +188,11 @@ export class ActivityEditComponent implements OnInit, OnDestroy {
     this.editActivityFormGroup.get('maxCapacityCtrl').setValue(this.activity.maxCapacity);
     this.editActivityFormGroup.get('preRegistrationCtrl').setValue(this.activity.preRegistration);
     this.editActivityFormGroup.get('visibleCtrl').setValue(this.activity.visible);
+
+    if(this.activity.preRegistration) {
+      this.editActivityFormGroup.controls.registrationDateCtrl.enable();
+      this.editActivityFormGroup.controls.registrationTimeCtrl.enable();
+    }
   }
 
   setRegistrationFields(): void {

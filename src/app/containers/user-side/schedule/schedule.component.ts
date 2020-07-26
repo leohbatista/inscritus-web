@@ -51,7 +51,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activitiesSubscription = this.activitiesAdmin.getActivities().subscribe(activities => {
-      this.activitiesByDay = _.groupBy(_.sortBy(activities, ['startDate']), 'startDate');
+      this.activitiesByDay = _.groupBy(_.sortBy(_.filter(activities, a => a.visible), ['startDate']), 'startDate');
       this.activitiesWithoutDate = _.concat(
         (this.activitiesByDay.null || []),
         (this.activitiesByDay.undefined || []),
