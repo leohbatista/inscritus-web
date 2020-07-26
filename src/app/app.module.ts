@@ -41,6 +41,7 @@ import { ActivityTypesComponent } from './containers/admin-side/activity-types/a
 import { MyQrcodeComponent } from './containers/user-side/my-qrcode/my-qrcode.component';
 import { LocationsComponent } from './containers/admin-side/locations/locations.component';
 import { ActivityAttendancesComponent } from './components/activity-attendances/activity-attendances.component';
+import { ActivityRegistrationsComponent } from './components/activity-registrations/activity-registrations.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { ActivityAttendancesComponent } from './components/activity-attendances/
     LocationsComponent,
     ActivityViewComponent,
     ActivityAttendancesComponent,
+    ActivityRegistrationsComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),

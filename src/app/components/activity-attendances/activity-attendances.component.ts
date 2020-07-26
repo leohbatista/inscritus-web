@@ -65,6 +65,7 @@ export class ActivityAttendancesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.attendantsSubscription) { this.attendantsSubscription.unsubscribe(); }
     if (this.userSubscription) { this.userSubscription.unsubscribe(); }
     if (this.usersSubscription) { this.usersSubscription.unsubscribe(); }
   }
@@ -86,7 +87,6 @@ export class ActivityAttendancesComponent implements OnInit, OnDestroy {
   }
 
   onSelect(user: User) {
-    console.log(user);
     this.activitiesAdmin.createAttendant(this.activity, {
       user: user.uid,
       registeredBy: this.loggedUser,
@@ -104,7 +104,6 @@ export class ActivityAttendancesComponent implements OnInit, OnDestroy {
   }
 
   onRemove(user: User) {
-    console.log(user);
     this.activitiesAdmin.deleteAttendant(this.activity, user.uid).then(() => {
       this.snackbar.open(`Presença removida - ${user.email}`, null, {
         duration: 2000,

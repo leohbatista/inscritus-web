@@ -143,14 +143,24 @@ export class AdminActivitiesService {
     return this.angularFirestore.collection('activities').doc(activity).collection('attendants').valueChanges();
   }
 
-  // Registered
+  // Attendances
   createRegistration(activity: string, registration: ActivityRegistration): Promise<void> {
+    const regBase = {
+      ...registration,
+      registeredAt: firestore.Timestamp.now(),
+      activity,
+    };
     return new Promise((resolve, reject) => {
-      this.angularFirestore.collection('activities').doc(activity).collection('registrations').doc(registration.user).set({
-        ...registration,
-        registeredAt: firestore.Timestamp.now()
-      }).then(() => {
-        resolve();
+      this.angularFirestore.collection('activities').doc(activity).collection('registrations').doc(registration.user).set(
+        _.omit(regBase, ['activity']),
+      ).then(() => {
+        this.angularFirestore.collection('users').doc(registration.user).collection('registrations').doc(activity).set(
+          _.omit(regBase, ['user'])
+        ).then(() => {
+          resolve();
+        }).catch(err => {
+          reject(err);
+        });
       }).catch(err => {
         reject(err);
       });
@@ -159,16 +169,19 @@ export class AdminActivitiesService {
 
   deleteRegistration(activity: string, user: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.angularFirestore.collection('activities').doc(activity).collection('registrations')
-      .doc(user).delete().then(() => {
-        resolve();
+      this.angularFirestore.collection('users').doc(user).collection('registrations').doc(activity).delete().then(() => {
+        this.angularFirestore.collection('activities').doc(activity).collection('registrations').doc(user).delete().then(() => {
+          resolve();
+        }).catch(err => {
+          reject(err);
+        });
       }).catch(err => {
         reject(err);
       });
     });
   }
 
-  getRegistered(activityId: string): Observable<ActivityRegistration[]> {
-    return this.angularFirestore.collection('activities').doc(activityId).collection('registrations').valueChanges();
+  getRegistrations(activity: string): Observable<ActivityRegistration[]> {
+    return this.angularFirestore.collection('activities').doc(activity).collection('registrations').valueChanges();
   }
 }

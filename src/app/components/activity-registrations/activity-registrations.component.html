@@ -1,7 +1,7 @@
 <div mat-dialog-title class="d-flex align-items-center mb-2">
 
   <div style="flex: 1;">
-    <h2 class="mb-1">Gerenciar Presenças</h2>
+    <h2 class="mb-1">Gerenciar Inscrições</h2>
   </div>
 
   <button mat-icon-button (click)="onClose()">
@@ -12,6 +12,10 @@
 <mat-divider class="mt-0 mb-3"></mat-divider>
 
 <div mat-dialog-content style="overflow: visible;">
+  <div class="text-center my-3" style="font-weight: 500; font-size: 1.2em;">
+    {{ registered?.length || 0 }} inscritos / {{ maxCapacity || '-' }} vagas
+  </div>
+
   <mat-tab-group>
     <mat-tab label="Registrar">
       <div class="d-flex align-items-center">
@@ -46,10 +50,10 @@
             </td>
             <td class="px-2">
               <button mat-flat-button color="primary" (click)="onSelect(user)" [disabled]="isLoading" *ngIf="!isAttendant(user)">
-                <mat-icon>check</mat-icon> Registrar presença
+                <mat-icon>check</mat-icon> Registrar inscrição
               </button>
               <button mat-flat-button color="accent" (click)="onRemove(user)" [disabled]="isLoading" *ngIf="isAttendant(user)">
-                <mat-icon>close</mat-icon> Remover presença
+                <mat-icon>close</mat-icon> Remover inscrição
               </button>
             </td>
           </tr>
@@ -57,10 +61,10 @@
       </div>
     </mat-tab>
     <mat-tab label="Listar">
-      <p *ngIf="!attendants?.length" class="p-3 text-center">
+      <p *ngIf="!registered?.length" class="p-3 text-center">
         Nenhuma presença registrada
       </p>
-      <table mat-table [dataSource]="attendantsDataSource" class="w-100" [class.d-none]="!attendants?.length" style="overflow-x: auto;">
+      <table mat-table [dataSource]="registeredDataSource" class="w-100" [class.d-none]="!registered?.length" style="overflow-x: auto;">
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
@@ -76,14 +80,14 @@
 
         <!-- Registered At Column -->
         <ng-container matColumnDef="registeredAt">
-          <th mat-header-cell *matHeaderCellDef class="px-2"> Registrado em </th>
+          <th mat-header-cell *matHeaderCellDef class="px-2"> Inscrito em </th>
           <td mat-cell *matCellDef="let row" class="px-2"> {{ row.registeredAt?.toDate()?.toLocaleString() }} </td>
         </ng-container>
 
         <!-- Registered By Column -->
         <ng-container matColumnDef="registeredBy">
-          <th mat-header-cell *matHeaderCellDef class="px-2"> Registrado por </th>
-          <td mat-cell *matCellDef="let row" class="px-2"> {{ getUserName(row.registeredBy) }} </td>
+          <th mat-header-cell *matHeaderCellDef class="px-2"> Inscrito por </th>
+          <td mat-cell *matCellDef="let row" class="px-2"> {{ row.registeredBy ? getUserName(row.registeredBy) : '-' }} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="['name', 'email', 'registeredAt', 'registeredBy']"></tr>
