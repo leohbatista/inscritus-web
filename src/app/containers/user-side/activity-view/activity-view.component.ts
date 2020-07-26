@@ -11,6 +11,11 @@ import { AdminActivitiesService } from 'src/app/services/admin-activities.servic
 import { LocationsService } from 'src/app/services/locations.service';
 import { SpeakersService } from 'src/app/services/speakers.service';
 import { SpeakerDetailComponent } from 'src/app/components/speaker-detail/speaker-detail.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/auth/auth.service';
+import { AdminUsersService } from 'src/app/services/admin-users.service';
+import { FavoriteActivity } from 'functions/src/users/user.model';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-activity-view',
@@ -34,14 +39,24 @@ export class ActivityViewComponent implements OnInit, OnDestroy {
   speakers: Speaker[];
   speakersSubscription: Subscription;
 
+  user: string;
+  userSubscription: Subscription;
+
+  isFavorite: boolean;
+  favoritesSubscription: Subscription;
+
   isLoading = true;
 
   constructor(
     private activitiesAdmin: AdminActivitiesService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private locationService: LocationsService,
     private route: ActivatedRoute,
+    private snackbar: MatSnackBar,
     private speakersService: SpeakersService,
+    private usersAdmin: AdminUsersService,
+
   ) { }
 
   ngOnInit(): void {
@@ -62,7 +77,7 @@ export class ActivityViewComponent implements OnInit, OnDestroy {
         });
       }
 
-      if(activity.speakers) {
+      if (activity.speakers) {
         this.speakersSubscription = this.speakersService.getSpeakers().subscribe(speakers => {
           this.speakers = speakers.filter(s => this.activity.speakers.indexOf(s.id) >= 0);
         });
@@ -70,17 +85,28 @@ export class ActivityViewComponent implements OnInit, OnDestroy {
 
       this.isLoading = false;
     });
+
+    this.userSubscription = this.authService.user.subscribe(user => {
+      this.user = user.uid;
+
+      this.favoritesSubscription = this.usersAdmin.getFavoriteActivities(this.user).subscribe(favorites => {
+        this.isFavorite = !!_.find(favorites, ['activity', this.activityId]);
+      });
+
+    });
   }
 
   ngOnDestroy() {
     if (this.activitySubscription) { this.activitySubscription.unsubscribe(); }
     if (this.activityTypeSubscription) { this.activityTypeSubscription.unsubscribe(); }
+    if (this.favoritesSubscription) { this.favoritesSubscription.unsubscribe(); }
     if (this.locationSubscription) { this.locationSubscription.unsubscribe(); }
     if (this.speakersSubscription) { this.speakersSubscription.unsubscribe(); }
+    if (this.userSubscription) { this.userSubscription.unsubscribe(); }
   }
 
   getDateTime(activity: Activity) {
-    if(activity?.startDate) {
+    if (activity?.startDate) {
       const startDate = moment(activity.startDate);
       const endDate = activity.endDate ? moment(activity.endDate) : null;
 
@@ -97,6 +123,32 @@ export class ActivityViewComponent implements OnInit, OnDestroy {
       return `${regDate.format('DD/MM/YYYY')} ${activity.registrationTime || ''}`;
     } else {
       return '-';
+    }
+  }
+
+  toggleFavorite(): void {
+    if (this.isFavorite) {
+      this.usersAdmin.removeFavoriteActivity(this.user, this.activityId).then(() => {
+        this.snackbar.open('Atividade removida dos favoritos', null, {
+          duration: 2000,
+        });
+      }).catch(err => {
+        console.error('Error favoriting activity', this.activityId, err);
+        this.snackbar.open('Erro', null, {
+          duration: 1500,
+        });
+      });
+    } else {
+      this.usersAdmin.addFavoriteActivity(this.user, this.activityId).then(() => {
+        this.snackbar.open('Atividade adicionada aos favoritos', null, {
+          duration: 2000,
+        });
+      }).catch(err => {
+        console.error('Error favoriting activity', this.activityId, err);
+        this.snackbar.open('Erro', null, {
+          duration: 1500,
+        });
+      });
     }
   }
 
