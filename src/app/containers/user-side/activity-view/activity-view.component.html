@@ -7,7 +7,7 @@
 <div class="container p-4" *ngIf="!isLoading">
   <mat-card>
     <mat-card-header class="mb-3 d-flex align-items-center">
-      <mat-card-title class="m-0 d-flex align-items-center" style="flex: 1">
+      <mat-card-title class="m-0 d-flex align-items-center">
         <a mat-flat-icon routerLink="/admin/atividades" class="mr-3">
           <mat-icon>chevron_left</mat-icon>
         </a>
@@ -115,5 +115,50 @@
     <mat-card-footer class="text-right px-4 py-3 update-label">
       Última alteração: {{ activity?.lastUpdate?.toDate() }}
     </mat-card-footer>
+  </mat-card>
+
+  <mat-card class="my-3" *ngIf="activity?.preRegistration">
+    <mat-card-header class="mt-2 mb-3 d-flex align-items-center">
+      <mat-card-title class='m-0' style="flex: 1;">
+        Inscrições:
+      </mat-card-title>
+      <div class="text-right" style="flex: 1" *ngIf="!isRegistered && !hasOpened() && !isFull()">
+        <button mat-stroked-button (click)="refreshDate()">
+          <mat-icon>refresh</mat-icon> Atualizar
+        </button>
+      </div>
+    </mat-card-header>
+
+    <hr class="my-3"/>
+
+    <div class="text-center" *ngIf="isRegistered">
+      <p>
+        Sua inscrição já foi realizada!
+      </p>
+      <button mat-raised-button color="accent" (click)="removeRegistration()">
+        <mat-icon class="mr-2">cancel</mat-icon> Cancelar inscrição
+      </button>
+    </div>
+
+    <div class="text-center" *ngIf="!isRegistered && hasOpened() && isFull()">
+      <p>
+        Infelizmente todas as vagas já foram preenchidas.
+      </p>
+    </div>
+
+    <div class="text-center" *ngIf="!isRegistered && !hasOpened()">
+      <p>
+        As inscrições ainda não estão abertas. Elas serão liberadas em {{ getRegistrationDateTime(activity) }}.
+      </p>
+    </div>
+
+    <div class="text-center" *ngIf="!isRegistered && isRegistrationOpened()">
+      <p>
+        As inscrições estão abertas!
+      </p>
+      <button mat-raised-button color="primary" (click)="register()">
+        <mat-icon class="mr-2">how_to_reg</mat-icon> Inscrever-me
+      </button>
+    </div>
   </mat-card>
 </div>

@@ -12,6 +12,7 @@ import { LocationsService } from 'src/app/services/locations.service';
 import { SpeakersService } from 'src/app/services/speakers.service';
 import { SpeakerDetailComponent } from 'src/app/components/speaker-detail/speaker-detail.component';
 import { ActivityAttendancesComponent } from 'src/app/components/activity-attendances/activity-attendances.component';
+import { ActivityRegistrationsComponent } from 'src/app/components/activity-registrations/activity-registrations.component';
 
 @Component({
   selector: 'app-activity-view',
@@ -102,14 +103,27 @@ export class ActivityViewAdminComponent implements OnInit, OnDestroy {
   }
 
   openAttendancesManagement(): void {
-    const sattendancesSubscriptionSubscription = this.dialog.open(ActivityAttendancesComponent, {
+    const attendancesSubscriptionSubscription = this.dialog.open(ActivityAttendancesComponent, {
       minWidth: '300px',
       maxWidth: '800px',
       data: {
         activity: this.activityId,
       }
     }).afterClosed().subscribe(() => {
-      if (sattendancesSubscriptionSubscription) { sattendancesSubscriptionSubscription.unsubscribe(); }
+      if (attendancesSubscriptionSubscription) { attendancesSubscriptionSubscription.unsubscribe(); }
+    });
+  }
+
+  openRegistrationsManagement(): void {
+    const registrationsSubscriptionSubscription = this.dialog.open(ActivityRegistrationsComponent, {
+      minWidth: '300px',
+      maxWidth: '800px',
+      data: {
+        activity: this.activityId,
+        maxCapacity: this.activity.maxCapacity || 0,
+      }
+    }).afterClosed().subscribe(() => {
+      if (registrationsSubscriptionSubscription) { registrationsSubscriptionSubscription.unsubscribe(); }
     });
   }
 
