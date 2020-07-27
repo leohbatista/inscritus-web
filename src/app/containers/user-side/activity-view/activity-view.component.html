@@ -8,7 +8,7 @@
   <mat-card>
     <mat-card-header class="mb-3 d-flex align-items-center">
       <mat-card-title class="m-0 d-flex align-items-center">
-        <a mat-flat-icon routerLink="/admin/atividades" class="mr-3">
+        <a mat-flat-icon routerLink="/cronograma" class="mr-3">
           <mat-icon>chevron_left</mat-icon>
         </a>
         Dados da atividade:
@@ -120,7 +120,7 @@
   <mat-card class="my-3" *ngIf="activity?.preRegistration">
     <mat-card-header class="mt-2 mb-3 d-flex align-items-center">
       <mat-card-title class='m-0' style="flex: 1;">
-        Inscrições:
+        Inscrição:
       </mat-card-title>
       <div class="text-right" style="flex: 1" *ngIf="!isRegistered && !hasOpened() && !isFull()">
         <button mat-stroked-button (click)="refreshDate()">

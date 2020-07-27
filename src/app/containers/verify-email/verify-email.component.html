@@ -1,10 +1,65 @@
-<div class="container p-3 h-100">
+<div class="container p-4 h-100" *ngIf="isLoading">
   <div class="d-flex align-items-center justify-content-center" style="min-height: 100%;">
-    <mat-card class="px-4 py-5 p-sm-5" style="width: 500px;">
+    <mat-spinner diameter="80"></mat-spinner>
+  </div>
+</div>
+
+
+<div class="container p-3 h-100" *ngIf="!isLoading">
+  <div class="d-flex align-items-center justify-content-center" style="min-height: 100%;">
+    <mat-card class="px-4 py-5 p-sm-5" style="width: 500px;" *ngIf="mode === 'verifyEmail'">
       <mat-card-content>
         <h2 class="text-center mb-3">Confirmando e-mail</h2>
         <div class="mt-5 mb-4">
           <mat-spinner diameter="60" class="mx-auto"></mat-spinner>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="px-4 py-5 p-sm-5" style="width: 500px;" *ngIf="mode === 'resetPassword'">
+      <mat-card-content>
+        <h2 class="text-center mb-3">Redefinição de senha</h2>
+        <div class="mt-5 mb-4">
+          <div class="text-center" *ngIf="isLoading">
+            <mat-spinner *ngIf="isProcessing" [diameter]="40" color="primary" class="mx-auto"></mat-spinner>
+          </div>
+
+          <form [formGroup]="resetPasswordForm" *ngIf="!isLoading">
+            <mat-form-field class="w-100 mb-1" color="primary">
+              <input matInput type="email" placeholder="Seu e-mail" formControlName="emailCtrl" name="email" required>
+              <mat-error *ngIf="resetPasswordForm.controls['emailCtrl'].hasError('required')">
+                Informe seu e-mail.
+              </mat-error>
+              <mat-error *ngIf="resetPasswordForm.controls['emailCtrl'].hasError('email')">
+                O e-mail deve ser válido.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mb-2" color="primary">
+              <input matInput type="password" placeholder="Digite uma nova senha" formControlName="newPasswordCtrl"
+                required name="newPassword">
+              <mat-error *ngIf="resetPasswordForm.controls['newPasswordCtrl'].hasError('required')">
+                Informe uma nova senha de acesso.
+              </mat-error>
+              <mat-error *ngIf="resetPasswordForm.controls['newPasswordCtrl'].hasError('minlength')">
+                A nova senha deve ter 6 caracteres ou mais.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-100 mb-4" color="primary">
+              <input matInput type="password" placeholder="Confirme a nova senha" formControlName="confirmNewPasswordCtrl"
+                required name="confirmNewPassword">
+              <mat-error *ngIf="resetPasswordForm.controls['confirmNewPasswordCtrl'].hasError('required')">
+                Confirme a nova senha criada.
+              </mat-error>
+              <mat-error *ngIf="resetPasswordForm.controls['confirmNewPasswordCtrl'].hasError('mismatch')">
+                Confirmação da nova senha não confere.
+              </mat-error>
+            </mat-form-field>
+            <div class="my-3 text-center">
+              <button mat-raised-button color="primary" type="submit" color="primary" *ngIf="!isProcessing" [disabled]="resetPasswordForm.invalid" (click)="saveNewPassword()">Salvar</button>
+              <mat-spinner *ngIf="isProcessing" [diameter]="40" color="primary" class="mx-auto"></mat-spinner>
+            </div>
+          </form>
         </div>
       </mat-card-content>
     </mat-card>

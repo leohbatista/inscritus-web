@@ -44,7 +44,7 @@ export class AuthService {
       this.angularFireAuth.createUserWithEmailAndPassword(userData.email, password).then(auth => {
         console.log(auth, userData);
 
-        let user = {
+        const user = {
           ...userData,
           uid: auth.user.uid,
           emailVerified: auth.user.emailVerified,
@@ -62,7 +62,7 @@ export class AuthService {
             this.user = userRef.valueChanges() as Observable<User>;
             resolve();
           }).catch(err => {
-            console.error("Error login in the user", err);
+            console.error('Error login in the user', err);
 
           });
 
@@ -76,7 +76,7 @@ export class AuthService {
 
   getHeaders() {
     return {
-      'Authorization': 'Bearer ' + this.userSessionToken,
+      Authorization: 'Bearer ' + this.userSessionToken,
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
     }
@@ -100,13 +100,14 @@ export class AuthService {
         this.updateUserWithAuth(auth);
         resolve();
       }).catch(err => {
-        if(err.code === 'auth')
-        console.error('Error on login');
+        if (err.code === 'auth') {
+          console.error('Error on login');
+        }
 
         this.user = of(null as User);
         reject(err);
       });
-    })
+    });
   }
 
   private updateUserWithAuth({ user }) {
@@ -133,7 +134,11 @@ export class AuthService {
     auth.user.sendEmailVerification({ url: `${environment.baseURL}/atividades` });
   }
 
-  redirectUser(currentPath: string, redirectToPathLogged = '/avisos', redirectToPathUnlogged = '/login') {
+  redirectUser(currentPath: string, redirectToPathLogged = '/avisos', redirectToPathUnlogged = '/entrar') {
+
+    if (currentPath.indexOf('/verificar') === 0) {
+      currentPath = '/verificar';
+    }
     console.log(currentPath, redirectToPathLogged, redirectToPathUnlogged);
 
     return new Promise(resolve => {
@@ -181,6 +186,17 @@ export class AuthService {
     });
   }
 
+  confirmResetCode(actionCode: string) {
+    return new Promise((resolve, reject) => {
+      this.angularFireAuth.verifyPasswordResetCode(actionCode).then(email => {
+        resolve(email);
+      }).catch(err => {
+        console.log('Error validating reset password code', err);
+        reject(err);
+      });
+    });
+  }
+
   resendVerificationEmail() {
     return new Promise((resolve, reject) => {
       this.angularFireAuth.currentUser.then(user => {
@@ -191,7 +207,7 @@ export class AuthService {
 
   editUser(userData: User): Promise<void> {
     return new Promise((resolve, reject) => {
-      let user = {
+      const user = {
         ...userData,
         lastUpdate: firestore.Timestamp.now(),
       }
@@ -203,8 +219,42 @@ export class AuthService {
       }).catch(err => {
         console.log('Error saving user');
         reject(err);
-      })
-    })
+      });
+    });
+  }
+
+  resetPassword(actionCode, newPassword, userEmail): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.angularFireAuth.verifyPasswordResetCode(actionCode).then(email => {
+        if (userEmail === email) {
+          this.angularFireAuth.confirmPasswordReset(actionCode, newPassword).then(() => {
+            console.log('Password reset has been confirmed and new password updated');
+            resolve();
+          }).catch(err => {
+            console.error('Error redefining the password', err);
+            reject(err);
+          });
+        } else {
+          console.error('Error redefining the password');
+          reject(new Error('E-mails mismatch'));
+        }
+      }).catch(err => {
+        console.error('Error validating code', err);
+        reject(err);
+      });
+    });
+  }
+
+  sendPasswordResetEmail(userEmail: string) {
+    return new Promise((resolve, reject) => {
+      const auth = this.angularFireAuth.sendPasswordResetEmail(userEmail).then(() => {
+        console.log('Reset password e-mail was sent');
+        resolve();
+      }).catch(err => {
+        console.log('Error sending reset password e-mail', err);
+        reject(err);
+      });
+    });
   }
 }
 

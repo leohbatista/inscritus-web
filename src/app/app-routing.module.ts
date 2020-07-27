@@ -19,7 +19,7 @@ import { ActivityCreateComponent } from './containers/admin-side/activity-create
 import { ActivityEditComponent } from './containers/admin-side/activity-edit/activity-edit.component';
 import { ActivityListComponent } from './containers/admin-side/activity-list/activity-list.component';
 import { ActivityViewAdminComponent } from './containers/admin-side/activity-view/activity-view.component';
-// import { UserCreateComponent } from './containers/admin-side/user-create/user-create.component';
+import { UserCreateComponent } from './containers/admin-side/user-create/user-create.component';
 import { UserEditComponent } from './containers/admin-side/user-edit/user-edit.component';
 import { UserListComponent } from './containers/admin-side/user-list/user-list.component';
 import { UserViewComponent } from './containers/admin-side/user-view/user-view.component';
