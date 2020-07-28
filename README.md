@@ -1,5 +1,10 @@
 # InscritusWeb
 
+1. [Introdução](#introdução)
+1. [Funcionalidades](#funcionalidades)
+    1. [Visão do participante](#visão-do-participante)
+    1. [Visão do participante](#visão-do-administrador)
+
 ## Introdução
 
 Inscritus Web é um sistema *white label* *open-source* para gerenciamento de evento. O projeto foi desenvolvido na disciplina **MC853 - Projeto em Sistemas de Programação**, oferecida pelo Instituto de Computação da Universidade Estadual de Campinas (IC/UNICAMP) no primeiro semestre letivo de 2020 (1S2020).
