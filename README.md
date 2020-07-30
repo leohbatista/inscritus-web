@@ -70,34 +70,67 @@ Todas as funcionalidades de usuário, além de:
   * Definição de limite de vagas
   * Definição de momento da abertura das inscrições 
 
-## Estrutura geral do projeto
+## Observações gerais sobre o projeto
+
+Este projeto utiliza duas versões do `node.js` (v10 para o back-end e v12 para o front-end). Desta forma, recomenda-se a utilização do software `nvm` para fácil gerênciamento e troca entre as versões.
+
+* [node.js](https://nodejs.org/)
+* [nvm](https://github.com/nvm-sh/nvm)
+
+Todos os comandos apresentados neste README são compatíveis com `npm` e `yarn` como gerenciadores de dependências. Nós recomendamos a utilização do `yarn` e, por esta razão, todos os comandos serão apresentados no formato deste gerenciador. Caso prefira utilizar o `npm`, basta utilizar a sintaxe exigida pelo mesmo.
+
+* [yarn (Recomendado)](https://yarnpkg.com/)
+* [npm](https://www.npmjs.com/)
+
+### Infraestrutura
+
+### Configurações gerais
 
 ## Informações sobre o Front-End
 
+### Instalação
+
+Para instalar as dependências do front-end, basta executar o seguinte comando na **raiz do projeto**:
+
+```yarn```
+
+### Execução e Compilação
+
+Para servir o código localmente, basta executar o seguinte comando:
+
+```yarn start```
+
+Para compilar o código em modo de **desenvolvimento**, execute:
+
+```yarn build```
+
+Para compilar o código em modo de **produção**, execute:
+
+```yarn build:prod```
+
+### Deploy
+
+### Estrutura de pastas
+
+### Configurações do projeto
+
 ## Informações sobre o Back-End
 
+### Instalação
 
+Para instalar as dependências do back-end, basta executar o seguinte comando na **pasta `functions`**:
 
-## Development server
+```yarn```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Execução e Compilação
 
-## Code scaffolding
+Para servir o código localmente, basta executar o seguinte comando:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```yarn serve```
 
-## Build
+Para compilar o código em modo de **desenvolvimento**, execute:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
+firebase use <nome-do-projeto>
+yarn build
+```
