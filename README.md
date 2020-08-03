@@ -95,21 +95,29 @@ O front-end do projeto foi construído utilizando o framework Angular 9, utiliza
 
 Para instalar as dependências do front-end, basta executar o seguinte comando na **raiz do projeto**:
 
-```yarn```
+```
+yarn
+```
 
 ### Execução e Compilação
 
 Para servir o código do front-end localmente, basta executar o seguinte comando:
 
-```yarn start```
+```
+yarn start
+```
 
 Para compilar o código do front-end em modo de **desenvolvimento**, execute:
 
-```yarn build```
+```
+yarn build
+```
 
 Para compilar o código do front-end em modo de **produção**, execute:
 
-```yarn build:prod```
+```
+yarn build:prod
+```
 
 O código compilado, em ambos os modos, estará disponível na pasta `/dist/inscritus-web`, dentro do projeto.
 
@@ -136,7 +144,9 @@ Após o término da execução, a nova versão já estará disponível para uso.
 
 Para instalar as dependências do back-end, basta executar o seguinte comando na **pasta `functions`**:
 
-```yarn```
+```
+yarn
+```
 
 ### Execução e Compilação
 
