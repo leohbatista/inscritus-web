@@ -84,9 +84,12 @@ Todos os comandos apresentados neste README são compatíveis com `npm` e `yarn`
 
 ### Infraestrutura
 
+
 ### Configurações gerais
 
 ## Informações sobre o Front-End
+
+O front-end do projeto foi construído utilizando o framework Angular 9, utilizando padrões de design do Material UI através da biblioteca Angular Material. Devido ao uso do Firebase como plataforma de *cloud computing* a necessidade de uma estrutura de back-end diminui drasticamente, uma vez que o mesmo pemite comunicação direta do front-end com o banco de dados e o serviço de gerenciamento de autenticação.
 
 ### Instalação
 
@@ -96,19 +99,32 @@ Para instalar as dependências do front-end, basta executar o seguinte comando n
 
 ### Execução e Compilação
 
-Para servir o código localmente, basta executar o seguinte comando:
+Para servir o código do front-end localmente, basta executar o seguinte comando:
 
 ```yarn start```
 
-Para compilar o código em modo de **desenvolvimento**, execute:
+Para compilar o código do front-end em modo de **desenvolvimento**, execute:
 
 ```yarn build```
 
-Para compilar o código em modo de **produção**, execute:
+Para compilar o código do front-end em modo de **produção**, execute:
 
 ```yarn build:prod```
 
+O código compilado, em ambos os modos, estará disponível na pasta `/dist/inscritus-web`, dentro do projeto.
+
 ### Deploy
+
+Para lançar o front-end da aplicação usando o Firebase é necessário ter o firebase-cli instalado e configurado (saiba mais na seção [Configurando o Firebase](#)). Para efetuar o lançamento, execute:
+
+```
+firebase use <nome-do-projeto-no-firebase>
+yarn deploy
+```
+
+Após o término da execução, a nova versão já estará disponível para uso.
+
+**IMPORTANTE:** O código lançado é aquele que estiver disponível na pasta `/dist/inscritus-web`, dentro do projeto, no momento da execução dos comandos acima. Certifique-se de compilar o código adequadamente antes de realuzar o lançamento.
 
 ### Estrutura de pastas
 
@@ -126,11 +142,28 @@ Para instalar as dependências do back-end, basta executar o seguinte comando na
 
 Para servir o código localmente, basta executar o seguinte comando:
 
-```yarn serve```
+```
+firebase use <nome-do-projeto>
+yarn serve
+```
 
-Para compilar o código em modo de **desenvolvimento**, execute:
+Para compilar o código, execute:
 
 ```
 firebase use <nome-do-projeto>
 yarn build
 ```
+O código compilado estará disponível na pasta `/functions/lib`, dentro do projeto.
+
+### Deploy
+
+Para lançar o back-end da aplicação usando o Firebase é necessário ter o firebase-cli instalado e configurado (saiba mais na seção [Configurando o Firebase](#)). Para efetuar o lançamento, execute:
+
+```
+firebase use <nome-do-projeto-no-firebase>
+yarn deploy
+```
+
+### Estrutura de pastas
+
+### Configurações do projeto
