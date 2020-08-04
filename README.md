@@ -153,7 +153,7 @@ O código compilado, em ambos os modos, estará disponível na pasta `/public/in
 
 ### Deploy
 
-Para lançar o front-end da aplicação usando o Firebase é necessário ter o firebase-cli instalado e configurado (saiba mais na seção [Configurando o Firebase](#)). Para efetuar o lançamento, execute:
+Para lançar o front-end da aplicação usando o Firebase é necessário ter o firebase-cli instalado e configurado (saiba mais na [documentação oficial](https://firebase.google.com/docs/cli?hl=pt-br)). Para efetuar o lançamento, execute:
 
 ```
 firebase use <nome-do-projeto-no-firebase>
@@ -193,6 +193,14 @@ A estrutura dos arquivos do front-end se dá da seguinte forma:
 ```
 
 ### Configurações do projeto
+
+As configurações necessárias para o back-end são:
+
+1. Altere o arquivo `/src/favicon.ico` para o de sua preferência
+1. Altere as informações sobre a sua aplicação no arquivo `/src/config/app-info.ts`, incluindo nome, versão, descrição e links para Termos de Uso e Política de Privacidade, podendo ambos serem rotas do sistema ou links externos.
+1. Altere as cores do sistema no arquivo `/src/theme.scss` para as de sua preferência. Recomenda-se a utilização das [paletas de cores do Material UI](https://material.io/design/color/the-color-system.html#tools-for-picking-colors)
+1. Obtenha o [objeto de configuração do Firebase](https://firebase.google.com/docs/web/setup?hl=pt-br#config-object) e adicione-o nos arquivos `/src/environments/environment.ts` e `/src/environments/environment.prod.ts`. Além disso, altere os valores de `functionsUrl` em ambos os arquivos para coreesponderem aos endereços onde o seu back-end será servido em cada um dos ambientes.
+
 
 ## Informações sobre o Back-End
 
@@ -237,7 +245,7 @@ O código compilado estará disponível na pasta `/functions/lib`, dentro do pro
 
 ### Deploy
 
-Para lançar o back-end da aplicação usando o Firebase é necessário ter o firebase-cli instalado e configurado (saiba mais na seção [Configurando o Firebase](#)). Para efetuar o lançamento, execute:
+Para lançar o back-end da aplicação usando o Firebase é necessário ter o firebase-cli instalado e configurado (saiba mais na [documentação oficial](https://firebase.google.com/docs/cli?hl=pt-br)). Para efetuar o lançamento, execute:
 
 ```
 firebase use <nome-do-projeto-no-firebase>
