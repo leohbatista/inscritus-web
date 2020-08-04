@@ -22,6 +22,7 @@
     1. [Deploy](#deploy-1)
     1. [Estrutura de pastas](#estrutura-de-pastas-1)
     1. [Configurações do projeto](#configurações-do-projeto-1)
+1. [Licença](#licença)
 
 
 ## Introdução
@@ -315,4 +316,5 @@ admin.initializeApp({
   databaseURL: "your_database_url"
 });
 ```
-
+## Licença
+Distribuído dentro da licença MIT. Veja [LICENSE](https://github.com/leohbatista/inscritus-web/blob/master/LICENSE) para mais informações.
