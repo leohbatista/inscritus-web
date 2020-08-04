@@ -13,6 +13,8 @@
 
 Inscritus Web é um sistema *white label* *open-source* para gerenciamento de evento. O projeto foi desenvolvido na disciplina **MC853 - Projeto em Sistemas de Programação**, oferecida pelo Instituto de Computação da Universidade Estadual de Campinas (IC/UNICAMP) no primeiro semestre letivo de 2020 (1S2020).
 
+Este projeto também possui um app mobile que pode ser usado concomitantemente com o sistema web, podendo não fornecer todas as funcionalidades que o sistema web possui, porém entregando também novas funcionalidades. Para saber mais, acesse o [repositório do app mobile](https://github.com/caiopardal/mc853_mobile).
+
 ## Funcionalidades
 
 O sistema é estruturado de forma que uma instância do sistema gerencia um único evento, o qual pode conter diversas atividades vinculadas. Dentre as funcionalidades implementadas temos:
@@ -88,9 +90,13 @@ Todos os comandos apresentados neste README são compatíveis com `npm` e `yarn`
 
 ### Infraestrutura
 
+Este projeto utiliza o Firebase como plataforma de *cloud computing* para hospedar esta aplicação como um todo, incluindo seus 5 principais produtos: autenticação, banco de dados, armazenamento de arquivos, hospedagem e microsserviços. A escolha dessa plataforma se deu devido à sua fácil integração com as demais tecnologias utilizadas, à sua fácil curva de aprendizagem e seu baixo custo comparado aos demais serviços concorrentes.
+
+* [Firebase](https://firebase.google.com/)
 
 ### Configurações gerais
 
+Para criar um novo projeto no Firebase, consulte a [documentação oficial](https://firebase.google.com/docs/projects/learn-more?hl=pt-br).
 
 ### Estrutura do Banco de Dados
 
