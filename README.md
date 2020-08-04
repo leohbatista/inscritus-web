@@ -31,7 +31,7 @@ Inscritus Web é um sistema *white label* *open-source* para gerenciamento de ev
 
 Este projeto também possui um app mobile que pode ser usado concomitantemente com o sistema web, podendo não fornecer todas as funcionalidades que o sistema web possui, porém entregando também novas funcionalidades. Para saber mais, acesse o [repositório do app mobile](https://github.com/caiopardal/mc853_mobile).
 
-Para acessar um *live demo*, clique aqui.
+Para acessar um *live demo*, [clique aqui](https://mc853-f59e9.web.app/).
 * Admin: `admin@teste.com` / `123456`
 * Participante: `user@teste.com` / `123456`
 
