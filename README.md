@@ -140,6 +140,20 @@ Após o término da execução, a nova versão já estará disponível para uso.
 
 ## Informações sobre o Back-End
 
+Todas as operações envolvendo o back-end devem ser executadas utilizando o `node.js` versão 10, que é a versão suportada pelo Firebase Functions. 
+
+Para instalar o `node v10` usando o `nvm` execute:
+
+```
+nvm install 10
+```
+
+Para utilizar o `node v10` usando o `nvm` execute:
+
+```
+nvm use 10
+```
+
 ### Instalação
 
 Para instalar as dependências do back-end, basta executar o seguinte comando na **pasta `functions`**:
@@ -176,4 +190,35 @@ yarn deploy
 
 ### Estrutura de pastas
 
+A estrutura dos arquivos do back-end se dá da seguinte forma:
+```
+/functions
+  |-/lib --> Arquivos compilados
+  |-/node_modules --> Dependências
+  |-/src --> Código: models, APIs e Handlers
+    |-/activities
+    |-/feed
+    |-/locations
+    |-/speakers
+    |-/users
+    index.ts --> Visibilidade de APIs e confugurações
+  |-<your-key-file>.json
+```
+
 ### Configurações do projeto
+
+As configurações necessárias para o back-end são:
+
+1. Gere uma nova privada para o SDK Admin do Firebase. Para saber mais, acesse a [documentação oficial sobre este tópico](https://firebase.google.com/docs/admin/setup?hl=pt-br).
+1. Coloque o arquivo de chave com extensão `.json` na pasta `functions`, conforme mostrado acima.
+1. Altere o nome do arquivo de chave e o valor do `databaseURL` no arquivo `/functions/src/index.ts`, conforme especificado abaixo:
+
+```
+const serviceAccount = require("../<key_filename>.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "your_database_url"
+});
+```
+
