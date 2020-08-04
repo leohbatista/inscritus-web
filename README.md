@@ -7,13 +7,15 @@
 1. [Observações gerais sobre o projeto]
 1. [Infraestrutura]
 
-
-
 ## Introdução
 
 Inscritus Web é um sistema *white label* *open-source* para gerenciamento de evento. O projeto foi desenvolvido na disciplina **MC853 - Projeto em Sistemas de Programação**, oferecida pelo Instituto de Computação da Universidade Estadual de Campinas (IC/UNICAMP) no primeiro semestre letivo de 2020 (1S2020).
 
 Este projeto também possui um app mobile que pode ser usado concomitantemente com o sistema web, podendo não fornecer todas as funcionalidades que o sistema web possui, porém entregando também novas funcionalidades. Para saber mais, acesse o [repositório do app mobile](https://github.com/caiopardal/mc853_mobile).
+
+Para acessar um *live demo*, clique aqui.
+* Admin: `admin@teste.com` / `123456`
+* Participante: `user@teste.com` / `123456`
 
 ## Funcionalidades
 
