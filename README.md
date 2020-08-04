@@ -103,7 +103,7 @@ O banco de dados do sistema possui a seguinte estrutura:
 |speakers|`/functions/src/speakers/speaker.model.ts --> Speaker`|
 |activity-types|`/functions/src/activities/activity.model.ts --> ActivityType`|
 |locations|`/functions/src/locations/location.model.ts --> Location`|
-|feed|`/functions/src/users/user.model.ts --> User`|
+|feed|`/functions/src/feed/feed.model.ts --> Post`|
 
 Além disso, há também algumas *subcollections* para controle das atividades:
 
