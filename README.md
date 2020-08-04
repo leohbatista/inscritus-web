@@ -3,7 +3,11 @@
 1. [Introdução](#introdução)
 1. [Funcionalidades](#funcionalidades)
     1. [Visão do participante](#visão-do-participante)
-    1. [Visão do participante](#visão-do-administrador)
+    1. [Visão do administrador](#visão-do-administrador)
+1. [Observações gerais sobre o projeto]
+1. [Infraestrutura]
+
+
 
 ## Introdução
 
@@ -87,6 +91,32 @@ Todos os comandos apresentados neste README são compatíveis com `npm` e `yarn`
 
 ### Configurações gerais
 
+
+### Estrutura do Banco de Dados
+
+O banco de dados do sistema possui a seguinte estrutura:
+
+| Collection Name | Model |
+| --------------- | ----- |
+|users|`/functions/src/users/user.model.ts --> User`|
+|activities|`/functions/src/activities/activity.model.ts --> Activity`|
+|speakers|`/functions/src/speakers/speaker.model.ts --> Speaker`|
+|activity-types|`/functions/src/activities/activity.model.ts --> ActivityType`|
+|locations|`/functions/src/locations/location.model.ts --> Location`|
+|feed|`/functions/src/users/user.model.ts --> User`|
+
+Além disso, há também algumas *subcollections* para controle das atividades:
+
+| First Collection | SubCollection | Model |
+| ---------------- | ------------- | ------ |
+|users|favorites|`/functions/src/users/user.model.ts --> FavoriteActivity`|
+|users|registrations|`/functions/src/users/user.model.ts --> UserRegistration`|
+|users|attendances|`/functions/src/users/user.model.ts --> UserAttendance`|
+|activities|attendants|`/functions/src/activities/activity.model.ts --> ActivityAttendance`|
+|activities|registrations|`/functions/src/activities/activity.model.ts --> ActivityRegistration`|
+
+**ATENÇÃO:** Nenhuma das collections acima precisarão ser criadas previamente. As mesmas serão criadas automaticamente conforma a utilização do sistema.
+
 ## Informações sobre o Front-End
 
 O front-end do projeto foi construído utilizando o framework Angular 9, utilizando padrões de design do Material UI através da biblioteca Angular Material. Devido ao uso do Firebase como plataforma de *cloud computing* a necessidade de uma estrutura de back-end diminui drasticamente, uma vez que o mesmo pemite comunicação direta do front-end com o banco de dados e o serviço de gerenciamento de autenticação.
@@ -119,7 +149,7 @@ Para compilar o código do front-end em modo de **produção**, execute:
 yarn build:prod
 ```
 
-O código compilado, em ambos os modos, estará disponível na pasta `/dist/inscritus-web`, dentro do projeto.
+O código compilado, em ambos os modos, estará disponível na pasta `/public/inscritus-web`, dentro do projeto.
 
 ### Deploy
 
@@ -132,9 +162,35 @@ yarn deploy
 
 Após o término da execução, a nova versão já estará disponível para uso.
 
-**IMPORTANTE:** O código lançado é aquele que estiver disponível na pasta `/dist/inscritus-web`, dentro do projeto, no momento da execução dos comandos acima. Certifique-se de compilar o código adequadamente antes de realuzar o lançamento.
+**IMPORTANTE:** O código lançado é aquele que estiver disponível na pasta `/public/inscritus-web`, dentro do projeto, no momento da execução dos comandos acima. Certifique-se de compilar o código adequadamente antes de realuzar o lançamento.
 
 ### Estrutura de pastas
+
+A estrutura dos arquivos do front-end se dá da seguinte forma:
+```
+/
+  |-/public --> Arquivos compilados
+  |-/node_modules --> Dependências
+  |-/src 
+    |-/app --> Código da aplicação
+      |-/auth --> Gerenciamento de autenticação
+      |-/common --> Diretivas, pipes e códigos de uso geral
+      |-/components --> Elementos de tela reutilizáveis
+      |-/containers --> Páginas do sistema
+        |-/admin-side --> Páginas presentes apenas na visualização de administrador
+        |-/user-side --> Páginas presentes apenas na visualização de participante
+        |-/... --> Páginas comuns a ambas as visulizações
+      |-/services --> Serviços do sistema 
+      |-/templates --> Estruturas de página globais
+    |-/assets --> Imagens
+    |-/config --> Configurações gerais
+    |-/environments --> Configurações de ambiente e compilação
+    |-favicon.ico --> Ícone da aplicação 
+    |-styles.scss --> Estilos gerais da aplicação 
+    |-theme.scss --> Configurações do tema da aplicação 
+    |-variables.scss --> Variáveis de estilos 
+    index.html --> Arquivo raiz, onde a página será carregada
+```
 
 ### Configurações do projeto
 
@@ -201,7 +257,7 @@ A estrutura dos arquivos do back-end se dá da seguinte forma:
     |-/locations
     |-/speakers
     |-/users
-    index.ts --> Visibilidade de APIs e confugurações
+    index.ts --> Visibilidade de APIs e configurações
   |-<your-key-file>.json
 ```
 
