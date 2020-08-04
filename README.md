@@ -1,5 +1,7 @@
 # InscritusWeb
 
+<p><img src="documentation/images/mc853-f59e9.web.app_.png" alt="Home" height="350"></p>
+
 1. [Introdução](#introdução)
 1. [Funcionalidades](#funcionalidades)
     1. [Visão do participante](#visão-do-participante)
@@ -99,6 +101,11 @@ Este projeto utiliza o Firebase como plataforma de *cloud computing* para hosped
 ### Configurações gerais
 
 Para criar um novo projeto no Firebase, consulte a [documentação oficial](https://firebase.google.com/docs/projects/learn-more?hl=pt-br).
+
+Para criar o primeiro administrador dentro do sistema, realize os seguintes passos:
+
+1. Cadastre-se normalmente no sistema
+1. No banco de dados, encontre o registro do usuário desejado na *collection* `users` e acrescente uma propriedade do tipo `boolean` chamada `isAdmin` com valor `true`. Após isso você poderá definir outros administradores pelo próprio sistema.
 
 ### Estrutura do Banco de Dados
 
