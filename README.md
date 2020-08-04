@@ -6,8 +6,23 @@
 1. [Funcionalidades](#funcionalidades)
     1. [Visão do participante](#visão-do-participante)
     1. [Visão do administrador](#visão-do-administrador)
-1. [Observações gerais sobre o projeto]
-1. [Infraestrutura]
+1. [Observações gerais sobre o projeto](#observações-gerais-sobre-o-projeto)
+    1. [Infraestrutura](#infraestrutura)
+    1. [Configurações gerais](#configurações-gerais)
+    1. [Estrutura do Banco de Dados](#estrutura-do-banco-de-dados)
+1. [Informações sobre o Front-End](#informações-sobre-o-front-end)
+    1. [Instalação](#instalação)
+    1. [Execução e Compilação](#execução-e-compilação)
+    1. [Deploy](#deploy)
+    1. [Estrutura de pastas](#estrutura-de-pastas)
+    1. [Configurações do projeto](#configurações-do-projeto)
+1. [Informações sobre o Back-End](#informações-sobre-o-back-end)
+    1. [Instalação](#instalação-1)
+    1. [Execução e Compilação](#execução-e-compilação-1)
+    1. [Deploy](#deploy-1)
+    1. [Estrutura de pastas](#estrutura-de-pastas-1)
+    1. [Configurações do projeto](#configurações-do-projeto-1)
+
 
 ## Introdução
 
