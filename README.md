@@ -102,7 +102,7 @@ Para criar um novo projeto no Firebase, consulte a [documentação oficial](http
 
 O banco de dados do sistema possui a seguinte estrutura:
 
-| Collection Name | Model |
+| Collection | Model |
 | --------------- | ----- |
 |users|`/functions/src/users/user.model.ts --> User`|
 |activities|`/functions/src/activities/activity.model.ts --> Activity`|
@@ -113,11 +113,11 @@ O banco de dados do sistema possui a seguinte estrutura:
 
 Além disso, há também algumas *subcollections* para controle das atividades:
 
-| First Collection | SubCollection | Model |
+| Collection | SubCcollection | Model |
 | ---------------- | ------------- | ------ |
+|users|attendances|`/functions/src/users/user.model.ts --> UserAttendance`|
 |users|favorites|`/functions/src/users/user.model.ts --> FavoriteActivity`|
 |users|registrations|`/functions/src/users/user.model.ts --> UserRegistration`|
-|users|attendances|`/functions/src/users/user.model.ts --> UserAttendance`|
 |activities|attendants|`/functions/src/activities/activity.model.ts --> ActivityAttendance`|
 |activities|registrations|`/functions/src/activities/activity.model.ts --> ActivityRegistration`|
 
