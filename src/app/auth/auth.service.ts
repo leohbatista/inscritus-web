@@ -104,7 +104,6 @@ export class AuthService {
           console.error('Error on login');
         }
 
-        this.user = of(null as User);
         reject(err);
       });
     });

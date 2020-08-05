@@ -45,14 +45,35 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/minha-conta']);
     }).catch(err => {
       console.error(err);
-      this.dialog.open(AlertDialogComponent, {
-        maxWidth: '600px',
-        data: {
-          alertTitle: 'Erro',
-          alertDescription: 'Ocorreu um erro ao realizar login. Tente novamente mais tarde.',
-          isOnlyConfirm: true
-        }
-      });
+
+      if (err.code === 'auth/user-not-found') {
+        this.dialog.open(AlertDialogComponent, {
+          maxWidth: '600px',
+          data: {
+            alertTitle: 'Usuário não encontrado',
+            alertDescription: 'O usuário informado não possui cadastro. Verifique o e-mail digitado.',
+            isOnlyConfirm: true
+          }
+        });
+      } else if (err.code === 'auth/wrong-password') {
+        this.dialog.open(AlertDialogComponent, {
+          maxWidth: '600px',
+          data: {
+            alertTitle: 'Senha incorreta',
+            alertDescription: 'A senha informada é incorreta. Tente novamente.',
+            isOnlyConfirm: true
+          }
+        });
+      } else {
+        this.dialog.open(AlertDialogComponent, {
+          maxWidth: '600px',
+          data: {
+            alertTitle: 'Erro',
+            alertDescription: 'Ocorreu um erro ao realizar login. Tente novamente mais tarde.',
+            isOnlyConfirm: true
+          }
+        });
+      }
     });
   }
 
