@@ -6,8 +6,24 @@
 1. [Funcionalidades](#funcionalidades)
     1. [Visão do participante](#visão-do-participante)
     1. [Visão do administrador](#visão-do-administrador)
-1. [Observações gerais sobre o projeto]
-1. [Infraestrutura]
+1. [Observações gerais sobre o projeto](#observações-gerais-sobre-o-projeto)
+    1. [Infraestrutura](#infraestrutura)
+    1. [Configurações gerais](#configurações-gerais)
+    1. [Estrutura do Banco de Dados](#estrutura-do-banco-de-dados)
+1. [Informações sobre o Front-End](#informações-sobre-o-front-end)
+    1. [Instalação](#instalação)
+    1. [Execução e Compilação](#execução-e-compilação)
+    1. [Deploy](#deploy)
+    1. [Estrutura de pastas](#estrutura-de-pastas)
+    1. [Configurações do projeto](#configurações-do-projeto)
+1. [Informações sobre o Back-End](#informações-sobre-o-back-end)
+    1. [Instalação](#instalação-1)
+    1. [Execução e Compilação](#execução-e-compilação-1)
+    1. [Deploy](#deploy-1)
+    1. [Estrutura de pastas](#estrutura-de-pastas-1)
+    1. [Configurações do projeto](#configurações-do-projeto-1)
+1. [Licença](#licença)
+
 
 ## Introdução
 
@@ -15,7 +31,7 @@ Inscritus Web é um sistema *white label* *open-source* para gerenciamento de ev
 
 Este projeto também possui um app mobile que pode ser usado concomitantemente com o sistema web, podendo não fornecer todas as funcionalidades que o sistema web possui, porém entregando também novas funcionalidades. Para saber mais, acesse o [repositório do app mobile](https://github.com/caiopardal/mc853_mobile).
 
-Para acessar um *live demo*, clique aqui.
+Para acessar um *live demo*, [clique aqui](https://mc853-f59e9.web.app/).
 * Admin: `admin@teste.com` / `123456`
 * Participante: `user@teste.com` / `123456`
 
@@ -300,4 +316,5 @@ admin.initializeApp({
   databaseURL: "your_database_url"
 });
 ```
-
+## Licença
+Distribuído dentro da licença MIT. Veja [LICENSE](https://github.com/leohbatista/inscritus-web/blob/master/LICENSE) para mais informações.
